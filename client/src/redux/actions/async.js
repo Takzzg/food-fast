@@ -1,10 +1,6 @@
 import axios from "axios"
 import { clean_categories, clean_products } from "./sync"
 
-
-
-
-
 import {
     ERROR,
     FETCH_CATEGORIES,
@@ -17,11 +13,6 @@ import {
     FIND_CAT_BY_ID,
     AUTH_USER
 } from "./types"
-
-
-
-
-
 
 export const baseUrl = `${
     process.env.NODE_ENV === "production"
@@ -73,11 +64,13 @@ export const searchCategory = (name) =>
         ? fetch(`${baseUrl}/categories/category?name=${name}`, SEARCH_CATEGORY)
         : clean_categories()
 
-export const postCategory = (name) => (dispatch) =>
-    axios
-        .post(`${baseUrl}/categories`, { name })
+export const postCategory = (category) => (dispatch) => {
+    console.log(category)
+    return axios
+        .post(`${baseUrl}/categories`, category)
         .then(() => dispatch(fetchAllCategories()))
         .catch((err) => dispatch({ type: ERROR, payload: err }))
+}
 
 export const deleteCategory = (id) => (dispatch) =>
     axios
@@ -85,26 +78,24 @@ export const deleteCategory = (id) => (dispatch) =>
         .then(() => dispatch(fetchAllCategories()))
         .catch((err) => dispatch({ type: ERROR, payload: err }))
 
-
 // USER
 
-export const login = (input)=> async (dispatch)=>{
-    try{
+export const login = (input) => async (dispatch) => {
+    try {
         //log in the user...
         const data = await axios.post(`${baseUrl}/auth/login`, input)
-        dispatch({type: AUTH_USER, data: data?.data})
-    }catch(e){
-        console.log("Error en la action login. ",e.message);
+        dispatch({ type: AUTH_USER, data: data?.data })
+    } catch (e) {
+        console.log("Error en la action login. ", e.message)
     }
 }
-export const logup = (input)=> async (dispatch)=>{
-    
-    try{
+export const logup = (input) => async (dispatch) => {
+    try {
         //log up the user...
         const { data } = await axios.post(`${baseUrl}/user/logup`, input)
-        
-        dispatch({type: AUTH_USER, data})
-    }catch(e){
-        console.log("Error en la action logup. ",e);
+
+        dispatch({ type: AUTH_USER, data })
+    } catch (e) {
+        console.log("Error en la action logup. ", e)
     }
 }

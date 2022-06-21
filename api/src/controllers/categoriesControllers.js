@@ -1,9 +1,9 @@
 import Categories from "../models/category.js"
-import path, {dirname} from "path"
-import { fileURLToPath } from 'url';
-import pkg from 'fs-extra';
-const { unlink } = pkg;
-const __dirname = dirname(fileURLToPath(import.meta.url));
+import path, { dirname } from "path"
+import { fileURLToPath } from "url"
+import pkg from "fs-extra"
+const { unlink } = pkg
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export const categories = async (req, res) => {
     try {
@@ -23,8 +23,11 @@ export const category = async (req, res) => {
             name: { $regex: name, $options: "i" }
         })
 
-        let newCategories = categories.map(el=> {el.img = {}; return el})
-        
+        let newCategories = categories.map((el) => {
+            el.img = {}
+            return el
+        })
+
         if (categories.length === 0)
             return res.json({ error: "not found category" })
 
@@ -48,13 +51,17 @@ export const findCatById = async (req, res) => {
             return res
                 .status(404)
                 .json({ error: `No Category found with ID: ${id}` })
-        let returnData = {_id: cat._id, name: cat.name, description:cat.description}
+        let returnData = {
+            _id: cat._id,
+            name: cat.name,
+            description: cat.description
+        }
         return res.json(returnData)
     } catch (error) {
         return res.status(500).json({ error })
     }
 }
-export const getImgCategorybyID = async(req, res)=> {
+export const getImgCategorybyID = async (req, res) => {
     try {
         const id = req.params.id
         if (!id)
@@ -67,50 +74,52 @@ export const getImgCategorybyID = async(req, res)=> {
             return res
                 .status(404)
                 .json({ error: `No Category found with ID: ${id}` })
-        res.set('Content-Type', cat.img.contentType); 
+        res.set("Content-Type", cat.img.contentType)
         return res.send(cat.img.data)
-
     } catch (error) {
         return res.status(500).json({ error })
     }
 }
 
 export const postCategory = async (req, res) => {
+    console.log(req.body)
     try {
-        const { name, description } = req.query;
-        const image = req.files; 
+        const { name, description } = req.body
+        const image = req.files
+
+        console.log(name, description, image)
 
         let exists = await Categories.find({ name: name })
-        if (!exists.length) {
-            const myCategory = new Categories({
-                name,
-                description})
-            myCategory.img.data = image.imageCategory.data; 
-            myCategory.img.contentType = image.imageCategory.mimetype;
-
-            await myCategory.save()
-            res.status(201).json(myCategory)
-        } else {
-            res.status(409).json({
+        if (exists.length)
+            return res.status(409).json({
                 msg: "La categoría que intenta crear YA EXISTE en la base de datos"
             })
-        }
+
+        const myCategory = new Categories({
+            name,
+            description
+        })
+        myCategory.img.data = image.imageCategory.data
+        myCategory.img.contentType = image.imageCategory.mimetype
+
+        await myCategory.save()
+        res.status(201).json(myCategory)
     } catch (e) {
         console.log("Error en el postCategory. ", e.message)
     }
 }
 
-export const upDateCategory = async(req,res) => {
+export const upDateCategory = async (req, res) => {
     try {
-        const id = req.params.id;
-        const {name, description} = req.query; 
-        const upDates = {name, description}
+        const id = req.params.id
+        const { name, description } = req.query
+        const upDates = { name, description }
 
-        const image =  req.files
-        if(image && image.imageCategory) {
-            upDates.img = {}; 
-            upDates.img.data = image.imageCategory.data;
-            upDates.img.contentType = image.imageCategory.mimetype; 
+        const image = req.files
+        if (image && image.imageCategory) {
+            upDates.img = {}
+            upDates.img.data = image.imageCategory.data
+            upDates.img.contentType = image.imageCategory.mimetype
         }
 
         const category = await Categories.findByIdAndUpdate(id, upDates)
