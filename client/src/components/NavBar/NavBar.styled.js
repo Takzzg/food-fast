@@ -103,11 +103,16 @@ export const Title = styled.h1`
     font-size: 3rem;
 `
 export const ButtonsContainer = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    margin: 0; padding: 0;
+    height: 70px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
     align-items: center;
-    gap: 1rem;
-    padding: 0 1rem;
+    flex-wrap: wrap;
+    img{
+        width: 50px;
+    }
 `
 
 export const Divider = styled.div`
@@ -152,3 +157,10 @@ export const RouteItem = styled.li`
         background-color: ${({ theme }) => theme.colors.main};
     }
 `
+/* buttons container deprecado :v
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 1rem;
+    padding: 0 1rem;
+*/

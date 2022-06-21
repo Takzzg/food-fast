@@ -54,6 +54,7 @@ const NavBar = () => {
     const handleSignOut = async () => {
         try {
             await logOut()
+            navigate('/')
         } catch (error) {
             console.log(error)
         }
@@ -103,8 +104,8 @@ const NavBar = () => {
                             src={user?.photoURL}
                             alt="profile"
                         />
-                        <p>{user?.displayName}</p>
-                        <p className={style.auth_google_email}>{user?.email}</p>
+                        <span>{user?.displayName}</span>
+                        {/* <span className={style.auth_google_email}>{user?.email}</span> */}
                         <LoginRegisterButton
                             theme={theme}
                             className={style.auth_google_logout}
