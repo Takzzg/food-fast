@@ -15,7 +15,8 @@ import {
     SEARCH_CATEGORY,
     NEWFILTER_PRODUCTS,
     FIND_CAT_BY_ID,
-    AUTH_USER
+    AUTH_USER,
+    AUTH_ERROR
 } from "./types"
 
 
@@ -92,8 +93,10 @@ export const login = (input)=> async (dispatch)=>{
     try{
         //log in the user...
         const data = await axios.post(`${baseUrl}/auth/login`, input)
-        dispatch({type: AUTH_USER, data: data?.data})
+        dispatch({type: AUTH_USER, payload: data?.data})
     }catch(e){
+        //dispatchar un auth error :O
+        dispatch({type: AUTH_ERROR, payload: {error: e}})
         console.log("Error en la action login. ",e.message);
     }
 }

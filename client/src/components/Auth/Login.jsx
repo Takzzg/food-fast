@@ -69,7 +69,11 @@ export default function Login() {
         if (authData?.token) {
             toast.success(`Bienvenido ${authData.user.name}!!`)
             Navigate("/")
-        } /* else {
+        }else if(authData?.error) {
+            toast.error("Contraseña o usuario incorrectos.")
+        }
+        
+        /* else {
             toast.error("Contraseña o usuario incorrecto.")
         } */
     }, [authData])

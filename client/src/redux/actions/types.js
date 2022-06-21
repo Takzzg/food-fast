@@ -24,9 +24,10 @@ export const CLEAN_PRODUCTS = "clean_products"
 export const DELETE_PRODUCT = "delete_product"
 export const CLEAN_SELECT_PRODUCT = "clean_select_product"
 
-
+// User
 export const AUTH_USER = "auth_user"
 export const LOG_OUT = "log_out"
+export const AUTH_ERROR = "auth_error"
 
 // Shop Cart
 export const ADD_ITEM_CAR = "add_item_car"; 
