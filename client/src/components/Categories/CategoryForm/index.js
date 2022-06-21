@@ -70,8 +70,8 @@ export default function CategoryForm() {
         dispatch(postCategory(formdata))
             .then(() =>
                 swal(
-                    "Product Created!",
-                    "The product is now in your dashboard",
+                    "Category Created!",
+                    "The category is now in your dashboard",
                     "success"
                 )
             )
