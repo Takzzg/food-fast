@@ -1,0 +1,29 @@
+.auth_google_logout{
+    cursor:pointer;
+    border-radius: 8px;
+    height: 70%; text-decoration: none;
+    width: 40%;
+    background-color: #e5e5e5;
+    border:1px solid orange;
+    font-size: 1rem;
+    color:black;
+    justify-content: center;
+    display:flex;
+    align-items: center;
+    
+    
+    &:hover {
+        background-color: rgb(222, 155, 30);
+    }  
+}
+.auth_google_photo{
+    border-radius: 20px;
+    width: 2rem;
+    
+}
+.auth_google_email{
+    position:absolute;
+    top:9.6rem;
+    left:4rem;
+    font-size:9.7px;
+}

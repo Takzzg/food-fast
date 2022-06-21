@@ -1,0 +1,15 @@
+.container{
+    margin-top: 1rem;
+    height: 5vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.selected {
+    font-family: monospace;
+    font-size: 1rem;
+    width: 70%;
+    height: 2rem;
+}
