@@ -82,7 +82,6 @@ export const getImgCategorybyID = async (req, res) => {
 }
 
 export const postCategory = async (req, res) => {
-    console.log(req.body)
     try {
         const { name, description } = req.body
         const image = req.files

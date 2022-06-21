@@ -19,6 +19,7 @@ import {
     PrevImgContainer,
     PrevEmptyImgContainer
 } from "./categoryElements"
+import FormBG from "../../FormBG/FormBG"
 
 const initialForm = {
     name: "",
@@ -54,6 +55,7 @@ export default function CategoryForm() {
 
     return (
         <GlobalContainer>
+            <FormBG />
             <Title>CREATE CATEGORY</Title>
             <MainContainer id={styles.MainContainer}>
                 <InputContainer color={"rgba(201, 147, 62)"}>

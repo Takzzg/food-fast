@@ -51,6 +51,12 @@ export const newFilterProduct = (filterOrder, sortOrder) =>
         NEWFILTER_PRODUCTS
     )
 
+export const postProduct = (product) => (dispatch) =>
+    axios
+        .post(`${baseUrl}/products`, product)
+        .then(() => dispatch(fetchAllProducts()))
+        .catch((err) => dispatch({ type: ERROR, payload: err }))
+
 // CATEGORIES
 
 export const findCatById = (id) =>
@@ -64,13 +70,11 @@ export const searchCategory = (name) =>
         ? fetch(`${baseUrl}/categories/category?name=${name}`, SEARCH_CATEGORY)
         : clean_categories()
 
-export const postCategory = (category) => (dispatch) => {
-    console.log(category)
-    return axios
+export const postCategory = (category) => (dispatch) =>
+    axios
         .post(`${baseUrl}/categories`, category)
         .then(() => dispatch(fetchAllCategories()))
         .catch((err) => dispatch({ type: ERROR, payload: err }))
-}
 
 export const deleteCategory = (id) => (dispatch) =>
     axios

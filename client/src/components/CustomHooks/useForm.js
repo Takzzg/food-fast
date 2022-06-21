@@ -5,12 +5,12 @@ import { useDispatch } from "react-redux"
 //     PostCategory
 // } from "../Categories/CategoryForm/PostFunctions"
 import {
-    CleanProductsInput,
-    PostProduct
+    CleanProductsInput
+    // PostProduct
 } from "../Products/ProductForm/PostFunctions"
 import { validateForm } from "./validateForm"
 import swal from "sweetalert"
-import { postCategory } from "../../redux/actions/async"
+import { postCategory, postProduct } from "../../redux/actions/async"
 
 export default function useForm(type, initialForm, setImgCharge) {
     const dispatch = useDispatch()
@@ -47,8 +47,14 @@ export default function useForm(type, initialForm, setImgCharge) {
         } else {
             const formdata = new FormData()
             if (type === "product") {
+                formdata.append("name", form.name)
+                formdata.append("description", form.description)
+                formdata.append("price", form.price)
+                formdata.append("stock", form.stock)
+                formdata.append("categories", form.categories)
                 formdata.append("imageProduct", file)
-                PostProduct(form, formdata)
+                dispatch(postProduct(formdata))
+                // PostProduct(form, formdata)
 
                 swal(
                     "Product Created!",

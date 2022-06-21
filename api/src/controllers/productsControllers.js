@@ -1,19 +1,21 @@
 import Product from "../models/product.js"
-import path, {dirname} from "path"
-import { fileURLToPath } from 'url';
-import pkg from 'fs-extra';
-const { unlink } = pkg;
-const __dirname = dirname(fileURLToPath(import.meta.url));
+import path, { dirname } from "path"
+import { fileURLToPath } from "url"
+import pkg from "fs-extra"
+const { unlink } = pkg
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export const allProducts = async (req, res) => {
-   
     const products = await Product.find()
     if (!products) {
         return res.status(400).json({
             msg: "not found products"
         })
     }
-    const newProducts = products.map(el=> {el.img = {}; return el})
+    const newProducts = products.map((el) => {
+        el.img = {}
+        return el
+    })
     res.status(201).send(newProducts)
 }
 export const getProduct = async (req, res) => {
@@ -40,13 +42,19 @@ export const getProduct = async (req, res) => {
             objOrder[filterOrder] = sortOrder
 
             const product = await Product.find(objFilter).sort(objOrder)
-            const newProducts = product.map(el=> {el.img = {}; return el})
+            const newProducts = product.map((el) => {
+                el.img = {}
+                return el
+            })
             return res.json(
                 product.length === 0 ? "not found product" : newProducts
             )
         } else {
             const allProducts = await Product.find()
-            const newProducts = allProducts.map(el=> {el.img = {}; return el})
+            const newProducts = allProducts.map((el) => {
+                el.img = {}
+                return el
+            })
             return allProducts.length === 0
                 ? res.json({ error: "not found all products" })
                 : res.json(newProducts)
@@ -67,16 +75,17 @@ export const getProductbyId = async (req, res) => {
         if (!prod) return res.status(404).json({ error: "not found product" })
 
         let returnData = {
-         _id: prod._id,
-        name: prod.name,
-        description: prod.description,
-        price: prod.price,
-        available: prod.available,
-        rating: prod.rating,
-        categories: prod.categories,
-        review: prod.review,
-        stock: prod.stock,
-        __v: prod.__v}
+            _id: prod._id,
+            name: prod.name,
+            description: prod.description,
+            price: prod.price,
+            available: prod.available,
+            rating: prod.rating,
+            categories: prod.categories,
+            review: prod.review,
+            stock: prod.stock,
+            __v: prod.__v
+        }
 
         res.json(returnData)
     } catch (e) {
@@ -85,7 +94,7 @@ export const getProductbyId = async (req, res) => {
     }
 }
 
-export const getImgProductbyId = async(req,res) => {
+export const getImgProductbyId = async (req, res) => {
     try {
         const id = req.params.id
         let isHex = /^[0-9A-F]{24}$/gi.test(id) //verificación que es un hex de 24 caracteres
@@ -95,7 +104,7 @@ export const getImgProductbyId = async(req,res) => {
         const prod = await Product.findById(id) //populate
         if (!prod) return res.status(404).json({ error: "not found product" })
 
-        res.set('Content-Type', prod.img.contentType); 
+        res.set("Content-Type", prod.img.contentType)
         return res.send(prod.img.data)
     } catch (e) {
         console.log(e)
@@ -103,18 +112,13 @@ export const getImgProductbyId = async(req,res) => {
     }
 }
 
-
-
 export const postProduct = async (req, res) => {
+    const { name, description, stock, price, categories } = req.body
+    let array = categories.split(",")
+    array[0] = array[0].slice(1)
+    array[array.length - 1] = array[array.length - 1].slice(0, 1)
 
-    const {  name, description, stock, price, categories } = req.query
-    // const store = await Store.findById(storeId)
-    let array = categories.split(","); 
-    array[0] = array[0].slice(1); 
-    array[array.length -1] = array[array.length -1].slice(0,1)
-
-
-    const image = req.files; 
+    const image = req.files
 
     const product = await Product.findOne({ name })
     if (product) {
@@ -123,12 +127,15 @@ export const postProduct = async (req, res) => {
         })
     }
     const data = {
-        name, description, stock, price, categories: array
+        name,
+        description,
+        stock,
+        price,
+        categories: array
     }
     const newProduct = new Product(data)
-    newProduct.img.data = image.imageProduct.data; 
-    newProduct.img.contentType = image.imageProduct.mimetype; 
-
+    newProduct.img.data = image.imageProduct.data
+    newProduct.img.contentType = image.imageProduct.mimetype
 
     await newProduct.save()
     res.status(201).json({
@@ -157,19 +164,22 @@ export const deleteProduct = async (req, res) => {
 export const upDate = async (req, res) => {
     try {
         const id = req.params.id
-        const {  name, description, stock, price, categories } = req.query
-        const image =  req.files
+        const { name, description, stock, price, categories } = req.query
+        const image = req.files
 
         let upDates = {
-            name, description,stock, price, categories
+            name,
+            description,
+            stock,
+            price,
+            categories
         }
 
-        if(image && image.imageProduct) {
-            upDates.img = {}; 
-            upDates.img.data = image.imageProduct.data;
-            upDates.img.contentType = image.imageProduct.mimetype; 
+        if (image && image.imageProduct) {
+            upDates.img = {}
+            upDates.img.data = image.imageProduct.data
+            upDates.img.contentType = image.imageProduct.mimetype
         }
-
 
         const product = await Product.findByIdAndUpdate(id, upDates)
         if (!product) return res.json({ err: "not found product" })
@@ -179,5 +189,3 @@ export const upDate = async (req, res) => {
         return res.json({ msg: "Error de servidor" })
     }
 }
-
-

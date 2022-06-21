@@ -9,7 +9,6 @@ import {
     MainContainer,
     FirstColumnContainer,
     SecondColumnContainer,
-    OrnamentContainer,
     TagsProduct,
     TagCard,
     AvailableContainer,
@@ -25,9 +24,7 @@ import SelectedList from "./selectedList"
 import { CgUnavailable } from "react-icons/cg"
 import { MdOutlineEventAvailable } from "react-icons/md"
 
-import burger from "../../../assets/burger.png"
-import chicken from "../../../assets/chicken.png"
-import pizza from "../../../assets/pizza.png"
+import FormBG from "../../FormBG/FormBG"
 
 const initialForm = {
     name: "",
@@ -74,12 +71,7 @@ export default function ProductForm() {
 
     return (
         <GlobalContainer>
-            <OrnamentContainer>
-                <img src={burger} id="burguer" alt="burguer" />
-                <img src={pizza} id="pizza" alt="pizza" />
-                <img src={chicken} id="chicken" alt="chicken" />
-            </OrnamentContainer>
-
+            <FormBG />
             <Title>CREATE PRODUCT</Title>
             <MainContainer>
                 <FirstColumnContainer>
@@ -235,15 +227,15 @@ export default function ProductForm() {
                         </PrevContainer>
                     )}
                 </SecondColumnContainer>
+                <ButtonCreate
+                    color="orange"
+                    isAvailable={Object.keys(errors).length === 0}
+                    onClick={() => handleSubmit(file, setFile)}
+                >
+                    Create Product
+                </ButtonCreate>
             </MainContainer>
             {/* LE paso la condicion de que no debe existir error para que se muestre el boton de crear */}
-            <ButtonCreate
-                color="orange"
-                isAvailable={Object.keys(errors).length === 0}
-                onClick={() => handleSubmit(file, setFile)}
-            >
-                Create Product
-            </ButtonCreate>
         </GlobalContainer>
     )
 }
