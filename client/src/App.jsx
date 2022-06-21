@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom"
-import { fetchAllCategories } from "./redux/actions/async"
-import { useDispatch, useSelector } from "react-redux"
+// import { fetchAllCategories } from "./redux/actions/async"
+import { useSelector } from "react-redux"
 
 import GlobalStyle from "./GlobalStyles"
 import DisplayProducts from "./components/DisplayProducts/index"
@@ -34,12 +34,8 @@ const ScrollToTop = () => {
 
 function App() {
     // const [{isopen,user},dispatch]=useStateValue()
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
     const theme = useSelector((state) => state.theme.selectedTheme)
-
-    useEffect(() => {
-        dispatch(fetchAllCategories())
-    }, [dispatch])
 
     return (
         <div className="App">
