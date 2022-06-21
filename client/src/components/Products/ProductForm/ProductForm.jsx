@@ -19,7 +19,6 @@ import {
     PrevEmptyImgContainer,
     Title
 } from "./formElements"
-import useForm from "../../CustomHooks/useForm"
 import SelectedList from "./selectedList"
 import { CgUnavailable } from "react-icons/cg"
 import { MdOutlineEventAvailable } from "react-icons/md"
