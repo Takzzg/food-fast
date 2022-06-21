@@ -36,10 +36,6 @@ export default function CategoryForm() {
     const [categoryForm, setCategoryForm] = useState(initialForm)
     const [categoryErrors, setCategoryErrors] = useState(initialForm)
 
-    const handleCategoryForm = (e) => {
-        setCategoryForm({ ...categoryForm, [e.target.name]: e.target.value })
-    }
-
     const disablePostBtn = !!(
         categoryErrors.name ||
         categoryErrors.description ||
@@ -61,6 +57,10 @@ export default function CategoryForm() {
 
         setCategoryErrors(newErrors)
     }, [categoryForm])
+
+    const handleCategoryForm = (e) => {
+        setCategoryForm({ ...categoryForm, [e.target.name]: e.target.value })
+    }
 
     const handleCategoryPost = () => {
         const formdata = new FormData()

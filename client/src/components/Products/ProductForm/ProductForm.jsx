@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import {
     GlobalContainer,
     InputContainer,
@@ -25,6 +25,10 @@ import { CgUnavailable } from "react-icons/cg"
 import { MdOutlineEventAvailable } from "react-icons/md"
 
 import FormBG from "../../FormBG/FormBG"
+import { useDispatch } from "react-redux"
+import { useNavigate } from "react-router-dom"
+import { postProduct } from "../../../redux/actions/async"
+import swal from "sweetalert"
 
 const initialForm = {
     name: "",
@@ -36,37 +40,74 @@ const initialForm = {
 }
 
 export default function ProductForm() {
-    // Usando el hook personalizado
-    const [file, setFile] = useState(null)
-    const [imgCharge, setImgCharge] = useState(false)
-    const {
-        form,
-        handleChange,
-        isSend,
-        errors,
-        setForm,
-        isAvailable,
-        handleSubmit,
-        isEmpty
-    } = useForm("product", initialForm, setImgCharge)
+    const dispatch = useDispatch()
+    const Navigate = useNavigate()
 
-    const handleChangeFile = (e) => {
+    const [file, setFile] = useState(null)
+    const [productForm, setProductForm] = useState(initialForm)
+    const [productErrors, setProductErrors] = useState(initialForm)
+
+    const isAvailable = !!(productForm.stock > 0)
+
+    const disablePostBtn = !!(
+        productErrors.name ||
+        productErrors.description ||
+        productErrors.img ||
+        productErrors.price <= 0
+    )
+
+    useEffect(() => {
+        let newErrors = { ...initialForm }
+
+        if (!productForm.name) newErrors.name = "Name is Required"
+        else if (productForm.name.length <= 3)
+            newErrors.name = "Name must have at least 3 characters"
+
+        if (!productForm.description)
+            newErrors.description = "Description is Required"
+        else if (productForm.description.length <= 5)
+            newErrors.description =
+                "Description must have at least 5 characters"
+
+        if (!productForm.price || productForm.price <= 0)
+            newErrors.price = "Invalid price"
+
+        setProductErrors(newErrors)
+    }, [productForm])
+
+    const handleProductForm = (e) => {
+        setProductForm({ ...productForm, [e.target.name]: e.target.value })
+    }
+
+    const handleProductFormFile = (e) => {
         const newFile = e.target.files[0]
         setFile(newFile)
-        if (newFile) setImgCharge(true)
-        else setImgCharge(false)
     }
 
     const handleDeleteCategory = (value) => {
-        setForm({
-            ...form,
-            categories: form.categories.filter((el) => el !== value)
+        setProductForm({
+            ...productForm,
+            categories: productForm.categories.filter((el) => el !== value)
         })
     }
 
-    const handleDeletePrev = () => {
-        document.getElementById("fileinput").value = null
-        setFile(null)
+    const handleProductPost = () => {
+        const formdata = new FormData()
+        formdata.append("name", productForm.name)
+        formdata.append("description", productForm.description)
+        formdata.append("price", productForm.price)
+        formdata.append("stock", productForm.stock)
+        formdata.append("categories", productForm.categories)
+        formdata.append("imageProduct", file)
+        dispatch(postProduct(formdata))
+            .then(() =>
+                swal(
+                    "Product Created!",
+                    "The product is now in your dashboard",
+                    "success"
+                )
+            )
+            .then(() => Navigate("/dashboard"))
     }
 
     return (
@@ -81,12 +122,12 @@ export default function ProductForm() {
                             type={"text"}
                             placeholder="Pizza..."
                             name="name"
-                            value={form.name}
-                            onChange={handleChange}
+                            value={productForm.name}
+                            onChange={handleProductForm}
                         />
                         {
-                            <ErrorMsg error={errors.name ? true : false}>
-                                {errors.name}
+                            <ErrorMsg error={productErrors.name ? true : false}>
+                                {productErrors.name}
                             </ErrorMsg>
                         }
                     </InputContainer>
@@ -96,12 +137,14 @@ export default function ProductForm() {
                         <InputTextArea
                             color={"rgba(201, 147, 62)"}
                             name="description"
-                            value={form.description}
-                            onChange={handleChange}
+                            value={productForm.description}
+                            onChange={handleProductForm}
                         />
                         {
-                            <ErrorMsg error={errors.description ? true : false}>
-                                {errors.description}
+                            <ErrorMsg
+                                error={productErrors.description ? true : false}
+                            >
+                                {productErrors.description}
                             </ErrorMsg>
                         }
                     </InputContainer>
@@ -126,8 +169,8 @@ export default function ProductForm() {
                                     min="0"
                                     name="price"
                                     id="price"
-                                    value={form.price}
-                                    onChange={handleChange}
+                                    value={productForm.price}
+                                    onChange={handleProductForm}
                                 />
                             </div>
                             {
@@ -136,9 +179,9 @@ export default function ProductForm() {
                                         width: "50%",
                                         marginLeft: "2.5rem"
                                     }}
-                                    error={errors.price ? true : false}
+                                    error={productErrors.price ? true : false}
                                 >
-                                    {errors.price}
+                                    {productErrors.price}
                                 </ErrorMsg>
                             }
                         </div>
@@ -153,8 +196,8 @@ export default function ProductForm() {
                             type={"number"}
                             name="stock"
                             id="number"
-                            value={form.stock}
-                            onChange={handleChange}
+                            value={productForm.stock}
+                            onChange={handleProductForm}
                         />
                         <AvailableContainer isAvailable={isAvailable}>
                             <div>
@@ -173,14 +216,14 @@ export default function ProductForm() {
                     <InputContainer color={"rgba(201, 147, 62)"}>
                         <Label>Categories:</Label>
                         <SelectedList
-                            setFormCategories={setForm}
-                            form={form}
+                            setFormCategories={setProductForm}
+                            form={productForm}
                             color={"orange"}
                         />
 
                         <TagsProduct color="orange">
                             Tags for this product:
-                            {form.categories.map((el) => (
+                            {productForm.categories.map((el) => (
                                 <TagCard key={el} color="orange">
                                     <div id="tag">{el}</div>
                                     <div id="button">
@@ -203,15 +246,15 @@ export default function ProductForm() {
                         <InputFiled
                             type={"file"}
                             name="imageProduct"
-                            value={form.img}
-                            onChange={handleChangeFile}
+                            value={productForm.img}
+                            onChange={handleProductFormFile}
                             id="fileinput"
                         />
                     </InputContainer>
 
                     {file ? (
                         <PrevContainer>
-                            <button onClick={handleDeletePrev}>X</button>
+                            <button onClick={() => setFile("")}>X</button>
                             <PrevImgContainer>
                                 <img
                                     src={URL.createObjectURL(file)}
@@ -229,13 +272,12 @@ export default function ProductForm() {
                 </SecondColumnContainer>
                 <ButtonCreate
                     color="orange"
-                    isAvailable={Object.keys(errors).length === 0}
-                    onClick={() => handleSubmit(file, setFile)}
+                    isAvailable={disablePostBtn}
+                    onClick={() => handleProductPost(file, setFile)}
                 >
                     Create Product
                 </ButtonCreate>
             </MainContainer>
-            {/* LE paso la condicion de que no debe existir error para que se muestre el boton de crear */}
         </GlobalContainer>
     )
 }
