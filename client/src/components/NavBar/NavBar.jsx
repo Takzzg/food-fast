@@ -75,6 +75,7 @@ const NavBar = () => {
 
     return (
         <GlobalContainer theme={theme}>
+            <Toaster/>
             <OpenButton
                 onClick={() => setShowNavbar(true)}
                 isShowing={showNavbar}

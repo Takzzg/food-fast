@@ -6,21 +6,21 @@ import {generateToken} from '../../ultis/token.js'
 const router = express.Router()
 
 export const login = async(req,res)=>{
-    const {email, password} = req.body
-    try{
-      let user = await User.findOne({email})
-      if(!user) return res.json({err: "not found user"})
-      const passwordCandidate = await user.comparePassword(password)
-      if(!passwordCandidate) return res.json({err:"invalid credential"})
-      
-      //token
-      const {token, expiresIn} = generateToken(user.id)
-     
-      return res.header('auth-token', token).json({
-        error: null,
-        data: {token, expiresIn} 
-    })
-  
+  const {email, password} = req.body
+  try{
+    let user = await User.findOne({email})
+    if(!user) return res.status(404).json({err: "not found user"})
+    const passwordCandidate = await user.comparePassword(password)
+    if(!passwordCandidate) return res.status(404).json({err:"invalid credential"})
+    
+    //token
+    const token = generateToken(user._id)//aparte del id, probar pasar el email.
+   
+    return res.status(200).json({ user, token })  
+    /* res.header('auth-token', token).json({
+      error: null,
+      data: {token, expiresIn} } )*/
+
     }catch(error){
       console.log(error)
       return res.json({error: "Error server"})
