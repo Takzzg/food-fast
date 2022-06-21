@@ -20,24 +20,6 @@ const Landing = () => {
         dispatch(searchCategory(""))
     }, [dispatch])
 
-    // useEffect(()=> {
-    //  return ()=> { dispatch(clean_categories()); dispatch(clean_products())}
-    // })
-    // return (
-
-    //     <GlobalContainer>
-    //         <Banner />
-    //         <div
-    //             style={{
-    //                 width: "100%",
-    //                 display: "flex",
-    //                 justifyContent: "center"
-    //             }}
-    //         >
-    //             <CategoryBar className="LocationBar" />
-    //         </div>
-    //         </GlobalContainer>
-
     return (
         <GlobalContainer
             bgImg={

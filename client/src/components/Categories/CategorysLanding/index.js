@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 
 const CategoryCard = ({ category, url, color }) => (
     <Link to={url}>
-        <MainContainer backcolor={color}>
+        <MainContainer bgColor={color}>
             <ImageCategory
                 image={`${baseUrl}/categories/img/${category._id}`}
             />
