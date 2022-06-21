@@ -31,6 +31,9 @@ import { validateForm } from "../../CustomHooks/validateForm"
 import { useParams } from "react-router-dom"
 import { PatchProduct } from "./updateFunctions"
 // import { IMAGE_PRODUCT } from "../../../consts/images";
+import burger from "../../../assets/burger.png"
+import chicken from "../../../assets/chicken.png"
+import pizza from "../../../assets/pizza.png"
 
 export default function UpdateProduct() {
     const { id } = useParams()
@@ -91,22 +94,11 @@ export default function UpdateProduct() {
     return (
         <GlobalContainer>
             <OrnamentContainer>
-                <img
-                    src={require("../../../assets/burger.png")}
-                    id="burguer"
-                    alt="burguer"
-                />
-                <img
-                    src={require("../../../assets/pizza.png")}
-                    id="pizza"
-                    alt="pizza"
-                />
-                <img
-                    src={require("../../../assets/chicken.png")}
-                    id="chicken"
-                    alt="chicken"
-                />
+                <img src={burger} id="burguer" alt="burguer" />
+                <img src={pizza} id="pizza" alt="pizza" />
+                <img src={chicken} id="chicken" alt="chicken" />
             </OrnamentContainer>
+
             {isSend && (
                 <MessageContainer color={"green"}>
                     <Message showIcon type="success" header="Success" full>
@@ -122,6 +114,7 @@ export default function UpdateProduct() {
                     </Message>
                 </MessageContainer>
             )}
+
             <Title>MODIFY PRODUCT</Title>
             <MainContainer>
                 <FirstColumnContainer>
