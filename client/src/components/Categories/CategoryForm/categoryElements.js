@@ -1,16 +1,24 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const CreateButton = styled.button`
-    background-color: ${({color})=> color};
-    color: white; 
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: ${({ color }) => color};
+    color: white;
     margin-top: 3rem;
     border-radius: 1rem;
     height: 2rem;
     width: 8rem;
     cursor: pointer;
-    &:hover{
+    &:hover {
         background-color: white;
-        color: orange
+        color: orange;
+    }
+
+    &:disabled {
+        background-color: red;
     }
 `
 
@@ -45,34 +53,34 @@ export const PrevEmptyImgContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: .8rem;
+    margin-top: 0.8rem;
     width: 100%;
     height: 7rem;
     border: 2px dashed #ffff00;
     color: #ffff00;
 `
 export const PrevImgContainer = styled.div`
-    overflow:hidden;
+    overflow: hidden;
     display: flex;
     margin: auto;
-    margin-top: .8rem;
+    margin-top: 0.8rem;
     width: 70%;
     color: white;
     justify-content: center;
     text-align: center;
     height: 7rem;
     width: max-content;
-    -webkit-box-shadow: 10px 10px 0px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: 10px 10px 0px 0px rgba(0,0,0,0.75);
-    box-shadow: 10px 7px 0px 0px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 10px 7px 0px 0px rgba(0, 0, 0, 0.75);
     img {
-        height:100%;
+        height: 100%;
         width: auto;
         transition: 1s transform;
         cursor: pointer;
     }
     &:hover img {
-        -webkit-transform:scale(1.3);transform:scale(1.3);
+        -webkit-transform: scale(1.3);
+        transform: scale(1.3);
     }
-
 `

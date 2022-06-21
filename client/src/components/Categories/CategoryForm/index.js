@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import {
     ErrorMsg,
     GlobalContainer,
@@ -7,12 +7,9 @@ import {
     InputSimple,
     Label,
     MainContainer,
-    MessageContainer,
     Title
 } from "../../Products/ProductForm/formElements"
 import styles from "./category.module.scss"
-import useForm from "../../CustomHooks/useForm"
-// import { Message } from "rsuite";
 import {
     CreateButton,
     PrevContainer,
@@ -20,37 +17,70 @@ import {
     PrevEmptyImgContainer
 } from "./categoryElements"
 import FormBG from "../../FormBG/FormBG"
+import { useDispatch } from "react-redux"
+import { postCategory } from "../../../redux/actions/async"
+import swal from "sweetalert"
+import { useNavigate } from "react-router-dom"
 
 const initialForm = {
     name: "",
     description: "",
-    img: null
+    img: ""
 }
 
 export default function CategoryForm() {
+    const dispatch = useDispatch()
+    const Navigate = useNavigate()
+
     const [file, setFile] = useState(null)
-    const [imgCharge, setImgCharge] = useState(false)
+    const [categoryForm, setCategoryForm] = useState(initialForm)
+    const [categoryErrors, setCategoryErrors] = useState(initialForm)
 
-    const {
-        form,
-        handleChange,
-        isSend,
-        errors,
-        setForm,
-        handleSubmit,
-        isEmpty
-    } = useForm("category", initialForm, setImgCharge)
+    const handleCategoryForm = (e) => {
+        setCategoryForm({ ...categoryForm, [e.target.name]: e.target.value })
+    }
 
-    const handleDeletePrev = () => {
-        document.getElementById("imageCategory").value = null
-        setFile(null)
+    const disablePostBtn = !!(
+        categoryErrors.name ||
+        categoryErrors.description ||
+        categoryErrors.img
+    )
+
+    useEffect(() => {
+        let newErrors = { ...initialForm }
+
+        if (!categoryForm.name) newErrors.name = "Name is Required"
+        else if (categoryForm.name.length <= 3)
+            newErrors.name = "Name must have at least 3 characters"
+
+        if (!categoryForm.description)
+            newErrors.description = "Description is Required"
+        else if (categoryForm.description.length <= 5)
+            newErrors.description =
+                "Description must have at least 5 characters"
+
+        setCategoryErrors(newErrors)
+    }, [categoryForm])
+
+    const handleCategoryPost = () => {
+        const formdata = new FormData()
+        formdata.append("name", categoryForm.name)
+        formdata.append("description", categoryForm.description)
+        formdata.append("imageCategory", file)
+        dispatch(postCategory(formdata))
+            .then(() =>
+                swal(
+                    "Product Created!",
+                    "The product is now in your dashboard",
+                    "success"
+                )
+            )
+            .then(() => Navigate("/dashboard"))
     }
 
     const handleChangeFile = (e) => {
         const newFile = e.target.files[0]
         setFile(newFile)
-        if (newFile) setImgCharge(true)
-        else setImgCharge(false)
     }
 
     return (
@@ -61,15 +91,15 @@ export default function CategoryForm() {
                 <InputContainer color={"rgba(201, 147, 62)"}>
                     <Label>Category Name:</Label>
                     <InputSimple
-                        onChange={handleChange}
+                        onChange={handleCategoryForm}
                         type={"text"}
                         name="name"
-                        value={form.name}
+                        value={categoryForm.name}
                         required
                     />
                     {
-                        <ErrorMsg error={errors.name ? true : false}>
-                            {errors.name}
+                        <ErrorMsg error={categoryErrors.name ? true : false}>
+                            {categoryErrors.name}
                         </ErrorMsg>
                     }
                 </InputContainer>
@@ -77,15 +107,17 @@ export default function CategoryForm() {
                 <InputContainer color={"rgba(201, 147, 62)"}>
                     <Label>Description:</Label>
                     <InputSimple
-                        onChange={handleChange}
+                        onChange={handleCategoryForm}
                         type={"text"}
                         name="description"
-                        value={form.description}
+                        value={categoryForm.description}
                         required
                     />
                     {
-                        <ErrorMsg error={errors.description ? true : false}>
-                            {errors.description}
+                        <ErrorMsg
+                            error={categoryErrors.description ? true : false}
+                        >
+                            {categoryErrors.description}
                         </ErrorMsg>
                     }
                 </InputContainer>
@@ -100,7 +132,7 @@ export default function CategoryForm() {
                     />
                     {file ? (
                         <PrevContainer>
-                            <button onClick={handleDeletePrev}>X</button>
+                            <button onClick={() => setFile("")}>X</button>
                             <PrevImgContainer>
                                 <img
                                     src={URL.createObjectURL(file)}
@@ -117,15 +149,14 @@ export default function CategoryForm() {
                     )}
                 </InputContainer>
 
-                <div>
-                    <CreateButton
-                        color={"orange"}
-                        onClick={() => handleSubmit(file)}
-                        id={styles.createStore}
-                    >
-                        Create Category
-                    </CreateButton>
-                </div>
+                <CreateButton
+                    color={"orange"}
+                    onClick={handleCategoryPost}
+                    id={styles.createStore}
+                    disabled={disablePostBtn}
+                >
+                    Create Category
+                </CreateButton>
             </MainContainer>
         </GlobalContainer>
     )
