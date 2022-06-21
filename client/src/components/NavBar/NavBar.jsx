@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react"
-import { NavLink, useLocation, useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import toast, { Toaster } from "react-hot-toast"
-// import React, { useState } from "react"
 import { Link } from "react-router-dom"
 
 import {
@@ -12,11 +11,10 @@ import {
     Title,
     ButtonsContainer,
     OpenButton,
-    CloseButton,
-    Divider
+    CloseButton
+    // Divider
 } from "./NavBar.styled"
 import { IoFastFoodSharp } from "react-icons/io5"
-/* import { FaUserAlt } from "react-icons/fa" */
 import { GiHamburgerMenu } from "react-icons/gi"
 import { AiFillCloseCircle } from "react-icons/ai"
 import { FiLogOut, FiLogIn } from "react-icons/fi"
@@ -75,7 +73,7 @@ const NavBar = () => {
 
     return (
         <GlobalContainer theme={theme}>
-            <Toaster/>
+            <Toaster />
             <OpenButton
                 onClick={() => setShowNavbar(true)}
                 isShowing={showNavbar}

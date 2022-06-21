@@ -9,7 +9,6 @@ import {
     MainContainer,
     FirstColumnContainer,
     SecondColumnContainer,
-    OrnamentContainer,
     TagsProduct,
     TagCard,
     AvailableContainer,
@@ -31,7 +30,6 @@ import { validateForm } from "../../CustomHooks/validateForm"
 import { useParams } from "react-router-dom"
 import { PatchProduct } from "./updateFunctions"
 import FormBG from "../../FormBG/FormBG"
-// import { IMAGE_PRODUCT } from "../../../consts/images";
 
 export default function UpdateProduct() {
     const { id } = useParams()
@@ -87,7 +85,7 @@ export default function UpdateProduct() {
     useEffect(() => {
         dispatch(findProductById(id))
         setForm(product)
-    }, [dispatch, id, product.name])
+    }, [dispatch, id, product])
 
     return (
         <GlobalContainer>
