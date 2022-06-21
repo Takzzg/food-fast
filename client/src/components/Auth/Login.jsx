@@ -65,12 +65,13 @@ export default function Login() {
     //   }, [user]);
 
     useEffect(() => {
+        console.log("authData en el useEffect es: ",authData)
         if (authData?.token) {
             toast.success(`Bienvenido ${authData.user.name}!!`)
             Navigate("/")
-        } else {
+        } /* else {
             toast.error("Contraseña o usuario incorrecto.")
-        }
+        } */
     }, [authData])
 
     function handleSubmit(e) {
