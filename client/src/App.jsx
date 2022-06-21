@@ -102,19 +102,15 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     {/* REGISTER */}
                     <Route path="/logup" element={<Logup />} />
+                    {/* PASS RESET */}
+                    <Route path="/passwordReset" element={<PasswordReset />} />
+                    {/* NEW PASS */}
+                    <Route path="/newPassword" element={<NewPassword />} />
 
                     <Route path="/user">
                         <Route path="shoppingCart" element={<ShoppingCart />} />
                     </Route>
 
-                    {/* LOGIN */}
-                    <Route path="/login" element={<Login />} />
-                    {/* REGISTER */}
-                    <Route path="/logup" element={<Logup />} />
-                    {/* PASS RESET */}
-                    <Route path="/passwordReset" element={<PasswordReset />} />
-                    {/* NEW PASS */}
-                    <Route path="/newPassword" element={<NewPassword />} />
                 </Routes>
             </BrowserRouter>
         </div>

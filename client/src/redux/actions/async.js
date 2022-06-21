@@ -95,7 +95,6 @@ export const login = (input)=> async (dispatch)=>{
         const data = await axios.post(`${baseUrl}/auth/login`, input)
         dispatch({type: AUTH_USER, payload: data?.data})
     }catch(e){
-        //dispatchar un auth error :O
         dispatch({type: AUTH_ERROR, payload: {error: e}})
         console.log("Error en la action login. ",e.message);
     }
