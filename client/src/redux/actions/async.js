@@ -11,8 +11,10 @@ import {
     SEARCH_CATEGORY,
     NEWFILTER_PRODUCTS,
     FIND_CAT_BY_ID,
-    AUTH_USER
+    AUTH_USER,
+    AUTH_ERROR
 } from "./types"
+
 
 export const baseUrl = `${
     process.env.NODE_ENV === "production"
@@ -71,6 +73,7 @@ export const searchCategory = (name) =>
         : clean_categories()
 
 export const postCategory = (category) => (dispatch) =>
+
     axios
         .post(`${baseUrl}/categories`, category)
         .then(() => dispatch(fetchAllCategories()))
@@ -88,9 +91,12 @@ export const login = (input) => async (dispatch) => {
     try {
         //log in the user...
         const data = await axios.post(`${baseUrl}/auth/login`, input)
-        dispatch({ type: AUTH_USER, data: data?.data })
-    } catch (e) {
-        console.log("Error en la action login. ", e.message)
+
+        dispatch({type: AUTH_USER, payload: data?.data})
+    }catch(e){
+        dispatch({type: AUTH_ERROR, payload: {error: e}})
+        console.log("Error en la action login. ",e.message);
+
     }
 }
 export const logup = (input) => async (dispatch) => {

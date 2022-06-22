@@ -2,10 +2,10 @@ import jwt from 'jsonwebtoken'
 
 const verifyToken = (req,res,next)=>{
     //formato bearer
-    let token = req.headers.authorization
-    if(!token) return res.json({err: 'Acceso denegado',})
-    token= token.split(' ')[1]
     try {
+        let token = req.headers.authorization
+        if(!token) return res.json({err: 'Acceso denegado',})
+        token= token.split(' ')[1]
         const payload= jwt.verify(token, process.env.JWT_SECRET)
         req.uid = payload.uid
         next()
