@@ -1,12 +1,15 @@
 import User from "../models/user.js"
 
+
 export const registerUser = async(req,res) =>{
   const {name,email,password}=req.body;
   try{
     let user = await User.findOne({email})
-    if(user) return res.status(400).json({err: "existing user"})
-    user = new User({name,email,password})
-    //user.email_Welcome()
+
+    if(user) return res.json({err: "existing user"})
+    user = new User({name,email,password,rol})
+    user.send_emailWelcome()
+
     await user.save()
     return res.json(user)
   }catch(error){
