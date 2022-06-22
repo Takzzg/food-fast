@@ -102,10 +102,12 @@ export const login = (input) => async (dispatch) => {
 export const logup = (input) => async (dispatch) => {
     try {
         //log up the user...
-        const { data } = await axios.post(`${baseUrl}/user/logup`, input)
-
-        dispatch({ type: AUTH_USER, data })
+        
+        const { data } = await axios.post(`${baseUrl}/user`, input)
+        
+        dispatch({ type: AUTH_USER, payload: {success: true} })
     } catch (e) {
+        dispatch({type: AUTH_ERROR, payload: {error: e}})
         console.log("Error en la action logup. ", e)
     }
 }
