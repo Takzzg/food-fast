@@ -9,7 +9,7 @@ export const StyledCategoryDetail = styled.div`
         width: 100%;
         height: 20rem;
 
-        background: ${({img})=> `url(${img})`};
+        background-image: url(${({ img }) => img});
         background-position: center;
         background-size: contain;
         background-repeat: no-repeat;

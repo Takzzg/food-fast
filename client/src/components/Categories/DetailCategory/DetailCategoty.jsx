@@ -22,18 +22,13 @@ const DetailCategory = () => {
     )
 
     const products = () => {
-        if (category) {
-            let currentCategory = category.name
-            if (filteredProducts.length !== 0) {
-                let correctProducts = filteredProducts.filter(
-                    (el) =>
-                        el.categories && el.categories.includes(currentCategory)
-                )
-                return correctProducts
-            }
-            return []
-        }
-        return []
+        if (!category || !filteredProducts.length) return []
+
+        let currentCategory = category.name
+        let correctProducts = filteredProducts.filter(
+            (el) => el.categories && el.categories.includes(currentCategory)
+        )
+        return correctProducts
     }
     useEffect(() => {
         dispatch(findCatById(idCategory))
@@ -48,12 +43,10 @@ const DetailCategory = () => {
     })
 
     return !!category ? (
-        <StyledCategoryDetail theme={theme}>
-            <img
-                src={`${baseUrl}/categories/img/${idCategory}`}
-                alt="Category"
-                height={"200"}
-            />
+        <StyledCategoryDetail
+            theme={theme}
+            img={`${baseUrl}/categories/img/${idCategory}`}
+        >
             <div className="banner">{category.name}</div>
             <div className="products">
                 {products().length !== 0 &&

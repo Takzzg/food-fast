@@ -1,8 +1,8 @@
 import React, { useState } from "react"
 import { Container, LoginBox, GoogleButton, ErrorP } from "./Login.styled"
 import { IoFastFoodSharp } from "react-icons/io5"
-import { Link, useNavigate, useLocation } from "react-router-dom"
-import toast, { Toaster } from "react-hot-toast"
+import { Link, useNavigate } from "react-router-dom"
+import toast from "react-hot-toast"
 import { useDispatch, useSelector } from "react-redux"
 import { login } from "../../redux/actions/async"
 import { useEffect } from "react"
@@ -28,7 +28,7 @@ function validate(input) {
 
 export default function Login() {
     //const { logOut} = UserAuth();
-    const { googleSignIn, user } = UserAuth()
+    const { googleSignIn } = UserAuth()
     const Navigate = useNavigate()
 
     const [input, setInput] = useState({
@@ -65,14 +65,14 @@ export default function Login() {
     //   }, [user]);
 
     useEffect(() => {
-        console.log("authData en el useEffect es: ",authData)
+        console.log("authData en el useEffect es: ", authData)
         if (authData?.token) {
             toast.success(`Bienvenido ${authData.user.name}!!`)
             Navigate("/")
         } /* else {
             toast.error("Contraseña o usuario incorrecto.")
         } */
-    }, [authData])
+    }, [authData, Navigate])
 
     function handleSubmit(e) {
         try {
