@@ -1,45 +1,48 @@
-import { useContext, createContext, useEffect, useState } from 'react';
+import { useContext, createContext, useEffect, useState } from "react"
 import {
-  GoogleAuthProvider,
-  signInWithPopup,
-  signInWithRedirect,
-  signOut,
-  onAuthStateChanged,
-} from 'firebase/auth';
-import { auth } from '../firebase/config.js';
+    GoogleAuthProvider,
+    signInWithPopup,
+    signInWithRedirect,
+    signOut,
+    onAuthStateChanged
+} from "firebase/auth"
+import { auth } from "../firebase/config.js"
 
-const AuthContext = createContext();
+const AuthContext = createContext()
 
 export const AuthContextProvider = ({ children }) => {
-  const [user, setUser] = useState({});
+    const [user, setUser] = useState({})
+    const provider = new GoogleAuthProvider()
 
-  const googleSignIn = () => {
-    const provider = new GoogleAuthProvider();
-    // signInWithPopup(auth, provider);
-    signInWithRedirect(auth, provider)
-  };
+    const googleSignIn = () => signInWithPopup(auth, provider)
 
-  const logOut = () => {
-      signOut(auth)
-  }
+    // const googleSignIn = () => {
+    //     const provider = new GoogleAuthProvider()
+    //     // signInWithPopup(auth, provider)
+    //     signInWithRedirect(auth, provider)
+    // }
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      console.log('User', currentUser)
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+    const logOut = () => {
+        signOut(auth)
+    }
 
-  return (
-    <AuthContext.Provider value={{ googleSignIn, logOut, user }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser)
+            console.log("User", currentUser)
+        })
+        return () => {
+            unsubscribe()
+        }
+    }, [])
+
+    return (
+        <AuthContext.Provider value={{ googleSignIn, logOut, user }}>
+            {children}
+        </AuthContext.Provider>
+    )
+}
 
 export const UserAuth = () => {
-  return useContext(AuthContext);
-};
+    return useContext(AuthContext)
+}

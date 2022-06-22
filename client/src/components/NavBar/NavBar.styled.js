@@ -103,14 +103,15 @@ export const Title = styled.h1`
     font-size: 3rem;
 `
 export const ButtonsContainer = styled.div`
-    margin: 0; padding: 0;
+    margin: 0;
+    padding: 0;
     height: 70px;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
     flex-wrap: wrap;
-    img{
+    img {
         width: 50px;
     }
 `
@@ -143,6 +144,7 @@ export const LoginRegisterButton = styled.button`
 
     &:hover {
         background-color: ${({ theme }) => theme.colors.main};
+        color: ${({ theme }) => theme.text.highContrast};
     }
 `
 

@@ -1,18 +1,19 @@
 import axios from 'axios'
 import {PAYPAL_API, PAYPAL_API_CLIENT, PAYPAL_API_SECRET } from '../../ultis/configPaypal.js'
 export const createOrden = async(req,res, next)=>{
- const value = req.body.value; 
- console.log(value)
+ const {mount, description} = req.body; 
+
   try {
     
     const order = {
-        "intent": "CAPTURE",
-        "purchase_units": [
+        intent: "CAPTURE",
+        purchase_units: [
             {
-              "amount": {
-                "currency_code": "USD",
-                "value": value.toString()
-              }
+              amount: {
+                currency_code: "USD",
+                value: mount.toString()// El monto te llega 
+              },
+              description: description.toString() // Descriptcion del producto
             }
           ],
           application_context: {
@@ -25,10 +26,8 @@ export const createOrden = async(req,res, next)=>{
             'http://localhost:3001/api/v1/paypal/cancelOrder'
           }
     };
-
     const params = new URLSearchParams();
     params.append("grant_type", "client_credentials");
-
      const {data : { access_token}} = await axios.post("https://api-m.sandbox.paypal.com/v1/oauth2/token", params,
       {
         headers: {
@@ -48,7 +47,7 @@ export const createOrden = async(req,res, next)=>{
           },
         });
   
-    return res.json(response.data)
+    return res.json(response.data.links[1].href)
 
  } catch (error) {
     return res.status(500).send("error server")
@@ -65,11 +64,12 @@ export const captureOrder= async(req,res, next)=>{
               password: PAYPAL_API_SECRET,
             },
     })
-    return res.json({ok: "GRACIAS POR SU COMPRA"})
+    // Aqui reemplazar la dirección de la app
+    return res.redirect('http://localhost:3000/user/succesPay/true')
 }
 
 export const cancelOrder= async(req,res, next)=>{
-    return res.json({ok: "compra cancelada"})
+    return res.redirect('http://localhost:3000/products')
 }
 
 
