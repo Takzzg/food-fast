@@ -17,7 +17,8 @@ export const registerValidation = [
     .isLength({ min: 4 }),
     body('password', 'Credenciales Invalidas')
     .custom((value, { req }) => {
-        if (value !== req.body.repassword) {
+        if (value !== req.body.passwordConfirm) {
+            console.log("No coinciden las contraseñas")
             throw new Error("No coinciden las contraseñas");
         }
         return value;
