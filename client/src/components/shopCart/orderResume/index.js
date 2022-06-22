@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios"; 
 
 import {
@@ -13,13 +13,21 @@ GoPayContainer
 
 export default function OrdenSumary({items, subTotal}) {
 
-  // const handlePay = async (mount) => {
-  //   const response = await axios.post("http://localhost:3001/api/v1/paypal/createOrden", {
-  //     value: mount.toString()
-  //   } )
-  //   const data = await response.data
-  //   console.log(data)
-  // }
+  const [err, setErr] = useState(false); 
+
+  const handlePay = async (mount) => {
+    try {
+      const response = await axios.post("http://localhost:3001/api/v1/paypal/createOrden", {
+        mount: mount,
+        description: `Estas comprando ${items} items de FoodFast`
+      } )
+      console.log(response.data)
+      window.location.replace(response.data); 
+    } catch(e){
+      setErr(true);     
+    }
+
+  }
   return (
     <MainContainer>
         <TitleContainer>Order Sumary</TitleContainer>
@@ -44,7 +52,7 @@ export default function OrdenSumary({items, subTotal}) {
         </TotalContainer>
 
         <GoPayContainer>
-            <button >Go pay</button>
+            <button onClick={()=> handlePay(subTotal)}>Go pay</button>
         </GoPayContainer>
     </MainContainer>
   );
