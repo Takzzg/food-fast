@@ -20,10 +20,6 @@ import {
 } from "./types"
 
 
-
-
-
-
 export const baseUrl = `${
     process.env.NODE_ENV === "production"
         ? "https://food-fast-api.herokuapp.com"
@@ -75,6 +71,7 @@ export const searchCategory = (name) =>
         : clean_categories()
 
 export const postCategory = (name) => (dispatch) =>
+    
     axios
         .post(`${baseUrl}/categories`, { name })
         .then(() => dispatch(fetchAllCategories()))

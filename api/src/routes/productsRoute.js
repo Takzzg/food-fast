@@ -2,6 +2,7 @@ import express from 'express';
 
 import { check } from 'express-validator';
 import { validarCampos } from '../../middlewares/validar-campo.js';
+import verifyToken from '../../middlewares/validateToken.js'
 
 import { deleteProduct,
         putProduct, 
@@ -16,7 +17,7 @@ const router = express.Router()
 
 
 //get product = http://localhost:3001/api/v1/products
-router.get('/',getProduct)
+router.get('/', getProduct)
 
 
 //GET http://localhost:3001/api/v1/products/12345

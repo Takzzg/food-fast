@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { NavLink, useLocation, useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import toast, { Toaster } from "react-hot-toast"
 // import React, { useState } from "react"
 import { Link } from "react-router-dom"
@@ -160,18 +160,13 @@ const NavBar = () => {
                 <h3>SELLER</h3>
                 {userData?.user?.rol === "ADMIN" ? (
                     <NavLink url="/dashboard" onClick={handleSelectRoute}>
-                        {/* <RouteItem onClick={handleSelectRoute}> */}
                         DashBoard
-                        {/* </RouteItem> */}
                     </NavLink>
                 ) : userData?.user?.rol === "USER" ? (
                     <h5>Debes tener permisos de Administrador!</h5>
                 ) : (
                     <h5>Logueate para más funciones! ♥</h5>
                 )}
-
-                <h3>SELLER</h3>
-                <NavLink url="/dashboard">DashBoard</NavLink>
                 <NavLink url="/">Contact</NavLink>
 
                 <button onClick={() => dispatch(switchTheme())}>

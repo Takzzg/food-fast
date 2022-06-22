@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { Container, LoginBox, GoogleButton, ErrorP } from "./Login.styled"
 import { IoFastFoodSharp } from "react-icons/io5"
-import { Link, useNavigate, useLocation } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import toast, { Toaster } from "react-hot-toast"
 import { useDispatch, useSelector } from "react-redux"
 import { login } from "../../redux/actions/async"
@@ -35,10 +35,9 @@ export default function Login() {
         email: "",
         password: ""
     })
-    //const [authUser, setAuthUser] = useState(null);
+
     const [errors, setErrors] = useState({})
     const dispatch = useDispatch()
-    //const location = useLocation();
     const authData = useSelector((state) => state.user.authData)
     function handleInputChange(e) {
         e.preventDefault()
@@ -58,24 +57,14 @@ export default function Login() {
         }
         Navigate("/")
     }
-    // useEffect(() => {
-    //     if (user != null) {
-    //       Navigate('/');
-    //     }
-    //   }, [user]);
 
     useEffect(() => {
-        console.log("authData en el useEffect es: ",authData)
         if (authData?.token) {
             toast.success(`Bienvenido ${authData.user.name}!!`)
             Navigate("/")
         }else if(authData?.error) {
             toast.error("Contraseña o usuario incorrectos.")
         }
-        
-        /* else {
-            toast.error("Contraseña o usuario incorrecto.")
-        } */
     }, [authData])
 
     function handleSubmit(e) {
@@ -85,9 +74,6 @@ export default function Login() {
                 toast.error("Debes completar correctamente los campos.")
             } else {
                 dispatch(login(input))
-
-                //verificar de alguna forma al usuario logueado.
-                //me falta saber cómo hacer para darme cuenta que falló la autenticación e informarlo.
             }
         } catch (e) {
             console.log(e)

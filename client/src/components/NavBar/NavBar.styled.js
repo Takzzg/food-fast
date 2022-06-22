@@ -129,7 +129,7 @@ export const LoginRegisterButton = styled.button`
         gap: 0.25rem;
     }
 
-    padding: 0.5rem;
+    padding: 0;
     text-decoration: none;
     cursor: pointer;
     display: flex;
