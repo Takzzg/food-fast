@@ -11,7 +11,7 @@ import { Link } from "react-router-dom"
 import { baseUrl } from "../../redux/actions/async"
 import { useDispatch, useSelector } from "react-redux"
 import { add_item_car, remove_item_car } from "../../redux/actions/sync"
-// import { useLocalStorage } from "../CustomHooks/useLocalStorage"
+
 
 export default function SingleProductCard({ product }) {
     const [isAdded, setIsAdded] = useState(false)
@@ -43,18 +43,11 @@ export default function SingleProductCard({ product }) {
                 to={`/products/${product._id}`}
                 img={`${baseUrl}/products/img/${product._id}`}
             />
-            {/* <Link to={`/products/${product._id}`}>
-                    <img
-                        src={`${baseUrl}/products/img/${product._id}`}
-                        alt="imagen"
-                    />
-                </Link> */}
-            {/* </ImageContainer> */}
 
             <FooterContainer theme={theme}>
                 ${product.price}
                 {!isAdded ? (
-                    <TbShoppingCartPlus id="car" onClick={addItem} />
+                    <TbShoppingCartPlus id="car" onClick={addItem}/>
                 ) : (
                     <TbShoppingCartX id="car" onClick={removeItem} />
                 )}

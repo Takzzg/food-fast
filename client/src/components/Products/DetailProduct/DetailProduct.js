@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import {
     DescriptionContainer,
     GlobalContainer,
@@ -19,13 +19,34 @@ import { AiOutlineCreditCard } from "react-icons/ai"
 import { useParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { baseUrl, findProductById } from "../../../redux/actions/async"
-import { clean_select_product } from "../../../redux/actions/sync"
+import { add_item_car, clean_select_product, remove_item_car } from "../../../redux/actions/sync"
 
 const DetailProduct = () => {
     const { idProduct } = useParams()
-
     const dispatch = useDispatch()
     const product = useSelector((state) => state.main.products.selected)
+
+    const [isAdded, setIsAdded] = useState(false)
+    const products = useSelector((state) => state.shopCart.shopCart)
+    const addItem = (e) => {
+        e.preventDefault()
+        const item = { ...product, img: {} }
+        dispatch(add_item_car(item))
+        setIsAdded(true)
+    }
+    const removeItem = (e) => {
+        e.preventDefault()
+        const item = { ...product, img: {} }
+        dispatch(remove_item_car(item, true))
+        setIsAdded(false)
+    }
+
+
+
+    useEffect(() => {
+        let coincidence = products.find((el) => el._id === product._id)
+        if (coincidence) setIsAdded(true)
+    }, [])
 
     useEffect(() => {
         idProduct && dispatch(findProductById(idProduct))
@@ -79,9 +100,15 @@ const DetailProduct = () => {
                     </DescriptionContainer>
 
                     <ButtonsContainer>
-                        <CarShop>
-                            <AiOutlineShoppingCart />
-                        </CarShop>
+                            {!isAdded ? (
+                                <CarShop onClick={addItem} >
+                                     <AiOutlineShoppingCart id="car"  />
+                                </CarShop>
+                            ) : (
+                                <CarShop onClick={removeItem}>
+                                     <AiOutlineShoppingCart id="car" style={{color: "red"}}  />
+                                </CarShop>
+                            )}
                         <BuyButton>
                             <AiOutlineCreditCard />
                         </BuyButton>
