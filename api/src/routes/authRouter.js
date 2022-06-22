@@ -3,7 +3,8 @@ import  {login,
         prueba, 
         forgotPass, 
         resetPostPass,
-        resetGetPass} from '../controllers/authControllers.js'
+        resetGetPass,
+        confirmToken} from '../controllers/authControllers.js'
         
 import {loginValidation,passwordValidation} from '../../middlewares/bodyValidator.js'
 
@@ -22,6 +23,9 @@ router.post("/reset-password/:id/:token",passwordValidation,resetPostPass)
 
 //get  http://localhost:3001/api/v1/auth/reset-password/:id/:token
 router.get("/reset-password/:id/:token",resetGetPass)
+
+//get http://localhost:3001/api/v1/auth/tokenConfirmed/:token
+router.get('/tokenConfirmed/:tokenId', confirmToken)
 
 //ruta de prueba
 router.get('/',verifyToken,prueba)
