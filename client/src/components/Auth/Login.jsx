@@ -30,7 +30,7 @@ function validate(input) {
 
 export default function Login() {
     //const { logOut} = UserAuth();
-    const { googleSignIn } = UserAuth()
+    const { googleSignIn, user} = UserAuth()
     const Navigate = useNavigate()
 
     const [input, setInput] = useState({
@@ -57,14 +57,17 @@ export default function Login() {
         } catch (error) {
             console.log(error)
         }
-        Navigate("/")
+        //Navigate("/")
     }
 
     useEffect(() => {
+        user && console.log("En el useEffect de login, user es: ",user);
 
         if (authData?.token) {
             toast.success(`Bienvenido ${authData.user.name}!!`)
-            Navigate("/")
+            setTimeout(()=>{
+                Navigate("/")
+            },3200)
         }else if(authData?.error) {
             toast.error("Contraseña o usuario incorrectos.")
         }

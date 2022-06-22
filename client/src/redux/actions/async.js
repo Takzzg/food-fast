@@ -103,7 +103,7 @@ export const logup = (input) => async (dispatch) => {
     try {
         //log up the user...
         
-        const { data } = await axios.post(`${baseUrl}/user`, input)
+        await axios.post(`${baseUrl}/user`, input)
         
         dispatch({ type: AUTH_USER, payload: {success: true} })
     } catch (e) {

@@ -83,7 +83,8 @@ export default function UpdateProduct() {
     }
 
     useEffect(() => {
-        dispatch(findProductById(id))
+        console.log("Soy el useEffect en bucle :v")
+        !product && dispatch(findProductById(id))
         setForm(product)
     }, [dispatch, id, product])
 
