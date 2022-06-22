@@ -1,6 +1,7 @@
 import express from 'express';
 import User from "../models/user.js"
 import { sendEmail } from "../../ultis/nodemailerReset.js"
+import Token from '../models/token.js'
 import {generateToken} from '../../ultis/token.js'
 
 const router = express.Router()
@@ -10,6 +11,8 @@ export const login = async(req,res)=>{
   try{
     let user = await User.findOne({email})
     if(!user) return res.status(404).json({err: "not found user"})
+
+    if(!user.verifyAccount) return res.json({err: "please verify your account"})
     const passwordCandidate = await user.comparePassword(password)
     if(!passwordCandidate) return res.status(404).json({err:"invalid credential"})
     
@@ -32,8 +35,8 @@ export const login = async(req,res)=>{
 
    const user=await User.findOne({email})
     if(!user){
-         res.json("user not registered")
-         return
+        return res.json("user not registered")
+ 
     }
     const secret=process.env.SECRETOPRIVATEKEY + user.password
     const payload={
@@ -95,6 +98,23 @@ export const resetPostPass = async (req, res) => {
   }catch(e){
    console.log(e)
   }
+}
+
+export const confirmToken = async(req,res)=>{
+  const tokenId = req.params.tokenId
+try {
+   const token = await Token.findOne({token: tokenId})
+   if(!token) return res.send("not found Token")
+   const user = await User.findById(token._userId)
+   if(!user) return res.send("not found User")
+   if(user.verifyAccount) return res.send('user verify account') 
+   user.verifyAccount = true,
+   await user.save() 
+ return res.send("account user verify")
+} catch (error) {
+    console.log(error)
+    return res.json({err: error})
+}
 }
 
 //prueba

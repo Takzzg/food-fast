@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"; 
 import toast, { Toaster } from 'react-hot-toast';
 import { IoFastFoodSharp } from "react-icons/io5"
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import {SignUpContainer, SignUpDivContainer} from "./Logup.styled"
 import { logup } from "../../redux/actions/async";
@@ -43,6 +42,7 @@ export default function SignUp() {
     passwordConfirm: "",
   });
   const [errors, setErrors] = useState({});
+  const authData = useSelector((state) => state.user.authData)
   
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -60,18 +60,31 @@ export default function SignUp() {
     );
   };
 
+  useEffect(() => {
+    if (authData?.success) {
+        toast.success("Registrado con éxito.")
+        navigate('/login');
+    }else if(authData?.error) {
+        toast.error("Ha ocurrido un error! No pudiste registrarte :(")
+    }
+
+}, [authData])
+
   const register = (e) => {
-    e.preventDefault();
-    if(Object.keys(errors).length > 0){ 
-      return toast.error('Debes rellenar todos los campos de forma correcta.')
-    }else{
-      /* dispatch una action, donde le pasamos el input del form */
-      dispatch(logup({
-        name: input.name,
-        email: input.email,
-        password: input.password,
-    }));
-    alert("Registrado pai :O"); 
+    e.preventDefault()
+    try{
+      if(Object.keys(errors).length > 0){ 
+        return toast.error('Debes rellenar todos los campos de forma correcta.')
+      }else{
+        dispatch(logup({
+          name: input.name,
+          email: input.email,
+          password: input.password,
+          passwordConfirm: input.passwordConfirm
+        }));  
+      }
+    }catch(e){
+      console.log("Error en register. ", e.message);
     }
   };
 
