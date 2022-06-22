@@ -8,7 +8,7 @@ export const registerUser = async(req,res) =>{
     user = new User({name,email,password,rol})
     //user.email_Welcome()
     await user.save()
-    return res.json(user)
+    return res.json("Usuario registrado con éxito")
   }catch(error){
     console.log(error)
     return res.json({err: "Error server"})

@@ -5,9 +5,11 @@ import { useDispatch, useSelector } from "react-redux"
 import { searchProduct } from "../../redux/actions/async"
 import { BsFillMicFill } from "react-icons/bs";
 import { BsFillMicMuteFill } from "react-icons/bs";
+import style from  "./style/mic.module.scss"
+
 
 const SpeedRecognition=window.SpeedRecognition || window.webkitSpeechRecognition
-const mic=new SpeedRecognition()
+const mic=new SpeedRecognition
 
 mic.continuous = true;
 mic.interimResults = true;
@@ -29,12 +31,12 @@ export default function SearchBar() {
             console.log("continue...");
             mic.start();
           }
-    
+          
     
         }else{
           mic.stop();
           mic.onend=()=>{
-            console.log("Se le paró el micrófono");
+            console.log("micrófono en stop");
     
           }
           setInput("")
@@ -60,13 +62,15 @@ export default function SearchBar() {
       },[listen])
 
       const handleVoiceClick=()=>{
-        dispatch(searchProduct(input))
+       
         setListen(prevState=>!prevState)
+        dispatch(searchProduct(input))
         
       }
     const handleChange = (e) => {
         setInput(e.target.value)
         dispatch(searchProduct(e.target.value))
+        
     }
 
     const handleSubmit = () => {
@@ -81,7 +85,7 @@ export default function SearchBar() {
                 onChange={handleChange}
                 placeholder={listen?"Listening...":"Search..."}
             />
-              <button onClick={handleVoiceClick}>
+              <button className={style.mic} onClick={handleVoiceClick}>
             {listen?<BsFillMicFill/>:<BsFillMicMuteFill/>}
               </button>
         </GlobalContainer>

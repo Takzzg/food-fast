@@ -85,22 +85,26 @@ export const MainIconContainer = styled.div`
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     height: 10rem;
     z-index: 1;
 
     svg {
-        position: absolute;
-        width: 100%;
-        height: 100%;
+        
+        width: 25%;
+        height: 50%;
+    
         z-index: -1;
+        
         color: ${({ theme }) => theme.colors.main};
     }
 `
 
 export const Title = styled.h1`
     color: ${({ theme }) => theme.text.highContrast};
-    font-size: 3rem;
+    font-size: 2rem;
+    
+
 `
 export const ButtonsContainer = styled.div`
     margin: 0; padding: 0;
@@ -129,7 +133,7 @@ export const LoginRegisterButton = styled.button`
         gap: 0.25rem;
     }
 
-    padding: 0;
+    width:25vw;
     text-decoration: none;
     cursor: pointer;
     display: flex;
