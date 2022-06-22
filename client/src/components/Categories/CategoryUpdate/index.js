@@ -20,6 +20,7 @@ import {
 } from "./updateElements"
 import { PatchCategory } from "./updateFunctions"
 import { Title } from "../../Products/ProductForm/formElements"
+import FormBG from "../../FormBG/FormBG"
 
 export default function ModifyCategory() {
     const { id } = useParams()
@@ -60,6 +61,7 @@ export default function ModifyCategory() {
 
     return (
         <GlobalContainer>
+            <FormBG />
             {isEmpty && (
                 <MessageContainer color={"red"}>
                     <Message showIcon type="error" header="Error">

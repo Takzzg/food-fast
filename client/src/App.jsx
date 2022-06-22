@@ -1,7 +1,7 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom"
-import { fetchAllCategories } from "./redux/actions/async"
-import { useDispatch, useSelector } from "react-redux"
+// import { fetchAllCategories } from "./redux/actions/async"
+import { useSelector } from "react-redux"
 
 import GlobalStyle from "./GlobalStyles"
 import DisplayProducts from "./components/DisplayProducts/index"
@@ -24,6 +24,7 @@ import DetailOrder from "./components/Orders/DetailOrder/DetailOrder"
 import Reviews from "./components/Reviews/Reviews"
 import DetailReview from "./components/Reviews/DetailReview/DetailReview"
 import ShoppingCart from "./components/shopCart"
+import PrivateRoute from "./components/Auth/PrivateRoute"
 
 const ScrollToTop = () => {
     const location = useLocation()
@@ -34,24 +35,19 @@ const ScrollToTop = () => {
 
 function App() {
     // const [{isopen,user},dispatch]=useStateValue()
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
     const theme = useSelector((state) => state.theme.selectedTheme)
 
-    useEffect(() => {
-        dispatch(fetchAllCategories())
-    }, [dispatch])
 
     return (
         <div className="App">
             <BrowserRouter>
                 <GlobalStyle theme={theme} />
                 <ScrollToTop />
-
                 <NavBar />
 
                 <Routes>
                     <Route index element={<Landing />} />
-
                     <Route path="/products">
                         <Route index element={<DisplayProducts />} />
                         <Route path=":idProduct" element={<DetailProduct />} />
@@ -62,23 +58,38 @@ function App() {
                         element={<DetailCategory />}
                     />
 
+                    <Route path="/dashboard" element={<PrivateRoute
+                    element={Dashboard}  requiredRol="ADMIN" />}/> {/* requiredRol="ADMIN" */}
+
                     <Route path="/dashboard">
-                        <Route index element={<Dashboard />} />
-                        <Route path="createProduct" element={<ProductForm />} />
-                        <Route
+                        {/* <Route index element={<Dashboard />} /> */}
+                        <Route index element={<PrivateRoute
+                    element={Dashboard}  requiredRol="ADMIN" />}/>
+
+                        {/* <Route path="createProduct" element={<ProductForm />} /> */}
+                        <Route path="createProduct" element={<PrivateRoute
+                    element={ProductForm}  requiredRol="ADMIN" />}/>
+
+                        {/* <Route
                             path="createCategory"
                             element={<CategoryForm />}
-                        />
+                        /> */}
+                        <Route path="createCategory" element={<PrivateRoute
+                    element={CategoryForm}  requiredRol="ADMIN" />}/>
 
-                        <Route
+                        {/* <Route
                             path="modifyCategory/:id"
                             element={<ModifyCategory />}
-                        />
+                        /> */}
+                        <Route path="modifyCategory/:id" element={<PrivateRoute
+                    element={ModifyCategory}  requiredRol="ADMIN" />}/>
 
-                        <Route
+                        {/* <Route
                             path="updateProduct/:id"
                             element={<UpdateProduct />}
-                        />
+                        /> */}
+                        <Route path="updateProduct/:id" element={<PrivateRoute
+                    element={UpdateProduct}  requiredRol="ADMIN" />}/>
                     </Route>
 
                     <Route path="user/:idUser">
@@ -102,19 +113,14 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     {/* REGISTER */}
                     <Route path="/logup" element={<Logup />} />
-
-                    <Route path="/user">
-                        <Route path="shoppingCart" element={<ShoppingCart />} />
-                    </Route>
-
-                    {/* LOGIN */}
-                    <Route path="/login" element={<Login />} />
-                    {/* REGISTER */}
-                    <Route path="/logup" element={<Logup />} />
                     {/* PASS RESET */}
                     <Route path="/passwordReset" element={<PasswordReset />} />
                     {/* NEW PASS */}
                     <Route path="/newPassword" element={<NewPassword />} />
+
+                    <Route path="/user">
+                        <Route path="shoppingCart" element={<ShoppingCart />} />
+                    </Route>
                 </Routes>
             </BrowserRouter>
         </div>

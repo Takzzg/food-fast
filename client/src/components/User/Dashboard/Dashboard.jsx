@@ -29,7 +29,7 @@ const Dashboard = () => {
     useEffect(() => {
         !allProducts.length && dispatch(fetchAllCategories())
         !allCategories.length && dispatch(fetchAllProducts())
-    }, [allProducts, allCategories, dispatch])
+    }, [dispatch])
 
     const Category = ({ c }) => (
         <StyledCard theme={theme}>

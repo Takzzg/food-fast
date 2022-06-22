@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react"
-import { NavLink, useLocation, useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import toast, { Toaster } from "react-hot-toast"
-// import React, { useState } from "react"
 import { Link } from "react-router-dom"
 
 import {
@@ -12,11 +11,10 @@ import {
     Title,
     ButtonsContainer,
     OpenButton,
-    CloseButton,
-    Divider
+    CloseButton
+    // Divider
 } from "./NavBar.styled"
 import { IoFastFoodSharp } from "react-icons/io5"
-/* import { FaUserAlt } from "react-icons/fa" */
 import { GiHamburgerMenu } from "react-icons/gi"
 import { AiFillCloseCircle } from "react-icons/ai"
 import { FiLogOut, FiLogIn } from "react-icons/fi"
@@ -54,6 +52,7 @@ const NavBar = () => {
     const handleSignOut = async () => {
         try {
             await logOut()
+            navigate('/')
         } catch (error) {
             console.log(error)
         }
@@ -75,7 +74,7 @@ const NavBar = () => {
 
     return (
         <GlobalContainer theme={theme}>
-            <Toaster/>
+            <Toaster />
             <OpenButton
                 onClick={() => setShowNavbar(true)}
                 isShowing={showNavbar}
@@ -103,8 +102,8 @@ const NavBar = () => {
                             src={user?.photoURL}
                             alt="profile"
                         />
-                        <p>{user?.displayName}</p>
-                        <p className={style.auth_google_email}>{user?.email}</p>
+                        <span>{user?.displayName}</span>
+                        {/* <span className={style.auth_google_email}>{user?.email}</span> */}
                         <LoginRegisterButton
                             theme={theme}
                             className={style.auth_google_logout}
@@ -159,18 +158,13 @@ const NavBar = () => {
                 <h3>SELLER</h3>
                 {userData?.user?.rol === "ADMIN" ? (
                     <NavLink url="/dashboard" onClick={handleSelectRoute}>
-                        {/* <RouteItem onClick={handleSelectRoute}> */}
                         DashBoard
-                        {/* </RouteItem> */}
                     </NavLink>
                 ) : userData?.user?.rol === "USER" ? (
                     <h5>Debes tener permisos de Administrador!</h5>
                 ) : (
                     <h5>Logueate para más funciones! ♥</h5>
                 )}
-
-                <h3>SELLER</h3>
-                <NavLink url="/dashboard">DashBoard</NavLink>
                 <NavLink url="/">Contact</NavLink>
 
                 <button onClick={() => dispatch(switchTheme())}>

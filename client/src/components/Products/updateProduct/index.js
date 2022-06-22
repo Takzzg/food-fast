@@ -9,7 +9,6 @@ import {
     MainContainer,
     FirstColumnContainer,
     SecondColumnContainer,
-    OrnamentContainer,
     TagsProduct,
     TagCard,
     AvailableContainer,
@@ -30,7 +29,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { validateForm } from "../../CustomHooks/validateForm"
 import { useParams } from "react-router-dom"
 import { PatchProduct } from "./updateFunctions"
-// import { IMAGE_PRODUCT } from "../../../consts/images";
+import FormBG from "../../FormBG/FormBG"
 
 export default function UpdateProduct() {
     const { id } = useParams()
@@ -86,27 +85,12 @@ export default function UpdateProduct() {
     useEffect(() => {
         dispatch(findProductById(id))
         setForm(product)
-    }, [dispatch, id, product.name])
+    }, [dispatch, id, product])
 
     return (
         <GlobalContainer>
-            <OrnamentContainer>
-                <img
-                    src={require("../../../assets/burger.png")}
-                    id="burguer"
-                    alt="burguer"
-                />
-                <img
-                    src={require("../../../assets/pizza.png")}
-                    id="pizza"
-                    alt="pizza"
-                />
-                <img
-                    src={require("../../../assets/chicken.png")}
-                    id="chicken"
-                    alt="chicken"
-                />
-            </OrnamentContainer>
+            <FormBG />
+
             {isSend && (
                 <MessageContainer color={"green"}>
                     <Message showIcon type="success" header="Success" full>
@@ -122,6 +106,7 @@ export default function UpdateProduct() {
                     </Message>
                 </MessageContainer>
             )}
+
             <Title>MODIFY PRODUCT</Title>
             <MainContainer>
                 <FirstColumnContainer>

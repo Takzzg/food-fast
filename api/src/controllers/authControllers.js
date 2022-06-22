@@ -14,7 +14,7 @@ export const login = async(req,res)=>{
     if(!passwordCandidate) return res.status(404).json({err:"invalid credential"})
     
     //token
-    const token = generateToken(user._id)//aparte del id, probar pasar el email.
+    const token = generateToken(user._id)
    
     return res.status(200).json({ user, token })  
     /* res.header('auth-token', token).json({
