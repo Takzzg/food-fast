@@ -1,8 +1,9 @@
 import axios from 'axios'
+import Payement from '../models/payement.js'
 import {PAYPAL_API, PAYPAL_API_CLIENT, PAYPAL_API_SECRET } from '../../ultis/configPaypal.js'
+
 export const createOrden = async(req,res, next)=>{
  const value = req.body.value; 
- console.log(value)
   try {
     
     const order = {
@@ -11,7 +12,7 @@ export const createOrden = async(req,res, next)=>{
             {
               "amount": {
                 "currency_code": "USD",
-                "value": value.toString()
+                "value": value
               }
             }
           ],
@@ -47,8 +48,9 @@ export const createOrden = async(req,res, next)=>{
             Authorization: `Bearer ${access_token}`,
           },
         });
-  
+    
     return res.json(response.data)
+    
 
  } catch (error) {
     return res.status(500).send("error server")
@@ -57,15 +59,36 @@ export const createOrden = async(req,res, next)=>{
 
 
 export const captureOrder= async(req,res, next)=>{
-    const { token } = req.query;
-    const response = await axios.post(`${PAYPAL_API}/v2/checkout/orders/${token}/capture`, {},
+    try {
+      
+      const { token } = req.query;
+      const response = await axios.post(`${PAYPAL_API}/v2/checkout/orders/${token}/capture`, {},
         {
             auth: {
               username: PAYPAL_API_CLIENT,
               password: PAYPAL_API_SECRET,
             },
     })
-    return res.json({ok: "GRACIAS POR SU COMPRA"})
+
+    const dataResponse = [response.data]
+    const payemInfo = dataResponse.map(e =>{ return {
+      orderId:e.id, 
+      status: e.status, 
+      payer: e.payer.email_address, 
+      country_code: e.purchase_units[0].shipping.address.country_code, 
+      address_Area: e.purchase_units[0].shipping.address.admin_area_1,
+      payment_Currency_Code: e.purchase_units[0].payments.captures[0].amount.currency_code,
+      payment_Value : e.purchase_units[0].payments.captures[0].amount.value,
+
+    }})
+  
+    await Payement.create(payemInfo)
+   
+    return res.json({ok: "gracias por su compra"})
+
+    } catch (error) {
+      console.log(error)
+    }
 }
 
 export const cancelOrder= async(req,res, next)=>{
