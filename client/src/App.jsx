@@ -25,6 +25,7 @@ import Reviews from "./components/Reviews/Reviews"
 import DetailReview from "./components/Reviews/DetailReview/DetailReview"
 import ShoppingCart from "./components/shopCart"
 import PrivateRoute from "./components/Auth/PrivateRoute"
+import Contact from "./components/Contact/Contact"
 
 const ScrollToTop = () => {
     const location = useLocation()
@@ -57,7 +58,10 @@ function App() {
                         path="/categories/:idCategory"
                         element={<DetailCategory />}
                     />
-
+                         <Route
+                        path="/contact"
+                        element={<Contact/>}
+                    />
                     <Route path="/dashboard" element={<PrivateRoute
                     element={Dashboard}  requiredRol="ADMIN" />}/> {/* requiredRol="ADMIN" */}
 
