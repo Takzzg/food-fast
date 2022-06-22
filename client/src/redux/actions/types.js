@@ -28,6 +28,7 @@ export const CLEAN_SELECT_PRODUCT = "clean_select_product"
 export const AUTH_USER = "auth_user"
 export const LOG_OUT = "log_out"
 export const AUTH_ERROR = "auth_error"
+export const GOOGLE_LOGIN = "google_login"
 
 // Shop Cart
 export const ADD_ITEM_CAR = "add_item_car"; 

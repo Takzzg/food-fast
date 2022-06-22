@@ -12,7 +12,8 @@ import {
     NEWFILTER_PRODUCTS,
     FIND_CAT_BY_ID,
     AUTH_USER,
-    AUTH_ERROR
+    AUTH_ERROR,
+    GOOGLE_LOGIN
 } from "./types"
 
 
@@ -86,6 +87,16 @@ export const deleteCategory = (id) => (dispatch) =>
         .catch((err) => dispatch({ type: ERROR, payload: err }))
 
 // USER
+
+export const googleLogin = (userData) => (dispatch) =>{
+    try{
+        console.log("Entre a googleLogin, userData es: ", userData)
+        dispatch({type: GOOGLE_LOGIN, payload: userData})
+    }catch(e){
+        dispatch({type: AUTH_ERROR, payload: {error: e}})
+        console.log("Error en la google login. ",e.message);
+    }
+}
 
 export const login = (input) => async (dispatch) => {
     try {

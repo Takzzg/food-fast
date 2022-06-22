@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom"
 import toast from "react-hot-toast"
 
 import { useDispatch, useSelector } from "react-redux"
-import { login } from "../../redux/actions/async"
+import { login, googleLogin } from "../../redux/actions/async"
 import { useEffect } from "react"
 import { UserAuth } from "../../context/AuthContext"
 
@@ -32,7 +32,6 @@ export default function Login() {
     //const { logOut} = UserAuth();
     const { googleSignIn, user} = UserAuth()
     const Navigate = useNavigate()
-
     const [input, setInput] = useState({
         email: "",
         password: ""
@@ -54,20 +53,20 @@ export default function Login() {
         e.preventDefault()
         try {
             await googleSignIn()
+            //Navigate('/')
+            
         } catch (error) {
             console.log(error)
         }
-        //Navigate("/")
+        
     }
 
     useEffect(() => {
-        user && console.log("En el useEffect de login, user es: ",user);
-
-        if (authData?.token) {
+        //console.log("En el useEffect de login, user es: ",user)
+        //console.log("En el useEffect, authData es: ", authData)
+        if (authData?.token) { //se podría verificar dicho token, no solo ver si existe. GZ
             toast.success(`Bienvenido ${authData.user.name}!!`)
-            setTimeout(()=>{
-                Navigate("/")
-            },3200)
+            Navigate("/")
         }else if(authData?.error) {
             toast.error("Contraseña o usuario incorrectos.")
         }

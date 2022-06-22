@@ -12,7 +12,9 @@ export const login = async(req,res)=>{
     let user = await User.findOne({email})
     if(!user) return res.status(404).json({err: "not found user"})
 
-    if(!user.verifyAccount) return res.json({err: "please verify your account"})
+    //acepta solo los que tengan el campo "verifyAccount" en true >:v
+    //if(!user.verifyAccount) return res.json({err: "please verify your account"})
+
     const passwordCandidate = await user.comparePassword(password)
     if(!passwordCandidate) return res.status(404).json({err:"invalid credential"})
     
