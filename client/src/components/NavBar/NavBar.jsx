@@ -129,10 +129,10 @@ const NavBar = () => {
                             </ButtonsContainer>
                         ) : (
                             <LoginRegisterButton theme={theme}>
-                                <NavLink url="/login">
+                                <Link to="/login">
                                     Login
                                     <FiLogIn />
-                                </NavLink>
+                                </Link>
                             </LoginRegisterButton>
                         )}
                     </ButtonsContainer>
