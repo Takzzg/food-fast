@@ -11,7 +11,7 @@ export const registerUser = async(req,res) =>{
     user.send_emailWelcome()
 
     await user.save()
-    return res.json(user)
+    return res.json("Usuario registrado con éxito")
   }catch(error){
     console.log(error)
     return res.status(400).json({err: "Error server"})
