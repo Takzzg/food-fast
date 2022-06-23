@@ -26,6 +26,7 @@ import DetailReview from "./components/Reviews/DetailReview/DetailReview"
 import ShoppingCart from "./components/shopCart"
 import PrivateRoute from "./components/Auth/PrivateRoute"
 import PaymentPass from "./components/PaymentPass"
+
 const ScrollToTop = () => {
     const location = useLocation()
     useEffect(() => {
