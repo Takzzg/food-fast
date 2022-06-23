@@ -18,7 +18,7 @@ import { IoFastFoodSharp } from "react-icons/io5"
 import { GiHamburgerMenu } from "react-icons/gi"
 import { AiFillCloseCircle } from "react-icons/ai"
 import { FiLogOut, FiLogIn } from "react-icons/fi"
-
+import { FaUserAlt } from "react-icons/fa"
 import { useDispatch, useSelector } from "react-redux"
 import { switchTheme } from "../../redux/actions/sync"
 import { LOG_OUT } from "../../redux/actions/types"
@@ -91,68 +91,49 @@ const NavBar = () => {
                 </CloseButton>
 
                 <MainIconContainer theme={theme}>
-                    <IoFastFoodSharp />
-                    <Title theme={theme}>Food Fast</Title>
+                    
+                        <IoFastFoodSharp />
+                   
+               
+
+                
+                    <Title  theme={theme}>Food Fast</Title>
                 </MainIconContainer>
+                
+               
+                 {    user?.displayName ? ( 
 
-                {user?.displayName ? (
-                    <ButtonsContainer theme={theme}>
-                        <img
-                            className={style.auth_google_photo}
-                            src={user?.photoURL}
-                            alt="profile"
-                        />
-                        <span>{user?.displayName}</span>
-                        {/* <span className={style.auth_google_email}>{user?.email}</span> */}
-                        <LoginRegisterButton
-                            theme={theme}
-                            className={style.auth_google_logout}
-                            onClick={handleSignOut}
-                        >
-                            <AiOutlineLogout />
-                            Logout
-                        </LoginRegisterButton>
-                    </ButtonsContainer>
-                ) : (
-                    <ButtonsContainer theme={theme}>
-                        {userData ? (
-                            <ButtonsContainer theme={theme}>
-                                <span>{userData?.user?.name} </span>
-                                <LoginRegisterButton
-                                    onClick={handleLogout}
-                                    theme={theme}
-                                >
-                                    LogOut
-                                    <FiLogOut />
-                                </LoginRegisterButton>
-                            </ButtonsContainer>
-                        ) : (
-                            <LoginRegisterButton theme={theme}>
-                                <NavLink url="/login">
-                                    Login
-                                    <FiLogIn />
-                                </NavLink>
-                            </LoginRegisterButton>
-                        )}
-                    </ButtonsContainer>
-                )}
-                {/* <ListRoutes> */}
-                <hr />
-                <h3>CONSUMER</h3>
-                <NavLink url="/" onClick={handleSelectRoute}>
-                    Home
-                </NavLink>
+                <ButtonsContainer theme={theme}>   
 
-                <NavLink url="/products" onClick={handleSelectRoute}>
-                    Products
-                </NavLink>
+                    <img className={style.auth_google_photo}  src={user?.photoURL} alt="picture" />
+                    <p>{user?.displayName}</p>
+                    <p className={style.auth_google_email}>{user?.email}</p>
+                    <button  className={style.auth_google_logout}  onClick={handleSignOut} >
+                    <AiOutlineLogout/>
+                        Logout
+                    </button>
+               </ButtonsContainer>  
+      ) : (  
+                <ButtonsContainer theme={theme}>
+                <LoginRegisterButton theme={theme}>
+                      <Link to='/login'>
+                        <FaUserAlt />
+                            Login
+                      </Link>
+                        
+                    </LoginRegisterButton>
+        
+                </ButtonsContainer>
+
+) }       
+              
 
                 <h3>CONSUMER</h3>
                 <NavLink url="/">Home</NavLink>
                 <NavLink url="/products">Products</NavLink>
                 <NavLink url="/">My orders</NavLink>
                 <NavLink url="/">Oferts</NavLink>
-                <NavLink url="/">Contact</NavLink>
+                <NavLink url="/contact">Contact</NavLink>
 
                 <hr />
                 <h3>SELLER</h3>
