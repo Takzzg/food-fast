@@ -9,10 +9,15 @@ import "./autoStyles.scss"
 import axios from "axios";
 
 
+
+const SpeechRecognition=window.SpeechRecognition || window.webkitSpeechRecognition
+const mic=new SpeechRecognition()
+
 export default function SearchBar() {
   const [input, setInput] = useState("");
   const dispatch = useDispatch();
   const theme = useSelector((state) => state.theme.selectedTheme);
+
 
   // ==================================
   const productsF = useSelector(state=> state.main.products.filtered);
@@ -46,8 +51,37 @@ export default function SearchBar() {
         .includes(inputValue)){
           return product;
         }
+
+        mic.onresult=(event)=>{
+            const transcript=Array.from(event.results)
+            .map((result)=>result[0])
+           .map((result)=>result.transcript).join("");
+           console.log(transcript)
+           setInput(transcript)
+           mic.onerror=(event)=>console.log(event.error)
+       }
+     }
+
+     
+
+     React.useEffect(()=>{
+        handleListen();
+      },[listen])
+
+      const handleVoiceClick=()=>{
+        dispatch(searchProduct(input))
+        setListen(prevState=>!prevState)
+       
+        
+      }
+    const handleChange = (e) => {
+        setInput(e.target.value)
+        dispatch(searchProduct(e.target.value))
+        
+
       });
       return inputLength===0 ? [] : filteredProducts;
+
     }
 
     const getData = ()=> {

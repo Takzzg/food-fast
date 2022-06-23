@@ -30,6 +30,7 @@ import PrivateRoute from "./components/Auth/PrivateRoute"
 
 import PaymentPass from "./components/PaymentPass"
 
+
 const ScrollToTop = () => {
     const location = useLocation()
     useEffect(() => {
@@ -127,7 +128,7 @@ function App() {
                         <Route path="succesPay/:isAcepted" element={<PaymentPass />} />
                     </Route>
                 
-                     
+                    
                   
                 </Routes>
             </BrowserRouter>
