@@ -126,15 +126,7 @@ const NavBar = () => {
                 </ButtonsContainer>
 
 ) }       
-                <hr />
-                <h3>CONSUMER</h3>
-                <NavLink url="/" onClick={handleSelectRoute}>
-                    Home
-                </NavLink>
-
-                <NavLink url="/products" onClick={handleSelectRoute}>
-                    Products
-                </NavLink>
+              
 
                 <h3>CONSUMER</h3>
                 <NavLink url="/">Home</NavLink>

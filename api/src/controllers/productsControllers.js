@@ -120,6 +120,7 @@ export const postProduct = async (req, res) => {
 
     const image = req.files
 
+
     const product = await Product.findOne({ name })
     if (product) {
         return res.status(400).json({
@@ -133,9 +134,14 @@ export const postProduct = async (req, res) => {
         price,
         categories: array
     }
+
     const newProduct = new Product(data)
     newProduct.img.data = image.imageProduct.data
     newProduct.img.contentType = image.imageProduct.mimetype
+
+        
+    if(Number(stock) > 0) newProduct.available = true; 
+    else newProduct.available = false;
 
     await newProduct.save()
     res.status(201).json({

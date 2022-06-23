@@ -27,8 +27,8 @@ const Dashboard = () => {
     const { handleDelete } = useDelete(dispatch)
 
     useEffect(() => {
-        !allProducts.length && dispatch(fetchAllCategories())
-        !allCategories.length && dispatch(fetchAllProducts())
+        !allCategories.length && dispatch(fetchAllCategories())
+        !allProducts.length && dispatch(fetchAllProducts())
     }, [dispatch])
 
     const Category = ({ c }) => (

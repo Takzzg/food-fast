@@ -77,7 +77,12 @@ export const UserContainer = styled.section`
     align-items: center;
     gap: 1rem;
     cursor: pointer;
-
+    a{
+        text-decoration: none;
+        color: black;
+        display: flex;
+        align-items: center;
+    }
     svg {
         &:hover {
             color: ${({ theme }) => theme.colors.main};

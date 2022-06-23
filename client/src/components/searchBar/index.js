@@ -9,7 +9,7 @@ import style from  "./style/mic.module.scss"
 
 
 const SpeedRecognition=window.SpeedRecognition || window.webkitSpeechRecognition
-const mic=new SpeedRecognition
+const mic=new SpeedRecognition()
 
 mic.continuous = true;
 mic.interimResults = true;
@@ -62,9 +62,9 @@ export default function SearchBar() {
       },[listen])
 
       const handleVoiceClick=()=>{
-       
-        setListen(prevState=>!prevState)
         dispatch(searchProduct(input))
+        setListen(prevState=>!prevState)
+        
         
       }
     const handleChange = (e) => {

@@ -51,23 +51,21 @@ export default function Login() {
     const handleGoogleLogin = async (e) => {
         e.preventDefault()
         try {
-            await googleSignIn()
+            await googleSignIn().then(() => Navigate("/"))
         } catch (error) {
             console.log(error)
         }
-        Navigate("/")
+        // Navigate("/")
     }
 
     useEffect(() => {
-
         if (authData?.token) {
             toast.success(`Bienvenido ${authData.user.name}!!`)
             Navigate("/")
-        }else if(authData?.error) {
+        } else if (authData?.error) {
             toast.error("Contraseña o usuario incorrectos.")
         }
     }, [authData])
-
 
     function handleSubmit(e) {
         try {

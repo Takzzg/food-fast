@@ -5,9 +5,10 @@ import { FaSearchLocation } from "react-icons/fa"
 import { searchCategory } from "../../../redux/actions/async"
 import { BsFillMicFill } from "react-icons/bs";
 import { BsFillMicMuteFill } from "react-icons/bs";
+import style from "./style/mic.module.scss"
 
 const SpeedRecognition=window.SpeedRecognition || window.webkitSpeechRecognition
-const mic=new SpeedRecognition
+const mic=new SpeedRecognition()
 
 mic.continuous = true;
 mic.interimResults = true;
@@ -19,6 +20,7 @@ const CategoryBar = () => {
     const [listen,setListen]=useState(false)
 
    
+
       const handleListen=()=>{
         if(listen){
           mic.start();
@@ -27,7 +29,7 @@ const CategoryBar = () => {
             console.log("continue...");
             mic.start();
           }
-          setInput("")
+          
     
         }else{
           mic.stop();
@@ -51,32 +53,30 @@ const CategoryBar = () => {
        }
      }
 
-     
-
      React.useEffect(()=>{
         handleListen();
       },[listen])
 
+     
+      
+      const handleVoiceClick=()=>{
+        
+        
+        setListen(prevState=>!prevState)
+        dispatch(searchCategory(input))
+      }
     const search = () => {
         dispatch(searchCategory(input))
     }
 
     const handleChange = (e) => {
-        setListen(prevState=>!prevState)
+      
         setInput(e.target.value)
         dispatch(searchCategory(e.target.value))
     }
 
-    // const handleSubmit = () => {
-    //     dispatch(searchCategory(input))
-    //     alert("Búsqueda de ubicación en progreso! Devs working B)")
-    // }
-    const handleVoiceClick=()=>{
-       
-        setListen(prevState=>!prevState)
-        dispatch(searchCategory(input))
-        
-      }
+   
+   
     return (
         <GlobalContainer className={"container"}>
             <SearchInput
@@ -85,7 +85,7 @@ const CategoryBar = () => {
                 name="searchBar"
                 placeholder={listen?"Listening...":"Filter categories..."}
             />
-              <button  onClick={handleVoiceClick}>
+              <button className={style.micon}  onClick={handleVoiceClick}>
             {listen?<BsFillMicFill/>:<BsFillMicMuteFill/>}
               </button>
         </GlobalContainer>
