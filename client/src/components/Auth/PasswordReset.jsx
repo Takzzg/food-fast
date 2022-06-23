@@ -9,7 +9,7 @@ import { IoFastFoodSharp } from "react-icons/io5"
 function validate(input) {
   let errors = {};
 
-  if (!input.username) {
+  if (!input.username.length) {
     errors.username = "Username is required";
   } else if (!/\S+@\S+\.\S+/.test(input.username)) {
     errors.username = "Debe ser un e-mail";
@@ -21,7 +21,7 @@ export default function PasswordReset() {
   const [input, setInput] = useState({
     username: "",
   });
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({username: ""});
 
   /* const dispatch = useDispatch(); */
   const navigate = useNavigate();
@@ -71,6 +71,7 @@ export default function PasswordReset() {
             />
             {errors.username && <ErrorP className="error">{errors.username}</ErrorP>}
             <input type="submit" value="SEND"/>
+            <Link to="/login"><input type="button" value=' Go Back '/></Link>
           </form>
         </ResetDivBox>
 {/*         <Link to="/">

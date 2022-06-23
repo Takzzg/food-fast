@@ -30,7 +30,7 @@ function validate(input) {
 
 export default function Login() {
     //const { logOut} = UserAuth();
-    const { googleSignIn, user} = UserAuth()
+    const { googleSignIn, user } = UserAuth()
     const Navigate = useNavigate()
     const [input, setInput] = useState({
         email: "",
@@ -52,11 +52,12 @@ export default function Login() {
     const handleGoogleLogin = async (e) => {
         e.preventDefault()
         try {
-            await googleSignIn().then(() => Navigate("/"))
+            await googleSignIn().then(() => {
+                Navigate("/")
+            })
         } catch (error) {
             console.log(error)
         }
-        // Navigate("/")
     }
 
     useEffect(() => {

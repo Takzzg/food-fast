@@ -50,6 +50,7 @@ export const createOrden = async(req,res, next)=>{
     return res.json(response.data.links[1].href)
 
  } catch (error) {
+   console.log(error)
     return res.status(500).send("error server")
  }
 }

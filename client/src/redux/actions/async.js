@@ -90,7 +90,6 @@ export const deleteCategory = (id) => (dispatch) =>
 
 export const googleLogin = (userData) => (dispatch) =>{
     try{
-        console.log("Entre a googleLogin, userData es: ", userData)
         dispatch({type: GOOGLE_LOGIN, payload: userData})
     }catch(e){
         dispatch({type: AUTH_ERROR, payload: {error: e}})

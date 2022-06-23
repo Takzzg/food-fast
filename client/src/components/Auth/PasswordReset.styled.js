@@ -54,7 +54,7 @@ input[type="text"]{
     height: 37px;
     font-size: 16px;
 } 
-input[type="submit"]{
+input[type="submit"], input[type="button"]{
     color: #000;
     border: 0;
     outline: none;

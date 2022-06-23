@@ -28,7 +28,7 @@ import { UserAuth } from "../../context/AuthContext"
 import style from "./style/google.module.scss"
 
 const NavBar = () => {
-    /* const user = null; //{result:{email: "gonza@gmail.com"}} */
+    
     const [userData, setUser] = useState(
         JSON.parse(localStorage.getItem("profile"))
     )
@@ -138,14 +138,6 @@ const NavBar = () => {
                 )}
                 {/* <ListRoutes> */}
                 <hr />
-                <h3>CONSUMER</h3>
-                <NavLink url="/" onClick={handleSelectRoute}>
-                    Home
-                </NavLink>
-
-                <NavLink url="/products" onClick={handleSelectRoute}>
-                    Products
-                </NavLink>
 
                 <h3>CONSUMER</h3>
                 <NavLink url="/">Home</NavLink>

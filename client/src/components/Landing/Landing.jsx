@@ -5,13 +5,17 @@ import { CategoriesContainer, GlobalContainer } from "./landingElements"
 import CategoryCard from "../Categories/CategorysLanding"
 import { useEffect } from "react"
 import {
-    fetchAllCategories
+    fetchAllCategories, googleLogin
     // searchCategory,
     // searchProduct
 } from "../../redux/actions/async"
+import { useLocation } from "react-router-dom"
+import { UserAuth } from "../../context/AuthContext"
 
 const Landing = () => {
     const dispatch = useDispatch()
+    const location = useLocation()
+    const {user} = UserAuth()
     const allCategories = useSelector((state) => state.main.categories.all)
     const filterCategories = useSelector(
         (state) => state.main.categories.filtered
@@ -23,6 +27,21 @@ const Landing = () => {
     useEffect(() => {
         !allCategories.length && dispatch(fetchAllCategories())
     }, [dispatch])
+    useEffect(() => {
+        if(user?.accessToken){
+            dispatch(googleLogin({
+                token: {
+                  token: user.accessToken
+                },
+                user: {
+                  name: user.displayName,
+                  email: user.email,
+                  photo: user.photoURL,
+                  uid: user.uid
+                }
+              }))
+        }
+    },[])
 
     return (
         <GlobalContainer
