@@ -13,7 +13,8 @@ import {
     REMOVE_ALL_ITEM_CAR,
     CLEAN_CAR,
     FOCUS_ITEM_CAR,
-    SEARCH_PRODUCT
+    SEARCH_PRODUCT,
+    GET_ITEMS_CAR
 } from "./types"
 
 export const switchTheme = () => ({ type: SWITCH_THEME })
@@ -41,6 +42,6 @@ export const remove_item_car = (product, all=false) => all ? ({type: REMOVE_ALL_
 export const clean_car = () => ({type: CLEAN_CAR})
 
 export const focus_item_car = (id) => ({type: FOCUS_ITEM_CAR, id})
-
+export const get_items_car = ()=> ({type: GET_ITEMS_CAR})
 
 export const searchProductSync = (name) => ({type: SEARCH_PRODUCT, name})

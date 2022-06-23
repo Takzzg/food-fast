@@ -1,12 +1,13 @@
 import axios from 'axios'
 import Payement from '../models/payement.js'
 import {PAYPAL_API, PAYPAL_API_CLIENT, PAYPAL_API_SECRET } from '../../ultis/configPaypal.js'
+import Product from '../models/product.js'
 
 export const createOrden = async(req,res, next)=>{
 
 
  const {mount, description} = req.body; 
-
+ // Necesito un arreglo --> Resumen de ordenes --> [{id: sakdjfas, newStock: stock-order}, {id: sas, items:}]
   try {
     
     const order = {
@@ -25,7 +26,7 @@ export const createOrden = async(req,res, next)=>{
             landing_page: 'LOGIN',
             user_action: 'PAY_NOW',
             return_url: 
-            'http://localhost:3001/api/v1/paypal/captureOrder',
+            `http://localhost:3001/api/v1/paypal/captureOrder`,
             cancel_url: 
             'http://localhost:3001/api/v1/paypal/cancelOrder'
           }
@@ -51,6 +52,7 @@ export const createOrden = async(req,res, next)=>{
           },
         });
 
+    return res.json(response.data.links[1].href)
  } catch (error) {
    console.log(error)
     return res.status(500).send("error server")
@@ -62,6 +64,7 @@ export const captureOrder= async(req,res, next)=>{
     try {
       
       const { token } = req.query;
+      const { resumeOrder } = req.params; 
       const response = await axios.post(`${PAYPAL_API}/v2/checkout/orders/${token}/capture`, {},
         {
             auth: {
@@ -88,9 +91,9 @@ export const captureOrder= async(req,res, next)=>{
       await order.send_emailPayament()
       await order.save() 
        // Aqui reemplazar la dirección de la app
-   // return res.redirect('http://localhost:3000/user/succesPay/true')
-      return res.json(response.data)
-
+      return res.redirect('http://localhost:3000/user/succesPay/true')
+      // return res.json(response.data)
+    
     } catch (error) {
       console.log(error)
     }
