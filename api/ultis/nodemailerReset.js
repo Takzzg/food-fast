@@ -31,6 +31,6 @@ export const sendEmail = async (email, name , id, token) => {
 
         console.log("email fue enviado correctamente");
     } catch (error) {
-        console.log(error, "email not sent");
+        console.log("Error en el sendEmail. ",error);
     }
 };

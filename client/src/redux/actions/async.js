@@ -12,7 +12,8 @@ import {
     NEWFILTER_PRODUCTS,
     FIND_CAT_BY_ID,
     AUTH_USER,
-    AUTH_ERROR
+    AUTH_ERROR,
+    GOOGLE_LOGIN
 } from "./types"
 
 
@@ -87,6 +88,15 @@ export const deleteCategory = (id) => (dispatch) =>
 
 // USER
 
+export const googleLogin = (userData) => (dispatch) =>{
+    try{
+        dispatch({type: GOOGLE_LOGIN, payload: userData})
+    }catch(e){
+        dispatch({type: AUTH_ERROR, payload: {error: e}})
+        console.log("Error en la google login. ",e.message);
+    }
+}
+
 export const login = (input) => async (dispatch) => {
     try {
         //log in the user...
@@ -103,11 +113,28 @@ export const logup = (input) => async (dispatch) => {
     try {
         //log up the user...
         
-        const { data } = await axios.post(`${baseUrl}/user`, input)
+        await axios.post(`${baseUrl}/user`, input)
         
         dispatch({ type: AUTH_USER, payload: {success: true} })
     } catch (e) {
         dispatch({type: AUTH_ERROR, payload: {error: e}})
         console.log("Error en la action logup. ", e)
+    }
+}
+
+export const postForgotPassword = async (email) => {
+    try{
+        await axios.post(`${baseUrl}/auth/forgot-password`, {email})
+    }catch(e){
+        console.log("Error en el postForgotPassword. ",e.message)
+        return {error: e.message}
+    }
+}
+
+export const postNewPassword = async (payload) => {
+    try{
+        await axios.post(`${baseUrl}/auth/reset-password/${payload.id}/${payload.token}`,payload)
+    }catch(e){
+        console.log("Error en el postNewPassword. ", e)
     }
 }

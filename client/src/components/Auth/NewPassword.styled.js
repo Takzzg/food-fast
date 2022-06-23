@@ -36,6 +36,12 @@ h1{
     text-align: center;
     font-size: 24px;
 }
+h3{
+    margin: 3px;
+    padding: 5px 0 20px;
+    text-align: center;
+    font-size: 18px;
+}
 label{
     margin: 0; padding: 0;
     font-weight: bold;
