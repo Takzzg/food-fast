@@ -132,7 +132,7 @@ export default function FilterBar() {
 
             <UserContainer theme={theme}>
                 {/* <div> */}
-                <Link to="/user/shoppingCart">
+                <Link to="/user/shoppingCart" >
                     <FaShoppingCart />
                 </Link>
 

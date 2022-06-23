@@ -66,7 +66,19 @@ export const FooterContainer = styled.div`
     justify-content: space-evenly;
     font-size: 1.5rem;
     font-family: "Bangers", cursive;
-
+    color: black;
+    #car {
+        cursor: pointer;
+        &:hover {
+            transform: scale(1.2);
+        }
+    }
+    #details {
+        color: black;
+        &:hover {
+            transform: scale(1.2);
+        }
+    }
     .iconBtn {
         color: ${({ theme }) => theme.text.highContrast};
         &:hover {

@@ -3,21 +3,23 @@ import Payement from '../models/payement.js'
 import {PAYPAL_API, PAYPAL_API_CLIENT, PAYPAL_API_SECRET } from '../../ultis/configPaypal.js'
 
 export const createOrden = async(req,res, next)=>{
-  const {value, description} = req.body;
+
+
+ const {mount, description} = req.body; 
+
   try {
     
     const order = {
-      intent: "CAPTURE",
-      purchase_units: [
-        {
-          amount: {
-            currency_code: "USD",
-            value: value.toString() ,
-          },
-          description: description.toString() ,
-         
-        },
-      ],
+        intent: "CAPTURE",
+        purchase_units: [
+            {
+              amount: {
+                currency_code: "USD",
+                value: mount.toString()// El monto te llega 
+              },
+              description: description.toString() // Descriptcion del producto
+            }
+          ],
           application_context: {
             brand_name: "FoodFast",
             landing_page: 'LOGIN',
@@ -28,10 +30,8 @@ export const createOrden = async(req,res, next)=>{
             'http://localhost:3001/api/v1/paypal/cancelOrder'
           }
     };
-
     const params = new URLSearchParams();
     params.append("grant_type", "client_credentials");
-
      const {data : { access_token}} = await axios.post("https://api-m.sandbox.paypal.com/v1/oauth2/token", params,
       {
         headers: {
@@ -50,8 +50,7 @@ export const createOrden = async(req,res, next)=>{
             Authorization: `Bearer ${access_token}`,
           },
         });
-    
-      return res.json(response.data.links[1].href)
+
  } catch (error) {
     return res.status(500).send("error server")
  }
@@ -70,6 +69,7 @@ export const captureOrder= async(req,res, next)=>{
             },
     })
 
+
     const dataResponse = [response.data]
     const payemInfo = dataResponse.map(e =>{ return {
       orderId:e.id, 
@@ -85,16 +85,19 @@ export const captureOrder= async(req,res, next)=>{
     const payemOrder = payemInfo[0] 
       const order = new Payement({...payemOrder})
       await order.send_emailPayament()
-      await order.save()   
+      await order.save() 
+       // Aqui reemplazar la dirección de la app
+   // return res.redirect('http://localhost:3000/user/succesPay/true')
       return res.json(response.data)
 
     } catch (error) {
       console.log(error)
     }
+
 }
 
 export const cancelOrder= async(req,res, next)=>{
-    return res.json({ok: "compra cancelada"})
+    return res.redirect('http://localhost:3000/products')
 }
 
 

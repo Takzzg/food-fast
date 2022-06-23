@@ -2,9 +2,7 @@ import React, { useState } from "react"
 import { Container, LoginBox, GoogleButton, ErrorP } from "./Login.styled"
 import { IoFastFoodSharp } from "react-icons/io5"
 import { Link, useNavigate } from "react-router-dom"
-
 import toast from "react-hot-toast"
-
 import { useDispatch, useSelector } from "react-redux"
 import { login } from "../../redux/actions/async"
 import { useEffect } from "react"
@@ -53,23 +51,21 @@ export default function Login() {
     const handleGoogleLogin = async (e) => {
         e.preventDefault()
         try {
-            await googleSignIn()
+            await googleSignIn().then(() => Navigate("/"))
         } catch (error) {
             console.log(error)
         }
-        Navigate("/")
+        // Navigate("/")
     }
 
     useEffect(() => {
-
         if (authData?.token) {
             toast.success(`Bienvenido ${authData.user.name}!!`)
             Navigate("/")
-        }else if(authData?.error) {
+        } else if (authData?.error) {
             toast.error("Contraseña o usuario incorrectos.")
         }
     }, [authData])
-
 
     function handleSubmit(e) {
         try {
@@ -91,6 +87,7 @@ export default function Login() {
                 <IoFastFoodSharp />
                 <h1>Login here</h1>
                 <form onSubmit={handleSubmit}>
+                    
                     <label>Username (e-mail)</label>
                     <input
                         type="text"
@@ -98,17 +95,21 @@ export default function Login() {
                         onChange={handleInputChange}
                         value={input.email}
                         placeholder="Enter a e-mail..."
+                        
                     />
                     {errors.email && <ErrorP>{errors.email}</ErrorP>}
                     <br />
+                    
                     <label>Password</label>
+                   
                     <input
                         type="password"
                         name="password"
                         onChange={handleInputChange}
-                        vale={input.password}
-                        placeholder="Enter your password..."
+                        value={input.password}
+                        placeholder="Enter your password..." 
                     />
+                 
                     {errors.password && <ErrorP>{errors.password}</ErrorP>}
                     <input type="submit" value="Log In" />
                     <span

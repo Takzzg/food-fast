@@ -27,9 +27,13 @@ export const getProduct = async (req, res) => {
             const product = await Product.find({
                 name: { $regex: name, $options: "i" }
             })
+            const readyProducts = product.map((el) => {
+                el.img = {}
+                return el
+            })
             return product.length === 0
                 ? res.json({ error: "not found product" })
-                : res.json(product)
+                : res.json(readyProducts)
         } else if (filter || sortOrder || filterValue || filterOrder) {
             //GET http://localhost:3001/api/v1/products?filter=category&filterValue=cafeteria&filterOrder=price&sortOrder=-1
 
@@ -120,6 +124,7 @@ export const postProduct = async (req, res) => {
 
     const image = req.files
 
+
     const product = await Product.findOne({ name })
     if (product) {
         return res.status(400).json({
@@ -133,9 +138,14 @@ export const postProduct = async (req, res) => {
         price,
         categories: array
     }
+
     const newProduct = new Product(data)
     newProduct.img.data = image.imageProduct.data
     newProduct.img.contentType = image.imageProduct.mimetype
+
+        
+    if(Number(stock) > 0) newProduct.available = true; 
+    else newProduct.available = false;
 
     await newProduct.save()
     res.status(201).json({

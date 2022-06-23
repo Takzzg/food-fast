@@ -26,6 +26,10 @@ import DetailReview from "./components/Reviews/DetailReview/DetailReview"
 import ShoppingCart from "./components/shopCart"
 import PrivateRoute from "./components/Auth/PrivateRoute"
 
+
+
+import PaymentPass from "./components/PaymentPass"
+
 const ScrollToTop = () => {
     const location = useLocation()
     useEffect(() => {
@@ -57,7 +61,7 @@ function App() {
                         path="/categories/:idCategory"
                         element={<DetailCategory />}
                     />
-
+                    
                     <Route path="/dashboard" element={<PrivateRoute
                     element={Dashboard}  requiredRol="ADMIN" />}/> {/* requiredRol="ADMIN" */}
 
@@ -120,7 +124,11 @@ function App() {
 
                     <Route path="/user">
                         <Route path="shoppingCart" element={<ShoppingCart />} />
+                        <Route path="succesPay/:isAcepted" element={<PaymentPass />} />
                     </Route>
+                
+                     
+                  
                 </Routes>
             </BrowserRouter>
         </div>
