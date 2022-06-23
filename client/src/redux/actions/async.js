@@ -121,3 +121,20 @@ export const logup = (input) => async (dispatch) => {
         console.log("Error en la action logup. ", e)
     }
 }
+
+export const postForgotPassword = async (email) => {
+    try{
+        await axios.post(`${baseUrl}/auth/forgot-password`, {email})
+    }catch(e){
+        console.log("Error en el postForgotPassword. ",e.message)
+        return {error: e.message}
+    }
+}
+
+export const postNewPassword = async (payload) => {
+    try{
+        await axios.post(`${baseUrl}/auth/reset-password/${payload.id}/${payload.token}`,payload)
+    }catch(e){
+        console.log("Error en el postNewPassword. ", e)
+    }
+}

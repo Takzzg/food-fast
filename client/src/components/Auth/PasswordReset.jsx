@@ -4,24 +4,24 @@ import toast, { Toaster } from "react-hot-toast";
 import { Container, ResetDivBox } from './PasswordReset.styled';
 import { ErrorP } from "./Login.styled";
 import { IoFastFoodSharp } from "react-icons/io5"
-/* import { postPasswordReset } from "../../redux/actions/actions"; */
+import { postForgotPassword } from "../../redux/actions/async";
 
 function validate(input) {
   let errors = {};
 
-  if (!input.username.length) {
-    errors.username = "Username is required";
-  } else if (!/\S+@\S+\.\S+/.test(input.username)) {
-    errors.username = "Debe ser un e-mail";
+  if (!input.email.length) {
+    errors.email = "email is required";
+  } else if (!/\S+@\S+\.\S+/.test(input.email)) {
+    errors.email = "Debe ser un e-mail";
   }
   return errors;
 }
 
 export default function PasswordReset() {
   const [input, setInput] = useState({
-    username: "",
+    email: "",
   });
-  const [errors, setErrors] = useState({username: ""});
+  const [errors, setErrors] = useState({email: ""});
 
   /* const dispatch = useDispatch(); */
   const navigate = useNavigate();
@@ -45,12 +45,15 @@ export default function PasswordReset() {
       if (Object.keys(errors).length > 0) {
         toast.error("Debes completar correctamente el usuario.");
       }else{
-        /* dispatch(postPasswordReset(input)); */
-        toast.success("Link de verificación enviado!");
-        navigate('/newPassword');
+        const resp = await postForgotPassword(input)
+        if(!resp?.error){
+          toast.success("Link de verificación enviado a tu correo!");
+        }else{
+          toast.error("Este correo no está registrado.")
+        }
       }
     } catch (e) {
-      toast.error("Usuario incorrecto.");
+      toast.error(e.message);
     }
   };
  
@@ -61,22 +64,19 @@ export default function PasswordReset() {
           <IoFastFoodSharp/>
           <h1>Password Reset</h1>
           <form onSubmit={handleSubmit}>
-            <label>Username</label>
+            <label>E-mail</label>
             <input
               onChange={handleInputChange}
-              value={input.username}
+              value={input.email}
               placeholder="Email..."
               type="text"
-              name="username"
+              name="email"
             />
-            {errors.username && <ErrorP className="error">{errors.username}</ErrorP>}
+            {errors.email && <ErrorP className="error">{errors.email}</ErrorP>}
             <input type="submit" value="SEND"/>
             <Link to="/login"><input type="button" value=' Go Back '/></Link>
           </form>
         </ResetDivBox>
-{/*         <Link to="/">
-          <button className="back_signUp"> Go back </button> 
-        </Link> */}
     </Container>
   );
 }
