@@ -28,7 +28,7 @@ import { UserAuth } from "../../context/AuthContext"
 import style from "./style/google.module.scss"
 
 const NavBar = () => {
-    /* const user = null; //{result:{email: "gonza@gmail.com"}} */
+    
     const [userData, setUser] = useState(
         JSON.parse(localStorage.getItem("profile"))
     )
@@ -52,7 +52,7 @@ const NavBar = () => {
     const handleSignOut = async () => {
         try {
             await logOut()
-            navigate('/')
+            handleLogout()
         } catch (error) {
             console.log(error)
         }
@@ -93,40 +93,52 @@ const NavBar = () => {
                 <MainIconContainer theme={theme}>
                     
                         <IoFastFoodSharp />
-                   
-               
-
-                
-                    <Title  theme={theme}>Food Fast</Title>
+                        <Title  theme={theme}>Food Fast</Title>
                 </MainIconContainer>
-                
-               
-                 {    user?.displayName ? ( 
 
-                <ButtonsContainer theme={theme}>   
-
-                    <img className={style.auth_google_photo}  src={user?.photoURL} alt="picture" />
-                    <p>{user?.displayName}</p>
-                    <p className={style.auth_google_email}>{user?.email}</p>
-                    <button  className={style.auth_google_logout}  onClick={handleSignOut} >
-                    <AiOutlineLogout/>
-                        Logout
-                    </button>
-               </ButtonsContainer>  
-      ) : (  
-                <ButtonsContainer theme={theme}>
-                <LoginRegisterButton theme={theme}>
-                      <Link to='/login'>
-                        <FaUserAlt />
-                            Login
-                      </Link>
-                        
-                    </LoginRegisterButton>
-        
-                </ButtonsContainer>
-
-) }       
-              
+                {user?.displayName ? (
+                    <ButtonsContainer theme={theme}>
+                        <img
+                            className={style.auth_google_photo}
+                            src={user?.photoURL}
+                            alt="profile"
+                        />
+                        <span>{user?.displayName}</span>
+                        {/* <span className={style.auth_google_email}>{user?.email}</span> */}
+                        <LoginRegisterButton
+                            theme={theme}
+                            className={style.auth_google_logout}
+                            onClick={handleSignOut}
+                        >
+                            <AiOutlineLogout />
+                            Logout
+                        </LoginRegisterButton>
+                    </ButtonsContainer>
+                ) : (
+                    <ButtonsContainer theme={theme}>
+                        {userData ? (
+                            <ButtonsContainer theme={theme}>
+                                <span>{userData?.user?.name} </span>
+                                <LoginRegisterButton
+                                    onClick={handleLogout}
+                                    theme={theme}
+                                >
+                                    LogOut
+                                    <FiLogOut />
+                                </LoginRegisterButton>
+                            </ButtonsContainer>
+                        ) : (
+                            <LoginRegisterButton theme={theme}>
+                                <NavLink url="/login">
+                                    Login
+                                    <FiLogIn />
+                                </NavLink>
+                            </LoginRegisterButton>
+                        )}
+                    </ButtonsContainer>
+                )}
+                {/* <ListRoutes> */}
+                <hr />
 
                 <h3>CONSUMER</h3>
                 <NavLink url="/">Home</NavLink>

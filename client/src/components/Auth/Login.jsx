@@ -4,7 +4,7 @@ import { IoFastFoodSharp } from "react-icons/io5"
 import { Link, useNavigate } from "react-router-dom"
 import toast from "react-hot-toast"
 import { useDispatch, useSelector } from "react-redux"
-import { login } from "../../redux/actions/async"
+import { login, googleLogin } from "../../redux/actions/async"
 import { useEffect } from "react"
 import { UserAuth } from "../../context/AuthContext"
 
@@ -28,9 +28,8 @@ function validate(input) {
 
 export default function Login() {
     //const { logOut} = UserAuth();
-    const { googleSignIn } = UserAuth()
+    const { googleSignIn, user } = UserAuth()
     const Navigate = useNavigate()
-
     const [input, setInput] = useState({
         email: "",
         password: ""
@@ -51,11 +50,12 @@ export default function Login() {
     const handleGoogleLogin = async (e) => {
         e.preventDefault()
         try {
-            await googleSignIn().then(() => Navigate("/"))
+            await googleSignIn().then(() => {
+                Navigate("/")
+            })
         } catch (error) {
             console.log(error)
         }
-        // Navigate("/")
     }
 
     useEffect(() => {

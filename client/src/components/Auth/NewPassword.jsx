@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { useDispatch } from "react-redux";
 import {useLocation, useNavigate} from 'react-router-dom';
 import { ErrorP } from "./Login.styled";
 import { Container, ResetDivBox } from "./NewPassword.styled"
 import { IoFastFoodSharp } from "react-icons/io5"
+import { postNewPassword } from "../../redux/actions/async";
 
 function validate(input){
     let errors = {};
@@ -34,6 +34,8 @@ export default function NewPassword (){
 
     //y aquí obtiene el email de los query params.
     const email = query.get("email");
+    const id = query.get("id");
+    const token = query.get("token");
     
     const [input, setInput] = useState({
         email: email,
@@ -42,7 +44,6 @@ export default function NewPassword (){
     });
     const [errors, setErrors] = useState({});
     
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     function handleInputChange(e){
@@ -57,19 +58,20 @@ export default function NewPassword (){
         )
     }
 
-    function handleSubmit(e){
+    async function handleSubmit(e){
         e.preventDefault();
         if(Object.keys(errors).length > 0){
             return toast.error("Must complete all fields correctly.");
         }else{
-            /* las pass coinciden, y dispatcha un objeto con e-mail, y los passwords.
+            /* las pass coinciden, y dispatcha un objeto con e-mail, y los passwords (repassword).
             Luego, redirecciona a la página de LogIn. */
-
-            //postNewPassword en Redux
+            await postNewPassword({id, token, password: input.password, repassword: input.passwordConfirm })
 
             toast.success('Contraseña modificada con éxito! :D');
-/*             dispatch(postNewPassword(input));
-            navigate('/login'); */
+
+            setTimeout(()=>{
+                navigate('/login');
+            },2500)
         }
     }
 
@@ -79,7 +81,8 @@ export default function NewPassword (){
             <Toaster/>
             <ResetDivBox>
                 <IoFastFoodSharp/>
-                <h1>New Password</h1>
+                <h1>Reset to</h1>
+                <h3>{email}</h3>
                 <form onSubmit={handleSubmit}>
                 <label>New password:</label>
                 <input

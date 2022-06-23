@@ -132,9 +132,10 @@ export const LoginRegisterButton = styled.button`
         align-items: center;
         justify-content: center;
         gap: 0.25rem;
+        border-radius: 6px;
     }
 
-    width:25vw;
+    padding: 0;
     text-decoration: none;
     cursor: pointer;
     display: flex;
@@ -142,10 +143,9 @@ export const LoginRegisterButton = styled.button`
     align-items: center;
     font-size: 1rem;
     background-color: ${({ theme }) => theme.colors.bgPage};
-    border: 2px solid ${({ theme }) => theme.colors.main};
+    border: 3px solid ${({ theme }) => theme.colors.main};
     border-radius: 8px;
     color: ${({ theme }) => theme.colors.main};
-
     &:hover {
         background-color: ${({ theme }) => theme.colors.main};
         color: ${({ theme }) => theme.text.highContrast};

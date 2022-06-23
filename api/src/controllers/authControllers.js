@@ -3,8 +3,20 @@ import User from "../models/user.js"
 import { sendEmail } from "../../ultis/nodemailerReset.js"
 import Token from "../models/token.js"
 import { generateToken } from "../../ultis/token.js"
+import jwt from "jsonwebtoken"
 
 const router = express.Router()
+
+const apiBaseUrl = `${
+    process.env.NODE_ENV === "production"
+        ? "https://food-fast-api.herokuapp.com"
+        : "http://localhost:3001"
+}/api/v1`
+const cliBaseUrl = `${
+    process.env.NODE_ENV === "production"
+        ? "https://food-fast-client-8h45out5u-takzzg.vercel.app"
+        : "http://localhost:3000"
+}`
 
 export const login = async (req, res) => {
     const { email, password } = req.body
@@ -26,31 +38,36 @@ export const login = async (req, res) => {
       error: null,
       data: {token, expiresIn} } )*/
     } catch (error) {
-        console.log(error)
+        console.log("Error en login controller. ",error)
         return res.json({ error: "Error server" })
     }
 }
 
 export const forgotPass = async (req, res) => {
-    const { email } = req.body
+    try{
+        const { email } = req.body.email
+        
+        const user = await User.findOne({ email })
+        if (!user) {
+            return res.status(404).send({error: "user not registered"})
+        }
+        const secret = process.env.SECRETOPRIVATEKEY + user.password
+        const payload = {
+            email: user.email,
+            id: user._id
+        }
+        const token = jwt.sign(payload, secret, { expiresIn: "1h" })
 
-    const user = await User.findOne({ email })
-    if (!user) {
-        return res.json("user not registered")
+           const link=`${apiBaseUrl}/auth/reset-password/${user.id}/${token}`
+           console.log("\t♥******* ♦ LINK DEBAJO ♦ ********♥\n", link)
+        //sendEmail(email, user.name, user.id, token) //no está funcando el mailer :c
+    
+        res.json({
+            msg: "Password reset link has been sent to your email"
+        })
+    }catch(e){
+        console.log("error en el forgotPass. ", e)
     }
-    const secret = process.env.SECRETOPRIVATEKEY + user.password
-    const payload = {
-        email: user.email,
-        id: user.id
-    }
-    const token = jwt.sign(payload, secret, { expiresIn: "2h" })
-    //   const link=`http://localhost:3001/api/v1/auth/reset-password/${user.id}/${token}`
-    //   console.log(link)
-    sendEmail(email, user.name, user.id, token)
-
-    res.json({
-        msg: "Password reset link has been sent to your email"
-    })
 }
 
 export const resetGetPass = async (req, res) => {
@@ -58,17 +75,18 @@ export const resetGetPass = async (req, res) => {
 
     const userId = await User.findById(id)
     if (!id) {
-        res.json({
-            msg: "Invalid id"
+        res.status(404).send({
+            msg: "User id don't exists"
         })
         return
     }
     const secret = process.env.SECRETOPRIVATEKEY + userId.password
     try {
         const payload = jwt.verify(token, secret)
-        return res.json({ email: userId.email })
+        //si pasa a la línea del return, es porque el jwt.verify fue exitoso
+        return res.redirect(`${cliBaseUrl}/newPassword?email=${userId.email}&id=${id}&token=${token}`)
     } catch (e) {
-        console.log(e)
+        console.log("Error en el resetGetPass. ",e)
     }
 }
 
@@ -78,25 +96,25 @@ export const resetPostPass = async (req, res) => {
 
     const userId = await User.findById(id)
     if (!id) {
-        res.json({
+        res.status(404).json({
             msg: "Invalid id"
         })
         return
     }
-    //  const secret=process.env.SECRETOPRIVATEKEY + userId.password
+    const secret=process.env.SECRETOPRIVATEKEY + userId.password
     try {
-        //  const payload=jwt.verify(token,secret)
+        const payload=jwt.verify(token,secret)
 
         userId.password = password
 
-        const salt = bcryptjs.genSaltSync()
-        userId.password = bcryptjs.hashSync(password, salt)
+        /* const salt = bcryptjs.genSaltSync()
+        userId.password = bcryptjs.hashSync(password, salt) */ //probar si el modelo encripta automatico
         const saved = new User(userId)
 
         await saved.save()
         res.json(userId)
     } catch (e) {
-        console.log(e)
+        console.log("Error en resetPostPass. ",e)
     }
 }
 
@@ -111,7 +129,7 @@ export const confirmToken = async (req, res) => {
         ;(user.verifyAccount = true), await user.save()
         return res.send("account user verify")
     } catch (error) {
-        console.log(error)
+        console.log("Error en confirmToken. ",error)
         return res.json({ err: error })
     }
 }
