@@ -3,19 +3,21 @@ import Payement from '../models/payement.js'
 import {PAYPAL_API, PAYPAL_API_CLIENT, PAYPAL_API_SECRET } from '../../ultis/configPaypal.js'
 
 export const createOrden = async(req,res, next)=>{
- const value = req.body.value; 
+  const {value, description} = req.body;
   try {
     
     const order = {
-        "intent": "CAPTURE",
-        "purchase_units": [
-            {
-              "amount": {
-                "currency_code": "USD",
-                "value": value
-              }
-            }
-          ],
+      intent: "CAPTURE",
+      purchase_units: [
+        {
+          amount: {
+            currency_code: "USD",
+            value: value.toString() ,
+          },
+          description: description.toString() ,
+         
+        },
+      ],
           application_context: {
             brand_name: "FoodFast",
             landing_page: 'LOGIN',
@@ -49,9 +51,7 @@ export const createOrden = async(req,res, next)=>{
           },
         });
     
-    return res.json(response.data)
-    
-
+      return res.json(response.data.links[1].href)
  } catch (error) {
     return res.status(500).send("error server")
  }
@@ -81,10 +81,12 @@ export const captureOrder= async(req,res, next)=>{
       payment_Value : e.purchase_units[0].payments.captures[0].amount.value,
 
     }})
-  
-    await Payement.create(payemInfo)
-   
-    return res.json({ok: "gracias por su compra"})
+ 
+    const payemOrder = payemInfo[0] 
+      const order = new Payement({...payemOrder})
+      await order.send_emailPayament()
+      await order.save()   
+      return res.json(response.data)
 
     } catch (error) {
       console.log(error)
@@ -99,8 +101,8 @@ export const cancelOrder= async(req,res, next)=>{
 // https://www.sandbox.paypal.com/myaccount/summary
 
 //USUARIO DE PRUEBA
-//user: sb-5lagt17329460@personal.example.com 
-//password: )!yz(6C]
+//user: dsfsdklxjv@xogf.com
+//password:  >3M>m62%
 //USUARIO VENDEDOR DE PRUEBA
 // user  jhonprueba@business.example.com
 //password cL}b2V7@
