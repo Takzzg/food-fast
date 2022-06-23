@@ -8,8 +8,8 @@ import { BsFillMicMuteFill } from "react-icons/bs";
 import style from  "./style/mic.module.scss"
 
 
-const SpeedRecognition=window.SpeedRecognition || window.webkitSpeechRecognition
-const mic=new SpeedRecognition()
+const SpeechRecognition=window.SpeechRecognition || window.webkitSpeechRecognition
+const mic=new SpeechRecognition()
 
 mic.continuous = true;
 mic.interimResults = true;
@@ -64,7 +64,7 @@ export default function SearchBar() {
       const handleVoiceClick=()=>{
         dispatch(searchProduct(input))
         setListen(prevState=>!prevState)
-        
+       
         
       }
     const handleChange = (e) => {
