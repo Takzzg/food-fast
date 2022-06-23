@@ -31,6 +31,8 @@ export default function FilterBar() {
     const [categoriesfilter, setCategoriesfilter] = useState([])
     const [price, setPrice] = useState("1")
 
+    const user = useSelector((state)=> state.user.authData && state.user.authData.user)
+
     let getCategories = () => {
         if (categories.length !== 0) {
             return categories.map((el) => {
@@ -136,7 +138,9 @@ export default function FilterBar() {
                     <FaShoppingCart />
                 </Link>
 
-                <FaUserAlt />
+                <Link to={!user ? "/login":"/commonUser/profile"}>  
+                    <FaUserAlt />
+                </Link>
             </UserContainer>
         </GlobalContainer>
     )

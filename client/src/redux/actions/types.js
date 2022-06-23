@@ -36,4 +36,5 @@ export const REMOVE_ITEM_CAR = "remove_item_car";
 export const REMOVE_ALL_ITEM_CAR = "remove_all_item_car"
 export const CLEAN_CAR = "clean_car"
 export const FOCUS_ITEM_CAR = "focus_item_car"
+export const GET_ITEMS_CAR = "get_items_car"
 

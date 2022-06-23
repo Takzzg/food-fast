@@ -1,6 +1,7 @@
 import { AUTH_USER, AUTH_ERROR, LOG_OUT, GOOGLE_LOGIN } from "../actions/types"
 
-const user = (state = { authData: null }, action) => {
+const user = (state = { authData: JSON.parse(window.localStorage.getItem("profile")) || null }, action) => {
+    
     switch (action.type) {
         case AUTH_USER:
             localStorage.setItem("profile", JSON.stringify({ ...action?.payload }))
