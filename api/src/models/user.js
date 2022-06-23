@@ -74,9 +74,7 @@ userSchema.methods.send_emailWelcome = async function (cb){
             if(err){return console.log(err.message)};
             console.log("A verification email has been sent to ", email_destination)
         })
-    })
- 
-  
+    }) 
 }
 const User = mongoose.model("User",userSchema)
 export default User;
