@@ -40,9 +40,9 @@ export const fetchAllProducts = () =>
 export const fetchProductsByCat = (cat) =>
     fetch(`${baseUrl}/categories/category?name=${cat}`, FILTER_PRODUCTS)
 
-export const searchProduct = (name) =>
+export const searchProductAsync = (name) =>
     name
-        ? fetch(`${baseUrl}/products?name=${name}`, SEARCH_PRODUCT)
+        ? fetch(`${baseUrl}/products?name=${name}`, "SEARCH_PRODUCT_ASYNC")
         : clean_products()
 
 export const findProductById = (id) =>

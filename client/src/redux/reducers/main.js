@@ -151,9 +151,22 @@ const main = (state = initialState, action) => {
             break
 
         case SEARCH_PRODUCT:
-            if (action.payload.error) newState.products.filtered = []
-            else newState.products.filtered = sortByName(action.payload)
+            if(action.name === "") {
+                newState.products.filtered = newState.products.all; 
+            }
+            newState.products.filtered = newState.products.all.filter(product=>{
+                let completeName = product.name;
+                if(completeName.toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .includes(action.name)){
+                  return product;
+                }
+              });
             break
+        case "SEARCH_PRODUCT_ASYNC":
+              newState.products.filtered = action.payload;
+        break
 
         case DELETE_PRODUCT:
             newState.products.filtered = newState.products.filtered.filter(
