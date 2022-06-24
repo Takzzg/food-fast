@@ -32,7 +32,7 @@ const NavBar = () => {
         JSON.parse(localStorage.getItem("profile"))
     )
     const { user, logOut } = UserAuth()
-    const reduxUser = useSelector((state) => state.user.authData.user)
+    const reduxUser = useSelector((state) => state.user.authData?.user)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const location = useLocation()
@@ -142,25 +142,26 @@ const NavBar = () => {
                 <h3>CONSUMER</h3>
                 <NavLink url="/">Home</NavLink>
                 <NavLink url="/products">Products</NavLink>
-                <NavLink url="/">My orders</NavLink>
-                <NavLink url={`/user/${reduxUser._id}/reviews`}>
-                    My Reviews
-                </NavLink>
+                {userData?.user?.rol && (
+                    <>
+                        <NavLink url="/">My orders</NavLink>
+                        <NavLink url={`/user/${reduxUser._id}/reviews`}>
+                            My Reviews
+                        </NavLink>
+                    </>
+                )}
                 <NavLink url="/">Oferts</NavLink>
                 <NavLink url="/contact">Contact</NavLink>
 
                 <hr />
-                <h3>SELLER</h3>
-                {userData?.user?.rol === "ADMIN" ? (
-                    <NavLink url="/dashboard" onClick={handleSelectRoute}>
-                        DashBoard
-                    </NavLink>
-                ) : userData?.user?.rol === "USER" ? (
-                    <h5>Debes tener permisos de Administrador!</h5>
-                ) : (
-                    <h5>Logueate para más funciones! ♥</h5>
+                {userData?.user?.rol === "ADMIN" && (
+                    <>
+                        <h3>SELLER</h3>
+                        <NavLink url="/dashboard" onClick={handleSelectRoute}>
+                            DashBoard
+                        </NavLink>
+                    </>
                 )}
-                <NavLink url="/">Contact</NavLink>
 
                 <button onClick={() => dispatch(switchTheme())}>
                     Switch to {theme.name === "light" ? "dark" : "light"} theme
