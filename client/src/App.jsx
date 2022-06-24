@@ -31,6 +31,7 @@ import Profile from "./components/User/Profile"
 import PaymentPass from "./components/PaymentPass"
 import WishList from "./components/CommonUser/wishList"
 
+
 const ScrollToTop = () => {
     const location = useLocation()
     useEffect(() => {
@@ -133,7 +134,7 @@ function App() {
                         <Route path="succesPay/:isAcepted" element={<PaymentPass />} />
                     </Route>
                 
-                     
+                    
                   
                 </Routes>
             </BrowserRouter>
