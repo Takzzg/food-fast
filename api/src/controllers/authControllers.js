@@ -58,7 +58,6 @@ export const forgotPass = async (req, res) => {
         }
         const token = jwt.sign(payload, secret, { expiresIn: "1h" })
 
-
     const link=`${apiBaseUrl}/auth/reset-password/${user.id}/${token}`
 
     const emailOptions = {
