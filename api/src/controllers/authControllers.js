@@ -58,9 +58,9 @@ export const forgotPass = async (req, res) => {
         }
         const token = jwt.sign(payload, secret, { expiresIn: "1h" })
 
-           const link=`${apiBaseUrl}/auth/reset-password/${user.id}/${token}`
-           console.log("\t♥******* ♦ LINK DEBAJO ♦ ********♥\n", link)
-        //sendEmail(email, user.name, user.id, token) //no está funcando el mailer :c
+        //    const link=`${apiBaseUrl}/auth/reset-password/${user.id}/${token}`
+        //    console.log("\t♥******* ♦ LINK DEBAJO ♦ ********♥\n", link)
+        user.sendEmail(email, user.name, user.id, token) //no está funcando el mailer :c
     
         res.json({
             msg: "Password reset link has been sent to your email"
