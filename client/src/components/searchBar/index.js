@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 
 import { GlobalContainer, SearchIcon, SearchInput } from "./searchElements"
 import { useDispatch, useSelector } from "react-redux"
-import { searchProduct } from "../../redux/actions/async"
+import { searchProductSync } from "../../redux/actions/sync"
 import { BsFillMicFill } from "react-icons/bs"
 import { BsFillMicMuteFill } from "react-icons/bs"
 import style from "./style/mic.module.scss"
@@ -55,16 +55,16 @@ export default function SearchBar() {
     }, [listen])
 
     const handleVoiceClick = () => {
-        dispatch(searchProduct(input))
+        dispatch(searchProductSync(input))
         setListen((prevState) => !prevState)
     }
     const handleChange = (e) => {
         setInput(e.target.value)
-        dispatch(searchProduct(e.target.value))
+        dispatch(searchProductSync(e.target.value))
     }
 
     const handleSubmit = () => {
-        dispatch(searchProduct(input))
+        dispatch(searchProductSync(input))
     }
     return (
         <GlobalContainer>
