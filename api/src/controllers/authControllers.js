@@ -1,6 +1,6 @@
 import express from "express"
 import User from "../models/user.js"
-import { sendEmail } from "../../ultis/nodemailerReset.js"
+import emailer from "../../ultis/email.js"
 import Token from "../models/token.js"
 import { generateToken } from "../../ultis/token.js"
 import jwt from "jsonwebtoken"
@@ -58,10 +58,39 @@ export const forgotPass = async (req, res) => {
         }
         const token = jwt.sign(payload, secret, { expiresIn: "1h" })
 
-        //    const link=`${apiBaseUrl}/auth/reset-password/${user.id}/${token}`
-        //    console.log("\t♥******* ♦ LINK DEBAJO ♦ ********♥\n", link)
-        user.sendEmail(email, user.name, user.id, token) //no está funcando el mailer :c
-    
+    const link=`${apiBaseUrl}/auth/reset-password/${user.id}/${token}`
+
+    const emailOptions = {
+        from: 'FoodFAST',
+        to: email,
+        subject: "Password reset link",
+        html: `
+        <div style='background-color: #333;
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            flex-direction: column;
+            height: 250px; 
+            font-family: sans-serif'>
+
+            <h1 style='color: #ddd; 
+            padding-bottom: 3px;
+            border-bottom: 2px solid #eee'>Fast Food inc.</h1>
+
+            <h3 style='color: #ccc'>Dear ${user.name}, click below to reset your password! :D</h3>
+
+            <a style='text-decoration: none; 
+            color: lightgreen;
+            padding: 8px; 
+            border: 3px solid darkgreen;
+            border-radius: 7px' href=${link}> Click here </a>
+        </div>
+        ` } 
+    await emailer.sendMail(emailOptions);
+    console.log("Correo enviado!!!")
+
+    //console.log("\t♥******* ♦ LINK DEBAJO ♦ ********♥\n", link)
+
         res.json({
             msg: "Password reset link has been sent to your email"
         })

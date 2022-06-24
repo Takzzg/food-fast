@@ -109,9 +109,7 @@ export const login = (input) => async (dispatch) => {
 export const logup = (input) => async (dispatch) => {
     try {
         //log up the user...
-
         await axios.post(`${baseUrl}/user`, input)
-
         dispatch({ type: AUTH_USER, payload: { success: true } })
     } catch (e) {
         dispatch({ type: AUTH_ERROR, payload: { error: e } })
@@ -124,7 +122,7 @@ export const postForgotPassword = async (email) => {
         await axios.post(`${baseUrl}/auth/forgot-password`, { email })
     } catch (e) {
         console.log("Error en el postForgotPassword. ", e.message)
-        return { error: e.message }
+        throw new Error("Inexistent email.")
     }
 }
 

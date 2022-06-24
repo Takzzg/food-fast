@@ -45,12 +45,13 @@ export default function PasswordReset() {
       if (Object.keys(errors).length > 0) {
         toast.error("Debes completar correctamente el usuario.");
       }else{
-        const resp = await postForgotPassword(input)
-        if(!resp?.error){
-          toast.success("Link de verificación enviado a tu correo!");
-        }else{
-          toast.error("Este correo no está registrado.")
-        }
+        toast.promise(
+          postForgotPassword(input),{
+            loading: 'un momento por favor...',
+            success: 'Link de verificación enviado a tu correo!',
+            error: 'Este correo no está registrado.'
+          }
+        )
       }
     } catch (e) {
       toast.error(e.message);
