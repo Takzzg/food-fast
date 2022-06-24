@@ -66,6 +66,11 @@ export const StyledReviewCard = styled.div`
             }
         }
 
+        .title,
+        .comment {
+            word-break: break-all;
+        }
+
         .info {
             background-color: ${({ theme }) => theme.colors.main};
             color: ${({ theme }) => theme.text.dark};

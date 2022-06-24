@@ -33,6 +33,7 @@ import {
     remove_item_car
 } from "../../../redux/actions/sync"
 import ReviewCard from "../../Reviews/ReviewCard"
+import { BsStar, BsStarFill } from "react-icons/bs"
 
 const initialState = {
     title: "",
@@ -108,6 +109,10 @@ const DetailProduct = () => {
 
     const handleFormChange = (e) => {
         setReviewForm({ ...reviewForm, [e.target.name]: e.target.value })
+    }
+
+    const setFormScore = (v) => {
+        setReviewForm({ ...reviewForm, score: v })
     }
 
     if (!product || !product.name) return <h1>Loading...</h1>
@@ -198,14 +203,18 @@ const DetailProduct = () => {
                     <label htmlFor="score">Puntaje</label>
                     <div className="radioCont">
                         {[1, 2, 3, 4, 5].map((v) => (
-                            <input
-                                key={v}
-                                type="radio"
-                                name="score"
-                                value={v}
+                            <div
+                                className="scoreBtn"
                                 id={v}
-                                onClick={handleFormChange}
-                            />
+                                key={v}
+                                onClick={() => setFormScore(v)}
+                            >
+                                {reviewForm.score >= v ? (
+                                    <BsStarFill />
+                                ) : (
+                                    <BsStar />
+                                )}
+                            </div>
                         ))}
                     </div>
                     <input className="submit" type="submit" value="Enviar" />

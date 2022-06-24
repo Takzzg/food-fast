@@ -2,7 +2,6 @@ import styled from "styled-components"
 
 export const GlobalContainer = styled.div`
     height: 100vh;
-    width: 100%;
     display: flex;
     gap: 1rem;
     flex-direction: column;
