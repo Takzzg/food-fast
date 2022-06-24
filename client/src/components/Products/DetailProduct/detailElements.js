@@ -11,6 +11,34 @@ export const GlobalContainer = styled.div`
 export const ProductHeader = styled.div`
     display: flex;
     gap: 2rem;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+
+    .score {
+        font-size: 1.5rem;
+    }
+`
+
+export const ReviewsContainer = styled.div`
+    display: grid;
+    grid-template-areas:
+        "title title"
+        "form reviews";
+    gap: 1rem;
+
+    .title {
+        grid-area: title;
+    }
+
+    .form {
+        grid-area: form;
+    }
+
+    .reviews {
+        grid-area: reviews;
+        overflow: auto;
+    }
 `
 
 export const TitleContainer = styled.section`

@@ -23,31 +23,17 @@ const UserReviews = () => {
         deleteReview(id).then(() => fetchReviews())
     }
 
-    const ReviewOverlay = ({ review }) => {
-        if (user._id === idUser)
-            return (
-                <div className="overlay">
-                    <button
-                        onClick={() => handleDeleteReview(review._id)}
-                        className="delete"
-                    >
-                        Delete
-                    </button>
-                    <button className="edit">Edit</button>
-                    <ReviewCard key={review._id} review={review} />
-                </div>
-            )
-
-        return <ReviewCard key={review._id} review={review} />
-    }
-
     return (
         <StyledUserReviews>
             <h1>user: {user.name}</h1>
             <div className="reviews">
                 {reviews.length &&
                     reviews.map((r) => (
-                        <ReviewOverlay key={r._id} review={r} />
+                        <ReviewCard
+                            key={r._id}
+                            review={r}
+                            handleDelete={handleDeleteReview}
+                        />
                     ))}
             </div>
         </StyledUserReviews>

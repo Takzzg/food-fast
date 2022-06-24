@@ -12,7 +12,8 @@ import {
     BuyButton,
     ButtonsContainer,
     SecondMainContainer,
-    ProductHeader
+    ProductHeader,
+    ReviewsContainer
 } from "./detailElements"
 
 import { AiOutlineShoppingCart } from "react-icons/ai"
@@ -21,6 +22,7 @@ import { useParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import {
     baseUrl,
+    deleteReview,
     findProductById,
     getProductReviews,
     postReview
@@ -86,6 +88,10 @@ const DetailProduct = () => {
 
     const fetchReviews = () => {
         getProductReviews(idProduct).then((reviews) => setReviews(reviews))
+    }
+
+    const handleDeleteReview = (id) => {
+        deleteReview(id).then(() => fetchReviews())
     }
 
     const handleSubmit = (e) => {
@@ -168,45 +174,49 @@ const DetailProduct = () => {
                     </ButtonsContainer>
                 </SecondMainContainer>
             </MainContainer>
-            <MainContainer>
-                <div>
-                    <span className="title">Reviews</span>
-                    <form onSubmit={handleSubmit}>
-                        <label htmlFor="title">Titulo</label>
+            <ReviewsContainer>
+                <span className="title">Reviews</span>
+                <form onSubmit={handleSubmit}>
+                    <label htmlFor="title">Titulo</label>
+                    <input
+                        type="text"
+                        name="title"
+                        id="title"
+                        value={reviewForm.title}
+                        onChange={handleFormChange}
+                    />
+                    <label htmlFor="comment">Comentario</label>
+                    <input
+                        type="text"
+                        name="comment"
+                        id="comment"
+                        value={reviewForm.comment}
+                        onChange={handleFormChange}
+                    />
+                    <label htmlFor="score">Puntaje</label>
+                    {[1, 2, 3, 4, 5].map((v) => (
                         <input
-                            type="text"
-                            name="title"
-                            id="title"
-                            value={reviewForm.title}
-                            onChange={handleFormChange}
+                            key={v}
+                            type="radio"
+                            name="score"
+                            value={v}
+                            id={v}
+                            onClick={handleFormChange}
                         />
-                        <label htmlFor="comment">Comentario</label>
-                        <input
-                            type="text"
-                            name="comment"
-                            id="comment"
-                            value={reviewForm.comment}
-                            onChange={handleFormChange}
-                        />
-                        <label htmlFor="score">Puntaje</label>
-                        {[1, 2, 3, 4, 5].map((v) => (
-                            <input
-                                key={v}
-                                type="radio"
-                                name="score"
-                                value={v}
-                                id={v}
-                                onClick={handleFormChange}
-                            />
-                        ))}
-                        <input type="submit" value="Enviar" />
-                    </form>
+                    ))}
+                    <input type="submit" value="Enviar" />
+                </form>
+                <div className="reviews">
                     {reviews.length &&
                         reviews.map((r) => (
-                            <ReviewCard key={r._id} review={r} />
+                            <ReviewCard
+                                key={r._id}
+                                review={r}
+                                handleDelete={handleDeleteReview}
+                            />
                         ))}
                 </div>
-            </MainContainer>
+            </ReviewsContainer>
         </GlobalContainer>
     )
 }
