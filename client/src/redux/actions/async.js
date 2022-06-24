@@ -127,7 +127,7 @@ export const postForgotPassword = async (email) => {
         await axios.post(`${baseUrl}/auth/forgot-password`, {email})
     }catch(e){
         console.log("Error en el postForgotPassword. ",e.message)
-        return {error: e.message}
+        throw new Error('Inexistent email.')
     }
 }
 
