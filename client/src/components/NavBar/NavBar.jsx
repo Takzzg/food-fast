@@ -28,11 +28,11 @@ import { UserAuth } from "../../context/AuthContext"
 import style from "./style/google.module.scss"
 
 const NavBar = () => {
-    
     const [userData, setUser] = useState(
         JSON.parse(localStorage.getItem("profile"))
     )
     const { user, logOut } = UserAuth()
+    const reduxUser = useSelector((state) => state.user.authData.user)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const location = useLocation()
@@ -91,9 +91,8 @@ const NavBar = () => {
                 </CloseButton>
 
                 <MainIconContainer theme={theme}>
-                    
-                        <IoFastFoodSharp />
-                        <Title  theme={theme}>Food Fast</Title>
+                    <IoFastFoodSharp />
+                    <Title theme={theme}>Food Fast</Title>
                 </MainIconContainer>
 
                 {user?.displayName ? (
@@ -144,6 +143,9 @@ const NavBar = () => {
                 <NavLink url="/">Home</NavLink>
                 <NavLink url="/products">Products</NavLink>
                 <NavLink url="/">My orders</NavLink>
+                <NavLink url={`/user/${reduxUser._id}/reviews`}>
+                    My Reviews
+                </NavLink>
                 <NavLink url="/">Oferts</NavLink>
                 <NavLink url="/contact">Contact</NavLink>
 

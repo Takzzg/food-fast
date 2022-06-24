@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import { getProductReviews, postReview } from "../../redux/actions/async"
 import ReviewCard from "./ReviewCard"
@@ -13,24 +13,17 @@ const initialState = {
 const Reviews = () => {
     const { idProduct } = useParams()
 
-    const dispatch = useDispatch()
     const [reviews, setReviews] = useState([])
     const [reviewForm, setReviewForm] = useState(initialState)
     const userId = useSelector((state) => state.user.authData.user._id)
 
     const fetchReviews = () => {
-        getProductReviews(idProduct).then((reviews) => {
-            setReviews(reviews)
-            console.log(reviews)
-        })
+        getProductReviews(idProduct).then((reviews) => setReviews(reviews))
     }
 
     useEffect(() => {
-        getProductReviews(idProduct).then((reviews) => {
-            setReviews(reviews)
-            console.log(reviews)
-        })
-    }, [dispatch, idProduct])
+        getProductReviews(idProduct).then((reviews) => setReviews(reviews))
+    }, [idProduct])
 
     const handleSubmit = (e) => {
         e.preventDefault()

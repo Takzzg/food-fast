@@ -24,7 +24,7 @@ import {
     clean_select_product,
     remove_item_car
 } from "../../../redux/actions/sync"
-import Reviews from "../../Reviews/Reviews"
+import Reviews from "../../Reviews/ProductReviews"
 
 const DetailProduct = () => {
     const { idProduct } = useParams()

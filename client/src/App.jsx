@@ -20,7 +20,7 @@ import ProductForm from "./components/Products/ProductForm/ProductForm"
 import CategoryForm from "./components/Categories/CategoryForm"
 import Orders from "./components/Orders/Orders"
 import DetailOrder from "./components/Orders/DetailOrder/DetailOrder"
-import Reviews from "./components/Reviews/Reviews"
+import Reviews from "./components/Reviews/ProductReviews"
 import ShoppingCart from "./components/shopCart"
 import PrivateRoute from "./components/Auth/PrivateRoute"
 import ProfileUser from "./components/profile"
@@ -28,6 +28,7 @@ import ProfileUser from "./components/profile"
 import Profile from "./components/User/Profile"
 
 import PaymentPass from "./components/PaymentPass"
+import UserReviews from "./components/Reviews/UserReviews"
 
 const ScrollToTop = () => {
     const location = useLocation()
@@ -145,7 +146,7 @@ function App() {
                         </Route>
 
                         <Route path="reviews">
-                            <Route index element={<Reviews />} />
+                            <Route index element={<UserReviews />} />
                             {/* <Route
                                 path=":idReview"
                                 element={<DetailReview />}
