@@ -86,4 +86,16 @@ export const FooterContainer = styled.div`
             color: ${({ theme }) => theme.colors.main};
         }
     }
+
+    #Favorite {
+        fill: yellow;
+        color: black; 
+        background-color: black;
+        cursor: pointer;
+    }
+
+    #noFavorite {
+        fill: white;
+        cursor: pointer;
+    }
 `

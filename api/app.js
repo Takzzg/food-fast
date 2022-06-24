@@ -14,6 +14,7 @@ import userRoute  from './src/routes/userRoute.js'
 import mealCombo from './src/routes/mealComboRoute.js'
 import authRoute from './src/routes/authRouter.js'
 import paypal from './src/routes/paypalRoute.js'
+import Favorites from './src/routes/favorites.js'
 
 import fileUpload from 'express-fileupload'
 import path, {dirname} from "path"
@@ -63,6 +64,10 @@ app.use('/api/v1/auth',authRoute)
 
 //http://localhost:3001/api/v1/paypal
 app.use('/api/v1/paypal', paypal)
+
+//http://localhost:3001/api/v1/favorites
+app.use('/api/v1/favorites',Favorites)
+
 
 
 

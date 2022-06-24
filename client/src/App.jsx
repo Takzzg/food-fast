@@ -24,11 +24,12 @@ import Reviews from "./components/Reviews/Reviews"
 import DetailReview from "./components/Reviews/DetailReview/DetailReview"
 import ShoppingCart from "./components/shopCart"
 import PrivateRoute from "./components/Auth/PrivateRoute"
-import ProfileUser from "./components/profile"
+import ProfileUser from "./components/CommonUser/profile/index"
 
 import Profile from "./components/User/Profile"
 
 import PaymentPass from "./components/PaymentPass"
+import WishList from "./components/CommonUser/wishList"
 
 const ScrollToTop = () => {
     const location = useLocation()
@@ -59,6 +60,7 @@ function App() {
 
                     <Route path="/commonUser">
                         <Route path="profile" element={<ProfileUser />}/>
+                        <Route path="wishList" element={<WishList />} />
                     </Route>
 
                     <Route
