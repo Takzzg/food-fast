@@ -35,3 +35,24 @@ export const getUser = async(req,res) =>{
     console.log(e)
   }
 }
+
+export const getUserById = async (req, res)=> {
+  const {id} = req.params; 
+  try{
+    const user = await User.findById(id); 
+    res.json(user)
+  }catch(e){
+    res.status(400).send("Error hijo")
+  }
+}
+
+export const updateUser = async (req,res)=> {
+  const { id } = req.params; 
+  const {name, address} = req.body; 
+  try {
+    const user = await User.findByIdAndUpdate(id, {name, address})
+    res.json(user); 
+  }catch(e){
+    res.status(404).send("Error hijo")
+  }
+}

@@ -1,5 +1,5 @@
 import express from 'express';
-import  {registerUser, getUser} from '../controllers/userControllers.js'
+import  {registerUser, getUser, updateUser, getUserById} from '../controllers/userControllers.js'
 import {registerValidation} from '../../middlewares/bodyValidator.js'
 
 const router = express.Router()
@@ -12,6 +12,9 @@ router.post('/',registerValidation, registerUser)
 router.get('/', getUser)
 
 
-
+//get http://localhost:3001/api/v1/user/:id
+router.get('/:id', getUserById)
+//patch http://localhost:3001/api/v1/user/:id
+router.patch('/:id', updateUser)
 
 export default router;

@@ -18,17 +18,18 @@ import DetailCategory from "./components/Categories/DetailCategory/DetailCategot
 import Dashboard from "./components/User/Dashboard/Dashboard"
 import ProductForm from "./components/Products/ProductForm/ProductForm"
 import CategoryForm from "./components/Categories/CategoryForm"
-import Profile from "./components/User/Profile"
 import Orders from "./components/Orders/Orders"
 import DetailOrder from "./components/Orders/DetailOrder/DetailOrder"
 import Reviews from "./components/Reviews/Reviews"
 import DetailReview from "./components/Reviews/DetailReview/DetailReview"
 import ShoppingCart from "./components/shopCart"
 import PrivateRoute from "./components/Auth/PrivateRoute"
+import ProfileUser from "./components/profile"
 
-
+import Profile from "./components/User/Profile"
 
 import PaymentPass from "./components/PaymentPass"
+
 
 const ScrollToTop = () => {
     const location = useLocation()
@@ -55,6 +56,10 @@ function App() {
                     <Route path="/products">
                         <Route index element={<DisplayProducts />} />
                         <Route path=":idProduct" element={<DetailProduct />} />
+                    </Route>
+
+                    <Route path="/commonUser">
+                        <Route path="profile" element={<ProfileUser />}/>
                     </Route>
 
                     <Route
@@ -126,7 +131,7 @@ function App() {
                         <Route path="succesPay/:isAcepted" element={<PaymentPass />} />
                     </Route>
                 
-                     
+                    
                   
                 </Routes>
             </BrowserRouter>

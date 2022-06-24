@@ -7,8 +7,8 @@ import { BsFillMicFill } from "react-icons/bs";
 import { BsFillMicMuteFill } from "react-icons/bs";
 import style from "./style/mic.module.scss"
 
-const SpeedRecognition=window.SpeedRecognition || window.webkitSpeechRecognition
-const mic=new SpeedRecognition()
+const SpeechRecognition=window.SpeechRecognition || window.webkitSpeechRecognition
+const mic=new SpeechRecognition()
 
 mic.continuous = true;
 mic.interimResults = true;
@@ -61,13 +61,13 @@ const CategoryBar = () => {
       
       const handleVoiceClick=()=>{
         
-        
+        dispatch(searchCategory(input))
         setListen(prevState=>!prevState)
-        dispatch(searchCategory(input))
+       
       }
-    const search = () => {
-        dispatch(searchCategory(input))
-    }
+    // const search = () => {
+    //     dispatch(searchCategory(input))
+    // }
 
     const handleChange = (e) => {
       

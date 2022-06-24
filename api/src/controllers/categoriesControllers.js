@@ -7,8 +7,12 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export const categories = async (req, res) => {
     try {
-        const user = await Categories.find()
-        return res.json(user)
+        const cate = await Categories.find()
+        const newCategories = cate.map((el) => {
+            el.img = {}
+            return el
+        })
+        return res.json(newCategories)
     } catch (error) {
         console.log(error)
         return res.json({ error: "Error de servidor" })

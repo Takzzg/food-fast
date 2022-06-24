@@ -2,7 +2,8 @@ import {
     ADD_ITEM_CAR,
     REMOVE_ITEM_CAR,
     REMOVE_ALL_ITEM_CAR,
-    CLEAN_CAR
+    CLEAN_CAR,
+    GET_ITEMS_CAR
 } from "../actions/types"
 
 const initialState = {
@@ -48,7 +49,6 @@ const shopCart = (state = initialState, action) => {
                 (el) => el._id !== action.payload._id
             )
             break
-
         case CLEAN_CAR:
             newState.shopCart = []
             break

@@ -31,6 +31,7 @@ const userSchema=new mongoose.Schema({
     },
    address:{
        type:String,   
+       default: "EE UU"
    },
    passwordReset: String,
    passwordResetTokenExpire: Date,
