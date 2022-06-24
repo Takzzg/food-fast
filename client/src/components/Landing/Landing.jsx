@@ -30,7 +30,6 @@ const Landing = () => {
     useEffect(() => {
         if(user?.accessToken){
 
-
             dispatch(googleLogin({
                 token: {
                   token: user.accessToken

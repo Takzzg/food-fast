@@ -19,7 +19,7 @@ const userSchema=new mongoose.Schema({
         type:String,
         required:true
     },
-    img:{
+    photo:{
         type:String
     },
     rol:{
@@ -28,6 +28,11 @@ const userSchema=new mongoose.Schema({
         default:"USER",
         enum:["ADMIN", "USER", "GUEST", "OWNER"]
 
+    },
+    isGoogleAccount:{
+        type: Boolean,
+        required: true,
+        default: false
     },
    address:{
        type:String,   

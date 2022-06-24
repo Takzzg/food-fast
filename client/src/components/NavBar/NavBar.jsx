@@ -100,7 +100,7 @@ const NavBar = () => {
                     <ButtonsContainer theme={theme}>
                         <img
                             className={style.auth_google_photo}
-                            src={user?.photoURL}
+                            src={ userData?.user.photo || user?.photoURL}
                             alt="profile"
                         />
                         <span>{user?.displayName}</span>

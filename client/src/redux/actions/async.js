@@ -112,7 +112,6 @@ export const login = (input) => async (dispatch) => {
 export const logup = (input) => async (dispatch) => {
     try {
         //log up the user...
-        
         await axios.post(`${baseUrl}/user`, input)
         
         dispatch({ type: AUTH_USER, payload: {success: true} })
