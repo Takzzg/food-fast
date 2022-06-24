@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { searchProductSync } from "../../redux/actions/sync";
 import { searchProductAsync } from "../../redux/actions/async";
 import Autosuggest from "react-autosuggest";
+import { BsFillMicFill } from "react-icons/bs";
+import { BsFillMicMuteFill } from "react-icons/bs";
+import style from "./style/mic.module.scss"
 import "./autoStyles.scss"
 import axios from "axios";
 
@@ -17,8 +20,49 @@ export default function SearchBar() {
   const [input, setInput] = useState("");
   const dispatch = useDispatch();
   const theme = useSelector((state) => state.theme.selectedTheme);
+ const [listen,setListen]=useState(false)
 
+  useEffect(()=>{
+    handleListen();
+  },[listen])
 
+  const handleVoiceClick=()=>{
+    dispatch(searchProductSync(input))
+    setListen(prevState=>!prevState)
+   
+    
+  }
+  const handleListen=()=>{
+    if(listen){
+      mic.start();
+
+      mic.onend=()=>{
+        console.log("continue...");
+        mic.start();
+      }
+      
+
+    }else{
+      mic.stop();
+      mic.onend=()=>{
+        console.log("micrófono en stop");
+
+      }
+      setInput("")
+    }
+    mic.onstart=()=>{
+      console.log("Micrófono encendido...");
+
+    }
+    mic.onresult=(event)=>{
+        const transcript=Array.from(event.results)
+        .map((result)=>result[0])
+       .map((result)=>result.transcript).join("");
+       console.log(transcript)
+       setInput(transcript)
+       mic.onerror=(event)=>console.log(event.error)
+   }
+ }
   // ==================================
   const productsF = useSelector(state=> state.main.products.filtered);
   const allProducts = useSelector(state=> state.main.products.all)
@@ -52,34 +96,18 @@ export default function SearchBar() {
           return product;
         }
 
-        mic.onresult=(event)=>{
-            const transcript=Array.from(event.results)
-            .map((result)=>result[0])
-           .map((result)=>result.transcript).join("");
-           console.log(transcript)
-           setInput(transcript)
-           mic.onerror=(event)=>console.log(event.error)
-       }
+        
      }
 
      
 
-     React.useEffect(()=>{
-        handleListen();
-      },[listen])
-
-      const handleVoiceClick=()=>{
-        dispatch(searchProduct(input))
-        setListen(prevState=>!prevState)
-       
-        
-      }
-    const handleChange = (e) => {
-        setInput(e.target.value)
-        dispatch(searchProduct(e.target.value))
+    // const handleChange = (e) => {
+    //     setInput(e.target.value)
+    //     dispatch(searchProduct(e.target.value))
         
 
-      });
+    //   }
+      );
       return inputLength===0 ? [] : filteredProducts;
 
     }
@@ -99,7 +127,7 @@ export default function SearchBar() {
     dispatch(searchProductSync(""))
   }
   const inputProps = {
-    placeholder: "Product name",
+    placeholder: listen?"Listening...":"Product name",
     value: input,
     onChange: handleChange,
   };
@@ -109,6 +137,9 @@ export default function SearchBar() {
   }, [])
   return (
     <GlobalContainer>
+      <button className={style.mic} onClick={handleVoiceClick}>
+            {listen?<BsFillMicFill/>:<BsFillMicMuteFill/>}
+              </button>
       <Autosuggest
         suggestions={products}
         onSuggestionsFetchRequested={onSuggestionsFetchRequested}
@@ -118,7 +149,9 @@ export default function SearchBar() {
         inputProps={inputProps}
         onSuggestionSelected={()=> setInput("")}
       />
+      
       <button onClick={handleClean}>Clean</button>
+      
       <SearchIcon theme={theme} onClick={handleSelect}>
         <AiOutlineSearch />
       </SearchIcon>
