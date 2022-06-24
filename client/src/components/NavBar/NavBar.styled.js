@@ -118,6 +118,12 @@ export const ButtonsContainer = styled.div`
     img {
         width: 50px;
     }
+    span{
+        margin: 10px;
+    }
+    svg{
+        padding: 5px;
+    }
 `
 
 export const Divider = styled.div`
@@ -128,6 +134,7 @@ export const Divider = styled.div`
 
 export const LoginRegisterButton = styled.button`
     a {
+        margin: 0; padding: 0
         display: flex;
         align-items: center;
         justify-content: center;

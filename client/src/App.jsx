@@ -67,8 +67,7 @@ function App() {
                         element={<DetailCategory />}
                     />
                     
-                    <Route path="/dashboard" element={<PrivateRoute
-                    element={Dashboard}  requiredRol="ADMIN" />}/> {/* requiredRol="ADMIN" */}
+                    
 
                     <Route path="/dashboard">
                         {/* <Route index element={<Dashboard />} /> */}

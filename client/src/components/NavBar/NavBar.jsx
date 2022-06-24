@@ -100,7 +100,7 @@ const NavBar = () => {
                     <ButtonsContainer theme={theme}>
                         <img
                             className={style.auth_google_photo}
-                            src={user?.photoURL}
+                            src={ userData?.user.photo || user?.photoURL}
                             alt="profile"
                         />
                         <span>{user?.displayName}</span>
@@ -123,7 +123,7 @@ const NavBar = () => {
                                     onClick={handleLogout}
                                     theme={theme}
                                 >
-                                    LogOut
+                                    <span>LogOut</span>
                                     <FiLogOut />
                                 </LoginRegisterButton>
                             </ButtonsContainer>
@@ -158,7 +158,6 @@ const NavBar = () => {
                 ) : (
                     <h5>Logueate para más funciones! ♥</h5>
                 )}
-                <NavLink url="/">Contact</NavLink>
 
                 <button onClick={() => dispatch(switchTheme())}>
                     Switch to {theme.name === "light" ? "dark" : "light"} theme
