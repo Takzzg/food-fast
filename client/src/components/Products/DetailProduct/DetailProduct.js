@@ -43,6 +43,7 @@ const initialState = {
 const DetailProduct = () => {
     const { idProduct } = useParams()
     const dispatch = useDispatch()
+    const theme = useSelector((state) => state.theme.selectedTheme)
     const product = useSelector((state) => state.main.products.selected)
     const [reviews, setReviews] = useState([])
     const [reviewForm, setReviewForm] = useState(initialState)
@@ -112,8 +113,8 @@ const DetailProduct = () => {
     if (!product || !product.name) return <h1>Loading...</h1>
 
     return (
-        <GlobalContainer>
-            <ProductHeader>
+        <GlobalContainer theme={theme}>
+            <ProductHeader theme={theme}>
                 <TitleContainer>{product.name}</TitleContainer>
                 <div className="score">{scoreAvg}/5</div>
             </ProductHeader>
@@ -126,7 +127,7 @@ const DetailProduct = () => {
                 </ImageContainer>
 
                 <SecondMainContainer>
-                    <DescriptionContainer>
+                    <DescriptionContainer theme={theme}>
                         <ListItem>
                             <Etiqueta>DESCRIPTION:</Etiqueta>
                             <Data>{product.description}</Data>
@@ -155,28 +156,29 @@ const DetailProduct = () => {
                         </ListItem>
                     </DescriptionContainer>
 
-                    <ButtonsContainer>
+                    <ButtonsContainer theme={theme}>
                         {!isAdded ? (
-                            <CarShop onClick={addItem}>
+                            <CarShop theme={theme} onClick={addItem}>
                                 <AiOutlineShoppingCart id="car" />
                             </CarShop>
                         ) : (
-                            <CarShop onClick={removeItem}>
+                            <CarShop theme={theme} onClick={removeItem}>
                                 <AiOutlineShoppingCart
                                     id="car"
                                     style={{ color: "red" }}
                                 />
                             </CarShop>
                         )}
-                        <BuyButton>
+                        <BuyButton theme={theme}>
                             <AiOutlineCreditCard />
                         </BuyButton>
                     </ButtonsContainer>
                 </SecondMainContainer>
             </MainContainer>
-            <ReviewsContainer>
-                <span className="title">Reviews</span>
+            <ReviewsContainer theme={theme}>
+                <span className="reviewsTitle">Reviews</span>
                 <form onSubmit={handleSubmit}>
+                    <span className="formTitle">Deja tu comentario</span>
                     <label htmlFor="title">Titulo</label>
                     <input
                         type="text"
@@ -186,25 +188,27 @@ const DetailProduct = () => {
                         onChange={handleFormChange}
                     />
                     <label htmlFor="comment">Comentario</label>
-                    <input
-                        type="text"
+                    <textarea
                         name="comment"
                         id="comment"
                         value={reviewForm.comment}
                         onChange={handleFormChange}
                     />
+
                     <label htmlFor="score">Puntaje</label>
-                    {[1, 2, 3, 4, 5].map((v) => (
-                        <input
-                            key={v}
-                            type="radio"
-                            name="score"
-                            value={v}
-                            id={v}
-                            onClick={handleFormChange}
-                        />
-                    ))}
-                    <input type="submit" value="Enviar" />
+                    <div className="radioCont">
+                        {[1, 2, 3, 4, 5].map((v) => (
+                            <input
+                                key={v}
+                                type="radio"
+                                name="score"
+                                value={v}
+                                id={v}
+                                onClick={handleFormChange}
+                            />
+                        ))}
+                    </div>
+                    <input className="submit" type="submit" value="Enviar" />
                 </form>
                 <div className="reviews">
                     {reviews.length &&

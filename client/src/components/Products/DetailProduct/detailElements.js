@@ -4,8 +4,9 @@ export const GlobalContainer = styled.div`
     height: 100vh;
     width: 100%;
     display: flex;
+    gap: 1rem;
     flex-direction: column;
-    background-color: #ccc;
+    background-color: ${({ theme }) => theme.colors.bgPage};
 `
 
 export const ProductHeader = styled.div`
@@ -14,6 +15,8 @@ export const ProductHeader = styled.div`
     align-items: center;
     justify-content: center;
     padding: 1rem;
+    color: ${({ theme }) => theme.text.highContrast};
+    background-color: ${({ theme }) => theme.colors.main};
 
     .score {
         font-size: 1.5rem;
@@ -22,22 +25,57 @@ export const ProductHeader = styled.div`
 
 export const ReviewsContainer = styled.div`
     display: grid;
+    grid-template-columns: auto 1fr;
     grid-template-areas:
         "title title"
         "form reviews";
+    align-items: flex-start;
     gap: 1rem;
+    padding: 2rem;
 
-    .title {
+    .reviewsTitle {
         grid-area: title;
+        text-align: center;
+        font-size: 2rem;
+        color: ${({ theme }) => theme.text.highContrast};
     }
 
-    .form {
+    form {
         grid-area: form;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto;
+        align-items: center;
+        justify-content: center;
+        position: sticky;
+        top: 6rem;
+        color: ${({ theme }) => theme.text.highContrast};
+        background-color: ${({ theme }) => theme.colors.main};
+        padding: 1rem;
+        gap: 1rem;
+
+        .formTitle {
+            grid-column: span 2;
+            text-align: center;
+            font-size: 1.5rem;
+        }
     }
 
     .reviews {
         grid-area: reviews;
-        overflow: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .radioCont {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+
+    .submit {
+        grid-column: span 2;
     }
 `
 
@@ -91,7 +129,8 @@ export const ImageContainer = styled.section`
 `
 
 export const DescriptionContainer = styled.section`
-    background-color: #fff;
+    background-color: ${({ theme }) => theme.colors.background};
+    color: ${({ theme }) => theme.text.highContrast};
     height: 100%;
     width: 100%;
     display: flex;
@@ -131,10 +170,10 @@ export const ButtonsContainer = styled.div`
         svg {
             height: 100%;
             width: auto;
-            color: green;
+            color: ${({ theme }) => theme.colors.main};
         }
         &:hover {
-            background-color: green;
+            background-color: ${({ theme }) => theme.colors.main};
             svg {
                 color: white;
             }
@@ -142,10 +181,10 @@ export const ButtonsContainer = styled.div`
     }
 `
 export const CarShop = styled.div`
-    background-color: white;
+    background-color: ${({ theme }) => theme.colors.background};
 `
 export const BuyButton = styled.div`
-    background-color: white;
+    background-color: ${({ theme }) => theme.colors.background};
 `
 /* font-family: 'Fredoka One', cursive; */
 /* font-family: 'Righteous', cursive; */

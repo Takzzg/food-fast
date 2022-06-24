@@ -6,16 +6,71 @@ export const StyledUserReviews = styled.div`
     padding: 1rem;
     gap: 1rem;
     align-items: center;
+    background-color: ${({ theme }) => theme.colors.bgPage};
+
+    .reviews {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
 `
 export const StyledReviewCard = styled.div`
-    display: flex;
-    flex-direction: column;
-    padding: 1rem;
-    gap: 1rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
 
-    .header,
-    .info {
+    .deleteBtn {
         display: flex;
-        justify-content: space-between;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        gap: 0.5rem;
+        color: ${({ theme }) => theme.text.highContrast};
+        background-color: ${({ theme }) => theme.text.background};
+        cursor: pointer;
+        &:hover {
+            background-color: red;
+            color: ${({ theme }) => theme.text.light};
+        }
+    }
+
+    .card {
+        display: flex;
+        flex-direction: column;
+        color: ${({ theme }) => theme.text.highContrast};
+        background-color: ${({ theme }) => theme.colors.background};
+        gap: 0.5rem;
+
+        & > * {
+            padding: 0.5rem;
+        }
+
+        .header,
+        .info,
+        .score,
+        .date,
+        .author {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .header {
+            font-size: 1.5rem;
+            padding: 0.5rem;
+
+            .score {
+                .icon {
+                    color: ${({ theme }) => theme.colors.main};
+                }
+            }
+        }
+
+        .info {
+            background-color: ${({ theme }) => theme.colors.main};
+            color: ${({ theme }) => theme.text.dark};
+            display: flex;
+            align-items: center;
+        }
     }
 `

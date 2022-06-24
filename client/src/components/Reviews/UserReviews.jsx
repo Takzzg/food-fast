@@ -10,6 +10,7 @@ const UserReviews = () => {
 
     const [reviews, setReviews] = useState([])
     const user = useSelector((state) => state.user.authData.user)
+    const theme = useSelector((state) => state.theme.selectedTheme)
 
     const fetchReviews = () => {
         getUserReviews(idUser).then((res) => setReviews(res))
@@ -24,7 +25,7 @@ const UserReviews = () => {
     }
 
     return (
-        <StyledUserReviews>
+        <StyledUserReviews theme={theme}>
             <h1>user: {user.name}</h1>
             <div className="reviews">
                 {reviews.length &&
