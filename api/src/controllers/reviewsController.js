@@ -27,7 +27,6 @@ export const getUserReviews = async (req, res) => {
 }
 
 export const postReview = async (req, res) => {
-    console.log(req.body)
     const { productId, userId, title, comment, score, date } = req.body
 
     if (!productId || !userId || !title || !score)
@@ -41,9 +40,9 @@ export const postReview = async (req, res) => {
 }
 
 export const deleteReview = async (req, res) => {
-    const { reviewId } = req.params
+    const { id } = req.params
 
-    if (!reviewId) return res.status(500).send({ error: "no Id" })
-    await Review.findByIdAndDelete(reviewId)
+    if (!id) return res.status(500).send({ error: "no Id" })
+    await Review.findByIdAndDelete(id)
     res.status(200).send("review deleted")
 }
