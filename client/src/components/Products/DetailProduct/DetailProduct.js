@@ -19,7 +19,12 @@ import { AiOutlineCreditCard } from "react-icons/ai"
 import { useParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { baseUrl, findProductById } from "../../../redux/actions/async"
-import { add_item_car, clean_select_product, remove_item_car } from "../../../redux/actions/sync"
+import {
+    add_item_car,
+    clean_select_product,
+    remove_item_car
+} from "../../../redux/actions/sync"
+import Reviews from "../../Reviews/Reviews"
 
 const DetailProduct = () => {
     const { idProduct } = useParams()
@@ -40,8 +45,6 @@ const DetailProduct = () => {
         dispatch(remove_item_car(item, true))
         setIsAdded(false)
     }
-
-
 
     useEffect(() => {
         let coincidence = products.find((el) => el._id === product._id)
@@ -100,20 +103,26 @@ const DetailProduct = () => {
                     </DescriptionContainer>
 
                     <ButtonsContainer>
-                            {!isAdded ? (
-                                <CarShop onClick={addItem} >
-                                     <AiOutlineShoppingCart id="car"  />
-                                </CarShop>
-                            ) : (
-                                <CarShop onClick={removeItem}>
-                                     <AiOutlineShoppingCart id="car" style={{color: "red"}}  />
-                                </CarShop>
-                            )}
+                        {!isAdded ? (
+                            <CarShop onClick={addItem}>
+                                <AiOutlineShoppingCart id="car" />
+                            </CarShop>
+                        ) : (
+                            <CarShop onClick={removeItem}>
+                                <AiOutlineShoppingCart
+                                    id="car"
+                                    style={{ color: "red" }}
+                                />
+                            </CarShop>
+                        )}
                         <BuyButton>
                             <AiOutlineCreditCard />
                         </BuyButton>
                     </ButtonsContainer>
                 </SecondMainContainer>
+            </MainContainer>
+            <MainContainer>
+                <Reviews />
             </MainContainer>
         </GlobalContainer>
     )

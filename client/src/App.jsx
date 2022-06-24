@@ -21,7 +21,6 @@ import CategoryForm from "./components/Categories/CategoryForm"
 import Orders from "./components/Orders/Orders"
 import DetailOrder from "./components/Orders/DetailOrder/DetailOrder"
 import Reviews from "./components/Reviews/Reviews"
-import DetailReview from "./components/Reviews/DetailReview/DetailReview"
 import ShoppingCart from "./components/shopCart"
 import PrivateRoute from "./components/Auth/PrivateRoute"
 import ProfileUser from "./components/profile"
@@ -29,7 +28,6 @@ import ProfileUser from "./components/profile"
 import Profile from "./components/User/Profile"
 
 import PaymentPass from "./components/PaymentPass"
-
 
 const ScrollToTop = () => {
     const location = useLocation()
@@ -42,7 +40,6 @@ function App() {
     // const [{isopen,user},dispatch]=useStateValue()
     // const dispatch = useDispatch()
     const theme = useSelector((state) => state.theme.selectedTheme)
-
 
     return (
         <div className="App">
@@ -57,50 +54,88 @@ function App() {
                         <Route index element={<DisplayProducts />} />
                         <Route path=":idProduct" element={<DetailProduct />} />
                     </Route>
-
                     <Route path="/commonUser">
-                        <Route path="profile" element={<ProfileUser />}/>
+                        <Route path="profile" element={<ProfileUser />} />
                     </Route>
-
                     <Route
                         path="/categories/:idCategory"
                         element={<DetailCategory />}
                     />
-                    
-                    <Route path="/dashboard" element={<PrivateRoute
-                    element={Dashboard}  requiredRol="ADMIN" />}/> {/* requiredRol="ADMIN" */}
-
+                    <Route
+                        path="/dashboard"
+                        element={
+                            <PrivateRoute
+                                element={Dashboard}
+                                requiredRol="ADMIN"
+                            />
+                        }
+                    />{" "}
+                    {/* requiredRol="ADMIN" */}
                     <Route path="/dashboard">
                         {/* <Route index element={<Dashboard />} /> */}
-                        <Route index element={<PrivateRoute
-                    element={Dashboard}  requiredRol="ADMIN" />}/>
+                        <Route
+                            index
+                            element={
+                                <PrivateRoute
+                                    element={Dashboard}
+                                    requiredRol="ADMIN"
+                                />
+                            }
+                        />
 
                         {/* <Route path="createProduct" element={<ProductForm />} /> */}
-                        <Route path="createProduct" element={<PrivateRoute
-                    element={ProductForm}  requiredRol="ADMIN" />}/>
+                        <Route
+                            path="createProduct"
+                            element={
+                                <PrivateRoute
+                                    element={ProductForm}
+                                    requiredRol="ADMIN"
+                                />
+                            }
+                        />
 
                         {/* <Route
                             path="createCategory"
                             element={<CategoryForm />}
                         /> */}
-                        <Route path="createCategory" element={<PrivateRoute
-                    element={CategoryForm}  requiredRol="ADMIN" />}/>
+                        <Route
+                            path="createCategory"
+                            element={
+                                <PrivateRoute
+                                    element={CategoryForm}
+                                    requiredRol="ADMIN"
+                                />
+                            }
+                        />
 
                         {/* <Route
                             path="modifyCategory/:id"
                             element={<ModifyCategory />}
                         /> */}
-                        <Route path="modifyCategory/:id" element={<PrivateRoute
-                    element={ModifyCategory}  requiredRol="ADMIN" />}/>
+                        <Route
+                            path="modifyCategory/:id"
+                            element={
+                                <PrivateRoute
+                                    element={ModifyCategory}
+                                    requiredRol="ADMIN"
+                                />
+                            }
+                        />
 
                         {/* <Route
                             path="updateProduct/:id"
                             element={<UpdateProduct />}
                         /> */}
-                        <Route path="updateProduct/:id" element={<PrivateRoute
-                    element={UpdateProduct}  requiredRol="ADMIN" />}/>
+                        <Route
+                            path="updateProduct/:id"
+                            element={
+                                <PrivateRoute
+                                    element={UpdateProduct}
+                                    requiredRol="ADMIN"
+                                />
+                            }
+                        />
                     </Route>
-
                     <Route path="user/:idUser">
                         <Route index element={<Profile />} />
 
@@ -111,13 +146,12 @@ function App() {
 
                         <Route path="reviews">
                             <Route index element={<Reviews />} />
-                            <Route
+                            {/* <Route
                                 path=":idReview"
                                 element={<DetailReview />}
-                            />
+                            /> */}
                         </Route>
                     </Route>
-
                     {/* LOGIN */}
                     <Route path="/login" element={<Login />} />
                     {/* REGISTER */}
@@ -126,14 +160,13 @@ function App() {
                     <Route path="/passwordReset" element={<PasswordReset />} />
                     {/* NEW PASS */}
                     <Route path="/newPassword" element={<NewPassword />} />
-
                     <Route path="/user">
                         <Route path="shoppingCart" element={<ShoppingCart />} />
-                        <Route path="succesPay/:isAcepted" element={<PaymentPass />} />
+                        <Route
+                            path="succesPay/:isAcepted"
+                            element={<PaymentPass />}
+                        />
                     </Route>
-                
-                    
-                  
                 </Routes>
             </BrowserRouter>
         </div>
