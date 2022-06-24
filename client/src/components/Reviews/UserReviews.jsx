@@ -12,15 +12,15 @@ const UserReviews = () => {
     const user = useSelector((state) => state.user.authData.user)
 
     const fetchReviews = () => {
-        getUserReviews(idUser).then((reviews) => setReviews(reviews))
+        getUserReviews(idUser).then((res) => setReviews(res))
     }
 
     useEffect(() => {
-        getUserReviews(idUser).then((reviews) => setReviews(reviews))
+        getUserReviews(idUser).then((res) => setReviews(res))
     }, [idUser])
 
     const handleDeleteReview = (id) => {
-        deleteReview(id).then(() => fetchReviews)
+        deleteReview(id).then(() => fetchReviews())
     }
 
     const ReviewOverlay = ({ review }) => {
