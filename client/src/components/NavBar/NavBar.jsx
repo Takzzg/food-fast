@@ -151,7 +151,7 @@ const NavBar = () => {
                     </>
                 )}
                 <NavLink url="/">Oferts</NavLink>
-                <NavLink url="/contact">Contact</NavLink>
+               
 
                 <hr />
                 {reduxUser?.rol === "ADMIN" && (
