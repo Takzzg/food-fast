@@ -17,7 +17,7 @@ const ReviewCard = ({ review, handleDelete }) => {
     return (
         <StyledReviewCard theme={theme}>
             {(userData?.user?.rol === "ADMIN" ||
-                user?._id === review.userId._id) && (
+                (user && user._id === review.userId._id)) && (
                 <div
                     onClick={() => handleDelete(review._id)}
                     className="deleteBtn"
