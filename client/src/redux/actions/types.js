@@ -38,3 +38,6 @@ export const CLEAN_CAR = "clean_car"
 export const FOCUS_ITEM_CAR = "focus_item_car"
 export const GET_ITEMS_CAR = "get_items_car"
 
+// Favorites
+export const GET_FAVORITES = "get_favorites"; 
+export const REMOVE_FAVORITE = "remove_favorite"

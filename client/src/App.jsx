@@ -22,11 +22,13 @@ import Orders from "./components/Orders/Orders"
 import DetailOrder from "./components/Orders/DetailOrder/DetailOrder"
 import ShoppingCart from "./components/shopCart"
 import PrivateRoute from "./components/Auth/PrivateRoute"
-import ProfileUser from "./components/profile"
+import ProfileUser from "./components/CommonUser/profile/index"
 
 import Profile from "./components/User/Profile"
 
 import PaymentPass from "./components/PaymentPass"
+import WishList from "./components/CommonUser/wishList"
+
 import UserReviews from "./components/Reviews/UserReviews"
 
 const ScrollToTop = () => {
@@ -55,7 +57,8 @@ function App() {
                         <Route path=":idProduct" element={<DetailProduct />} />
                     </Route>
                     <Route path="/commonUser">
-                        <Route path="profile" element={<ProfileUser />} />
+                        <Route path="profile" element={<ProfileUser />}/>
+                        <Route path="wishList" element={<WishList />} />
                     </Route>
                     <Route
                         path="/categories/:idCategory"

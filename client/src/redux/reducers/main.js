@@ -11,6 +11,8 @@ import {
     FILTER_PRODUCTS,
     FIND_CAT_BY_ID,
     FIND_PRODUCT_BY_ID,
+    GET_FAVORITES,
+    REMOVE_FAVORITE,
     SEARCH_CATEGORY,
     SEARCH_PRODUCT,
     SORTBYPRICE
@@ -60,7 +62,8 @@ const initialState = {
     products: {
         all: [],
         filtered: [],
-        selected: []
+        selected: [],
+        favorites: []
     },
     categories: {
         all: [],
@@ -167,6 +170,18 @@ const main = (state = initialState, action) => {
         case "SEARCH_PRODUCT_ASYNC":
             newState.products.filtered = action.payload
             break
+
+        case GET_FAVORITES:
+              let coincidence = newState.products.favorites.find(el => el._id === action.payload._id)
+              if(!coincidence) {
+                 newState.products.favorites = [...newState.products.favorites, action.payload]
+              }
+        break
+
+        case REMOVE_FAVORITE:
+              newState.products.favorites = newState.products.favorites.filter(el=> el._id !== action.id)
+        break
+
 
         case DELETE_PRODUCT:
             newState.products.filtered = newState.products.filtered.filter(

@@ -14,7 +14,8 @@ import {
     CLEAN_CAR,
     FOCUS_ITEM_CAR,
     SEARCH_PRODUCT,
-    GET_ITEMS_CAR
+    GET_ITEMS_CAR,
+    REMOVE_FAVORITE
 } from "./types"
 
 export const switchTheme = () => ({ type: SWITCH_THEME })
@@ -45,3 +46,7 @@ export const focus_item_car = (id) => ({type: FOCUS_ITEM_CAR, id})
 export const get_items_car = ()=> ({type: GET_ITEMS_CAR})
 
 export const searchProductSync = (name) => ({type: SEARCH_PRODUCT, name})
+
+
+// Favorites
+export const remove_favorite = (id)=> ({type: REMOVE_FAVORITE, id})

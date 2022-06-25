@@ -13,7 +13,8 @@ import {
     FIND_CAT_BY_ID,
     AUTH_USER,
     AUTH_ERROR,
-    GOOGLE_LOGIN
+    GOOGLE_LOGIN,
+    GET_FAVORITES
 } from "./types"
 
 export const baseUrl = `${
@@ -144,6 +145,19 @@ export const postNewPassword = async (payload) => {
     }
 }
 
+
+// Favorites 
+
+export const getFavorites = (productID) => async (dispatch) => {
+    //log up the user...
+    try {
+        const response = await axios.get(`http://localhost:3001/api/v1/products/${productID}`)
+        dispatch({ type: GET_FAVORITES, payload: response.data })
+    }catch(e){
+        const defaultReponse = {id: "12123123", name: "Product not found", description: "deleted product"}
+        dispatch({ type: GET_FAVORITES, payload: defaultReponse })
+    }
+    }
 // REVIEWS
 
 export const postReview = (review) =>
