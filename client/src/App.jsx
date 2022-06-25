@@ -29,6 +29,7 @@ import ProfileUser from "./components/profile"
 import Profile from "./components/User/Profile"
 
 import PaymentPass from "./components/PaymentPass"
+import Dashboard2 from "./components/User/Dashboard/Dashboard2"
 
 
 const ScrollToTop = () => {
@@ -72,7 +73,7 @@ function App() {
                     <Route path="/dashboard">
                         {/* <Route index element={<Dashboard />} /> */}
                         <Route index element={<PrivateRoute
-                    element={Dashboard}  requiredRol="ADMIN" />}/>
+                    element={Dashboard2}  requiredRol="ADMIN" />}/>
 
                         {/* <Route path="createProduct" element={<ProductForm />} /> */}
                         <Route path="createProduct" element={<PrivateRoute
