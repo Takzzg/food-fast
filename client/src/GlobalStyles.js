@@ -39,7 +39,7 @@ const GlobalStyle = createGlobalStyle`
         background-color: ${({ theme }) => theme.colors.background};
 
         & > div {
-            overflow: auto;
+            overflow-y: auto;
             min-height: 100%;
         }
     }
