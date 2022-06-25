@@ -142,7 +142,7 @@ const NavBar = () => {
                 <h3>CONSUMER</h3>
                 <NavLink url="/">Home</NavLink>
                 <NavLink url="/products">Products</NavLink>
-                {userData?.user && (
+                {reduxUser?.rol && (
                     <>
                         <NavLink url="/">My orders</NavLink>
                         <NavLink url={`/user/${reduxUser._id}/reviews`}>
@@ -154,7 +154,7 @@ const NavBar = () => {
                 <NavLink url="/contact">Contact</NavLink>
 
                 <hr />
-                {userData?.user?.rol === "ADMIN" && (
+                {reduxUser?.rol === "ADMIN" && (
                     <>
                         <h3>SELLER</h3>
                         <NavLink url="/dashboard" onClick={handleSelectRoute}>

@@ -105,6 +105,7 @@ const DetailProduct = () => {
             productId: idProduct
         }
         postReview(newReview).then(() => fetchReviews())
+        setReviewForm(initialState)
     }
 
     const handleFormChange = (e) => {

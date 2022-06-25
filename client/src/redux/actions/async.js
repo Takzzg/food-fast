@@ -93,7 +93,7 @@ export const googleLogin = (userData) => (dispatch) => {
             .get(`${baseUrl}/user/?email=${userData.user.email}`)
             .then((res) => {
                 let combinedUser = { ...userData }
-                combinedUser.user = { ...res.data[0], ...userData }
+                combinedUser.user = { ...res.data[0], ...userData.user }
                 dispatch({ type: GOOGLE_LOGIN, payload: combinedUser })
             })
     } catch (e) {
