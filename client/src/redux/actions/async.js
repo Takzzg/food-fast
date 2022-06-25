@@ -88,7 +88,14 @@ export const deleteCategory = (id) => (dispatch) =>
 
 export const googleLogin = (userData) => (dispatch) => {
     try {
-        dispatch({ type: GOOGLE_LOGIN, payload: userData })
+        console.log(userData)
+        axios
+            .get(`${baseUrl}/user/?email=${userData.user.email}`)
+            .then((res) => {
+                let combinedUser = { ...userData }
+                combinedUser.user = { ...res.data[0], ...userData }
+                dispatch({ type: GOOGLE_LOGIN, payload: combinedUser })
+            })
     } catch (e) {
         dispatch({ type: AUTH_ERROR, payload: { error: e } })
         console.log("Error en la google login. ", e.message)
