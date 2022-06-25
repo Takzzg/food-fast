@@ -4,6 +4,12 @@ import CategoryBar from "./UbicationBar/UbicationBar"
 import { CategoriesContainer, GlobalContainer } from "./landingElements"
 import CategoryCard from "../Categories/CategorysLanding"
 import { useEffect } from "react"
+import { AiOutlineWhatsApp } from "react-icons/ai"
+import { SiGooglemaps } from "react-icons/si";
+import { SiTelegram } from "react-icons/si";
+import logo from "./img/tlg1.jpg"
+import style from "./styles/footer.module.scss"
+
 import {
     fetchAllCategories, googleLogin
     // searchCategory,
@@ -11,6 +17,7 @@ import {
 } from "../../redux/actions/async"
 import { useLocation } from "react-router-dom"
 import { UserAuth } from "../../context/AuthContext"
+import styled from "styled-components"
 
 const Landing = () => {
     const dispatch = useDispatch()
@@ -29,6 +36,7 @@ const Landing = () => {
     }, [dispatch])
     useEffect(() => {
         if(user?.accessToken){
+
             dispatch(googleLogin({
                 token: {
                   token: user.accessToken
@@ -62,8 +70,37 @@ const Landing = () => {
                         url={`/categories/${c._id}`}
                     />
                 ))}
+                
             </CategoriesContainer>
+            <footer className={style.footer_contact}>
+            <div className={style.footer_box}> 
+                <div className={style.footer_title}>
+                    FoodFast Inc.
+                </div>
+                <div className={style.footer_wsp}>
+                <AiOutlineWhatsApp/>
+                WhatsApp : (+54) 3512999683
+                </div>
+              <div className={style.footer_ubicacion}>
+              <SiGooglemaps/>
+              Jose Moretto 3776-3778, Córdoba, Argentina
+              </div>
+              <div className={style.footer_tlg}>
+              <SiTelegram/>
+              foodfast_app_bot
+              </div>
+              </div>
+              <div className={style.tlg_button}>
+                <buttom className={style.telegram_button}>
+                    <img className={style.footer_img} src={logo}/>
+                <a  href="https://msng.link/o/?@foodfast_app_bot=tg" target="_blank">Telegram</a> 
+                    </buttom>
+                </div>
+
+            </footer>
+            
         </GlobalContainer>
+        
     )
 }
 
