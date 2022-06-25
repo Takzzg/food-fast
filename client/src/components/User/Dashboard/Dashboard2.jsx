@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import CategoryBar from '../../Landing/UbicationBar/UbicationBar';
 import CategoryCard from '../../Categories/CategoryCard/CategoryCard';
+import ProductCard from '../../Products/ProductCard/ProductCard';
+import SearchBar from '../../searchBar';
 
 import { FaTrashAlt, FaEdit } from "react-icons/fa"
 import useDelete from '../../CustomHooks/useDelete';
@@ -13,6 +15,7 @@ const Dashboard2 = function(){
     const filterCategories = useSelector(
         (state) => state.main.categories.filtered
     )
+    const filterProducts = useSelector(state=>state.main.products.filtered)
 
     const dispatch = useDispatch();
     const theme = useSelector(state => state.theme.selectedTheme)
@@ -69,6 +72,23 @@ const Dashboard2 = function(){
         </StyledCard>
     )
 
+    const Product = ({ p }) => (
+        <StyledCard theme={theme}>
+            <ProductCard product={p} />
+            <button
+                className="deleteBtn"
+                onClick={() => handleDelete("products", p._id, p.img)}
+            >
+                <FaTrashAlt />
+                Delete
+            </button>
+            <Link className="editBtn" to={`/dashboard/updateProduct/${p._id}`}>
+                <FaEdit />
+                Edit
+            </Link>
+        </StyledCard>
+    )
+
     //****************************************************
     return (
         <StyledContainer>
@@ -115,7 +135,24 @@ const Dashboard2 = function(){
                         )}
                     </div>
                 </div>
-            ) : menu.products && <>PRODUCTS list</>}
+            ) : menu.products && 
+            <div className="products">
+                <SearchBar />
+
+                <Link className="addBtn" to="createProduct">
+                    Crear producto nuevo
+                </Link>
+
+                <div className="allProducts">
+                    {filterProducts.length === 0 ? (
+                        <div>Not results found</div>
+                    ) : (
+                        filterProducts.map((p) => (
+                            <Product p={p} key={p._id} />
+                        ))
+                    )}
+                </div>
+            </div>}
 
 
             </DisplayDiv>

@@ -33,7 +33,8 @@ export const DisplayDiv = styled.div`
     align-items: center;
     gap: 20px;
     padding: 20px;
-    .categories{
+    .categories,
+    .products{
         display: flex;
         flex-direction: column;
         gap: 1rem;
