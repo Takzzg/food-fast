@@ -145,7 +145,7 @@ const NavBar = () => {
                 <NavLink url="/products">Products</NavLink>
                 <NavLink url="/">My orders</NavLink>
                 <NavLink url="/">Oferts</NavLink>
-                <NavLink url="/contact">Contact</NavLink>
+               
 
                 <hr />
                 <h3>SELLER</h3>
@@ -158,7 +158,7 @@ const NavBar = () => {
                 ) : (
                     <h5>Logueate para más funciones! ♥</h5>
                 )}
-                <NavLink url="/">Contact</NavLink>
+                
 
                 <button onClick={() => dispatch(switchTheme())}>
                     Switch to {theme.name === "light" ? "dark" : "light"} theme

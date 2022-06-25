@@ -7,7 +7,7 @@ export const registerUser = async(req,res) =>{
     let user = await User.findOne({email})
 
     if(user) return res.json({err: "existing user"})
-    user = new User({name,email,password,rol})
+    user = new User({name,email,password})
     user.send_emailWelcome()
 
     await user.save()
