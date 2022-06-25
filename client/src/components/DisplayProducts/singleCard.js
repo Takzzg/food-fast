@@ -59,7 +59,7 @@ export default function SingleProductCard({ product, list}) {
         if (coincidence) setIsAdded(true)
         let isFavorite = list && list.find((el)=> el === product._id)
         if (isFavorite) setIsFavorite(true)
-    }, [])
+    }, [list])
     return (
         <CardContainer theme={theme}>
             <TitleDiv>{product.name}</TitleDiv>
