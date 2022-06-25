@@ -19,7 +19,7 @@ const userSchema=new mongoose.Schema({
         type:String,
         required:true
     },
-    img:{
+    photo:{
         type:String
     },
     rol:{
@@ -29,8 +29,14 @@ const userSchema=new mongoose.Schema({
         enum:["ADMIN", "USER", "GUEST", "OWNER"]
 
     },
+    isGoogleAccount:{
+        type: Boolean,
+        required: true,
+        default: false
+    },
    address:{
        type:String,   
+       default: "EE UU"
    },
    passwordReset: String,
    passwordResetTokenExpire: Date,

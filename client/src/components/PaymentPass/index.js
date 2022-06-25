@@ -8,19 +8,27 @@ import {
   DescriptionContainer,
   ButtonsContainer,
 } from "./payElements";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { clean_car } from "../../redux/actions/sync";
 import {IoMdArrowRoundBack} from "react-icons/io"; 
 import {GrDocumentText} from "react-icons/gr"
+import axios from "axios"; 
 
 export default function PaymentPass() {
   const params = useParams(); 
   const dispatch = useDispatch(); 
-
+  const shopcart = useSelector(state=> state.shopCart.shopCart)
   useEffect(()=> {
-    if (params.isAcepted){
-      dispatch(clean_car())    
+    const after = async ()=> {
+      if (params.isAcepted){
+        await axios.patch('http://localhost:3001/api/v1/paypal/stock', {
+          resumeOrder: shopcart.map(el=> ({id: el._id, newStock: el.stock - el.quantity}))
+        })
+        dispatch(clean_car())       
+      }
     }
+    after(); 
+
   }, [])
   return (<GlobalContainer>
     <TitleContainer>THANKS FOR YOUR SHOPPING</TitleContainer>

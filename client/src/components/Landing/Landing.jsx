@@ -36,6 +36,7 @@ const Landing = () => {
     }, [dispatch])
     useEffect(() => {
         if(user?.accessToken){
+
             dispatch(googleLogin({
                 token: {
                   token: user.accessToken
@@ -86,13 +87,13 @@ const Landing = () => {
               </div>
               <div className={style.footer_tlg}>
               <SiTelegram/>
-              @foodfast_app_bot
+              foodfast_app_bot
               </div>
               </div>
               <div className={style.tlg_button}>
                 <buttom className={style.telegram_button}>
                     <img className={style.footer_img} src={logo}/>
-                <a href="https://msng.link/o/?@foodfast_app_bot=tg">Telegram</a> 
+                <a  href="https://msng.link/o/?@foodfast_app_bot=tg" target="_blank">Telegram</a> 
                     </buttom>
                 </div>
 

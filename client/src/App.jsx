@@ -18,15 +18,15 @@ import DetailCategory from "./components/Categories/DetailCategory/DetailCategot
 import Dashboard from "./components/User/Dashboard/Dashboard"
 import ProductForm from "./components/Products/ProductForm/ProductForm"
 import CategoryForm from "./components/Categories/CategoryForm"
-import Profile from "./components/User/Profile"
 import Orders from "./components/Orders/Orders"
 import DetailOrder from "./components/Orders/DetailOrder/DetailOrder"
 import Reviews from "./components/Reviews/Reviews"
 import DetailReview from "./components/Reviews/DetailReview/DetailReview"
 import ShoppingCart from "./components/shopCart"
 import PrivateRoute from "./components/Auth/PrivateRoute"
+import ProfileUser from "./components/profile"
 
-
+import Profile from "./components/User/Profile"
 
 import PaymentPass from "./components/PaymentPass"
 
@@ -58,13 +58,16 @@ function App() {
                         <Route path=":idProduct" element={<DetailProduct />} />
                     </Route>
 
+                    <Route path="/commonUser">
+                        <Route path="profile" element={<ProfileUser />}/>
+                    </Route>
+
                     <Route
                         path="/categories/:idCategory"
                         element={<DetailCategory />}
                     />
                     
-                    <Route path="/dashboard" element={<PrivateRoute
-                    element={Dashboard}  requiredRol="ADMIN" />}/> {/* requiredRol="ADMIN" */}
+                    
 
                     <Route path="/dashboard">
                         {/* <Route index element={<Dashboard />} /> */}
