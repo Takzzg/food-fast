@@ -145,7 +145,7 @@ const NavBar = () => {
                 <NavLink url="/products">Products</NavLink>
                 <NavLink url="/">My orders</NavLink>
                 <NavLink url="/">Oferts</NavLink>
-                <NavLink url="/contact">Contact</NavLink>
+               
 
                 <hr />
                 <h3>SELLER</h3>
