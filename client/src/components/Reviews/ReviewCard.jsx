@@ -11,13 +11,13 @@ const ReviewCard = ({ review, handleDelete }) => {
     const [userData, setUser] = useState(
         JSON.parse(localStorage.getItem("profile"))
     )
-    const user = useSelector((state) => state.user.authData.user)
+    const user = useSelector((state) => state.user.authData?.user)
     const theme = useSelector((state) => state.theme.selectedTheme)
 
     return (
         <StyledReviewCard theme={theme}>
             {(userData?.user?.rol === "ADMIN" ||
-                user._id === review.userId._id) && (
+                user?._id === review.userId._id) && (
                 <div
                     onClick={() => handleDelete(review._id)}
                     className="deleteBtn"

@@ -13,7 +13,6 @@ import axios from "axios"
 
 const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition
-console.log(SpeechRecognition)
 const mic = SpeechRecognition ? new SpeechRecognition() : null
 
 export default function SearchBar() {
