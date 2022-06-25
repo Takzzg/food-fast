@@ -16,7 +16,6 @@ import {
     GOOGLE_LOGIN
 } from "./types"
 
-
 export const baseUrl = `${
     process.env.NODE_ENV === "production"
         ? "https://food-fast-api.herokuapp.com"
@@ -74,7 +73,6 @@ export const searchCategory = (name) =>
         : clean_categories()
 
 export const postCategory = (category) => (dispatch) =>
-
     axios
         .post(`${baseUrl}/categories`, category)
         .then(() => dispatch(fetchAllCategories()))
@@ -88,12 +86,19 @@ export const deleteCategory = (id) => (dispatch) =>
 
 // USER
 
-export const googleLogin = (userData) => (dispatch) =>{
-    try{
-        dispatch({type: GOOGLE_LOGIN, payload: userData})
-    }catch(e){
-        dispatch({type: AUTH_ERROR, payload: {error: e}})
-        console.log("Error en la google login. ",e.message);
+export const googleLogin = (userData) => (dispatch) => {
+    try {
+        console.log(userData)
+        axios
+            .get(`${baseUrl}/user/?email=${userData.user.email}`)
+            .then((res) => {
+                let combinedUser = { ...userData }
+                combinedUser.user = { ...res.data[0], ...userData.user }
+                dispatch({ type: GOOGLE_LOGIN, payload: combinedUser })
+            })
+    } catch (e) {
+        dispatch({ type: AUTH_ERROR, payload: { error: e } })
+        console.log("Error en la google login. ", e.message)
     }
 }
 
@@ -102,38 +107,53 @@ export const login = (input) => async (dispatch) => {
         //log in the user...
         const data = await axios.post(`${baseUrl}/auth/login`, input)
 
-        dispatch({type: AUTH_USER, payload: data?.data})
-    }catch(e){
-        dispatch({type: AUTH_ERROR, payload: {error: e}})
-        console.log("Error en la action login. ",e.message);
-
+        dispatch({ type: AUTH_USER, payload: data?.data })
+    } catch (e) {
+        dispatch({ type: AUTH_ERROR, payload: { error: e } })
+        console.log("Error en la action login. ", e.message)
     }
 }
 export const logup = (input) => async (dispatch) => {
     try {
         //log up the user...
         await axios.post(`${baseUrl}/user`, input)
-        
-        dispatch({ type: AUTH_USER, payload: {success: true} })
+        dispatch({ type: AUTH_USER, payload: { success: true } })
     } catch (e) {
-        dispatch({type: AUTH_ERROR, payload: {error: e}})
+        dispatch({ type: AUTH_ERROR, payload: { error: e } })
         console.log("Error en la action logup. ", e)
     }
 }
 
 export const postForgotPassword = async (email) => {
-    try{
-        await axios.post(`${baseUrl}/auth/forgot-password`, {email})
-    }catch(e){
-        console.log("Error en el postForgotPassword. ",e.message)
-        throw new Error('Inexistent email.')
+    try {
+        await axios.post(`${baseUrl}/auth/forgot-password`, { email })
+    } catch (e) {
+        console.log("Error en el postForgotPassword. ", e.message)
+        throw new Error("Inexistent email.")
     }
 }
 
 export const postNewPassword = async (payload) => {
-    try{
-        await axios.post(`${baseUrl}/auth/reset-password/${payload.id}/${payload.token}`,payload)
-    }catch(e){
+    try {
+        await axios.post(
+            `${baseUrl}/auth/reset-password/${payload.id}/${payload.token}`,
+            payload
+        )
+    } catch (e) {
         console.log("Error en el postNewPassword. ", e)
     }
 }
+
+// REVIEWS
+
+export const postReview = (review) =>
+    axios.post(`${baseUrl}/reviews`, review).then((res) => res.data)
+
+export const getProductReviews = (id) =>
+    axios.get(`${baseUrl}/reviews/product/${id}`).then((res) => res.data)
+
+export const getUserReviews = (id) =>
+    axios.get(`${baseUrl}/reviews/user/${id}`).then((res) => res.data)
+
+export const deleteReview = (id) =>
+    axios.delete(`${baseUrl}/reviews/${id}`).then((res) => res.data)
