@@ -4,7 +4,6 @@ const GlobalStyle = createGlobalStyle`
     * {
         margin: 0;
         padding: 0;
-
         scrollbar-color: ${({ theme }) => theme.colors.main} ${({ theme }) =>
     theme.colors.background};
 
@@ -36,7 +35,7 @@ const GlobalStyle = createGlobalStyle`
         display: flex;
         flex-direction: column;
         overflow: hidden;
-
+        
         background-color: ${({ theme }) => theme.colors.background};
 
         & > div {

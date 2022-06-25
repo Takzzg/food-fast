@@ -42,4 +42,12 @@ router.post('/:userID', async (req,res)=> {
     }
 })
 
+// clean all favorites list
+router.delete('/delete/:userID', async (req,res)=> {
+    const {userID} = req.params; 
+    const Coincidence = await Favorites.findOne({userID})
+
+    let favorite = await Favorites.findByIdAndUpdate(Coincidence._id, {products: []}, {new: true})
+    res.send(favorite)
+})
 export default router; 
