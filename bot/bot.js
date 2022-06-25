@@ -1,4 +1,4 @@
-import 'dotenv/config'
+
 import axios from 'axios'
 import  { Telegraf } from 'telegraf'
 
@@ -22,9 +22,9 @@ const fetchProducts = async()=>{
    return products
 }
 
+const token = '5312815904:AAFTA6s8bbQefwh1TYPWOoFSPueMMgihfo8'
 
-
-const bot = new Telegraf(process.env.BOT_TOKEN);
+const bot = new Telegraf(token);
 
 
 bot.command('start', ctx=>{ sendStartMessage(ctx) })
