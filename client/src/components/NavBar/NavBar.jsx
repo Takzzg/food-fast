@@ -99,7 +99,7 @@ const NavBar = () => {
                     <ButtonsContainer theme={theme}>
                         <img
                             className={style.auth_google_photo}
-                            src={ userData?.user.photo || user?.photoURL}
+                            src={userData?.user?.photo || user?.photoURL}
                             alt="profile"
                         />
                         <span>{user?.displayName}</span>
@@ -142,7 +142,7 @@ const NavBar = () => {
                 <h3>CONSUMER</h3>
                 <NavLink url="/">Home</NavLink>
                 <NavLink url="/products">Products</NavLink>
-                {userData?.user?.rol && (
+                {userData?.user && (
                     <>
                         <NavLink url="/">My orders</NavLink>
                         <NavLink url={`/user/${reduxUser._id}/reviews`}>

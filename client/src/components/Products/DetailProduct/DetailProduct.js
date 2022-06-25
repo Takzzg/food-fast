@@ -121,7 +121,9 @@ const DetailProduct = () => {
         <GlobalContainer theme={theme}>
             <ProductHeader theme={theme}>
                 <TitleContainer>{product.name}</TitleContainer>
-                <div className="score">{scoreAvg}/5</div>
+                <div className="score">
+                    <BsStarFill /> {scoreAvg}/5
+                </div>
             </ProductHeader>
             <MainContainer>
                 <ImageContainer>
