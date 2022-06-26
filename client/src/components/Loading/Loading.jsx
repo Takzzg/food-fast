@@ -1,5 +1,5 @@
 import { StyledLoadingComponent } from "./Loading.styled"
-import Lottie from "react-lottie"
+import { useLottie } from "lottie-react"
 import { flatten } from "lottie-colorify"
 
 import loadingAnimation from "../../lotties/loadingAnimation.json"
@@ -17,12 +17,12 @@ const Loading = ({ text, color, bg }) => {
         }
     }
 
+    const { View } = useLottie(loadingAnimOptions)
+
     return (
         <StyledLoadingComponent theme={theme} bg={bg}>
             <span className="text">{text || "Loading"}</span>
-            <span className="animation">
-                <Lottie options={loadingAnimOptions} height={400} width={400} />
-            </span>
+            <span className="animation">{View}</span>
         </StyledLoadingComponent>
     )
 }
