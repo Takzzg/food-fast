@@ -68,11 +68,11 @@ const Dashboard2 = function(){
                 
                 if(rol === "ADMIN"){ 
                     toast.success("Le quitó permisos de Admin a este usuario!")
-                    changePermissions(id, rol="USER")
+                    dispatch(changePermissions(id, rol="USER"))
                     setreRender(reRender+1)
                 }else{
                    toast.success("Le dió permisos de Admin a este usuario!")
-                   changePermissions(id, rol="ADMIN")
+                   dispatch(changePermissions(id, rol="ADMIN"))
                    setreRender(reRender+1)
                }
               }

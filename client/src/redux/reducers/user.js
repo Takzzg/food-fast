@@ -4,7 +4,8 @@ import {
     LOG_OUT, 
     GOOGLE_LOGIN, 
     FETCH_USERS,
-    DELETE_USER
+    DELETE_USER,
+    ROL_CHANGE
  } from "../actions/types"
 
 const initialState = { 
@@ -36,6 +37,12 @@ const user = (state = initialState, action) => {
                 el => el._id !== action.id
             ) //acá podría filtrar un estado "filterUsers" de ser necesario
             return {...state, usersData: filteredUsers}
+        case ROL_CHANGE:
+            let editedUsers = state.usersData.map(u=>{
+                if(u._id === action.payload.id) u.rol = action.payload.rol
+                return u;
+            })
+            return {...state, usersData: editedUsers}
         default:
             return state
     }

@@ -14,7 +14,8 @@ import {
     AUTH_USER,
     AUTH_ERROR,
     GOOGLE_LOGIN,
-    FETCH_USERS
+    FETCH_USERS,
+    ROL_CHANGE
 } from "./types"
 
 
@@ -149,9 +150,12 @@ export const fetchAllUsers =() => async (dispatch) =>{
     }
 }
 
-export const changePermissions = async (id, rol)=>{
+export const changePermissions = (id, rol)=> async (dispatch)=> {
     try{
-        await axios.patch(`${baseUrl}/user/${id}`, {rol})
+        const result = await axios.patch(`${baseUrl}/user/${id}`, {rol})
+        //result me devuelve el archivo a editar ANTES del cambio
+        const data=result.data
+        dispatch({type: ROL_CHANGE, payload: {id: id, rol: rol}})
     }catch(e){
         console.log("Error en changePermissions. ", e)
     }
