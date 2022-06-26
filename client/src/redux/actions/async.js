@@ -17,7 +17,9 @@ import {
     GET_FAVORITES,
     GET_USER_ORDERS,
     GET_ORDER_BY_ID,
-    ADD_USER_ITEMS
+    ADD_USER_ITEMS,
+    GET_ALL_ORDERS,
+    GET_USER_INFORMATION
 } from "./types"
 
 export const baseUrl = `${
@@ -175,16 +177,29 @@ export const deleteReview = (id) =>
     axios.delete(`${baseUrl}/reviews/${id}`).then((res) => res.data)
 
 // ORDERS
+export const getAllOrder = () => async (dispatch) => {
+    const response = await axios.get("http://localhost:3001/api/v1/orders")
+    dispatch({type: GET_ALL_ORDERS, payload: response.data})
+}
 export const getUserOrders = (userID) => async (dispatch) => {
     const response = await axios.get(`http://localhost:3001/api/v1/orders/user/${userID}`)
     dispatch({ type: GET_USER_ORDERS, payload: response.data })
     }
 
-export const getUserOrderbyID = (orderID) => async (dispatch) => {
-    const response = await axios.get(`http://localhost:3001/api/v1/orders/${orderID}`); 
-    dispatch({type: GET_ORDER_BY_ID, payload: response.data}); 
+export const getUserOrderbyID = (orderID, getUserInformation) => async (dispatch) => {
+    const response = await axios.get(`http://localhost:3001/api/v1/orders/${orderID}`);
+    let response2
+    if(getUserInformation) {
+        const userID = response.data.user; 
+        response2 = await axios.get(`http://localhost:3001/api/v1/user/${userID}`)
+    } 
+    dispatch({type: GET_ORDER_BY_ID, payload: [response.data, response2.data]}); 
 }
 
+export const getUserInformation = (userID) => async (dispatch) => {
+    const response = await axios.get(`http://localhost:3001/api/v1/user/${userID}`)
+    dispatch({type: GET_USER_INFORMATION, payload: response.data})
+}
 // Get items shopcart user
 export const getShopCartUser = (userID, products) => async (dispatch) => {
     const savePrev = await axios.post(`http://localhost:3001/api/v1/user/shopCart/addPrevItem/${userID}`, {

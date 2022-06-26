@@ -31,6 +31,9 @@ export default function FilterBar() {
     const [categoriesfilter, setCategoriesfilter] = useState([])
     const [price, setPrice] = useState("1")
 
+    const [filter, setFilter] = useState({
+        categories: [], price: "1", rating: null, stock:"-1"})
+
     const user = useSelector((state)=> state.user.authData && state.user.authData.user)
 
     let getCategories = () => {
@@ -52,20 +55,55 @@ export default function FilterBar() {
             label: "Descendente"
         }
     ]
+    const RatingValues = [ 
+        {
+            value: 1,
+            label: "Rating: 1"
+        },
+        {
+            value: 2,
+            label: "Rating: 2"
+        },
+        {
+            value: 3,
+            label: "Rating: 3"
+        },
+        {
+            value: 4,
+            label: "Rating: 4"
+        },
+        {
+            value: 5,
+            label: "Rating: 5"
+        }
+    ]; 
+
     const handleCleanFilter = () => {
         setCategoriesfilter([])
         dispatch(fetchAllProducts())
         setIsOpen(false)
     }
-    const handleChangePrice = (e) => {
-        setPrice(e.value)
-    }
-    const handleFilter = (data) => {
-        setCategoriesfilter(data.map((el) => el.value))
-        dispatch(fetchAllProducts())
-    }
+    // ==============================================
+        const handleChangePrice = (e) => {
+            setFilter({...filter, price: e.value})
+        }
+        const handleChangeCategories = (e) => {
+            setFilter({...filter, categories: e})
+
+        }
+
+        const handleChangeStock = (e) => {
+            setFilter({...filter, stock: e.value})
+        }
+
+        const handleChangeRating = (e) => {
+            setFilter({...filter, rating: e.value})
+
+        }
+    // ==============================================
+
     const handleApplyFilter = () => {
-        dispatch(filterbyCategories(categoriesfilter, price))
+        dispatch(filterbyCategories(filter))
         setIsOpen(false)
         setCategoriesfilter([])
     }
@@ -87,6 +125,7 @@ export default function FilterBar() {
                     Filtrar Resultados
                 </div>
                 <Modal isOpen={isOpen}>
+                    {console.log(filter)}
                     <IconClose>
                         <AiFillCloseCircle onClick={handleClose} />
                     </IconClose>
@@ -95,13 +134,15 @@ export default function FilterBar() {
                         <Select
                             options={getCategories()}
                             isMulti
-                            onChange={handleFilter}
+                            name="categories"
+                            onChange={handleChangeCategories}
                         />
                     </ListContainer>
 
                     <ListContainer>
                         <MyH4>By price:</MyH4>
                         <Select
+                            name="price"
                             options={PricesValues}
                             onChange={handleChangePrice}
                         />
@@ -109,12 +150,12 @@ export default function FilterBar() {
 
                     <ListContainer>
                         <MyH4>By rating:</MyH4>
-                        <Select options={OptionsTest} isMulti />
+                        <Select options={RatingValues} onChange={handleChangeRating} name="rating"/>
                     </ListContainer>
 
                     <ListContainer>
                         <MyH4>By stock:</MyH4>
-                        <Select options={OptionsTest} />
+                        <Select options={PricesValues} onChange={handleChangeStock} name="stock"/>
                     </ListContainer>
 
                     <ButtonContainer>

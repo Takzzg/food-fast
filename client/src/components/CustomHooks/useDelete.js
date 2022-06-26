@@ -14,6 +14,9 @@ export default function useDelete (dispatch) {
         if(type === "products") {
             name = "Product"
         }
+        if(type === "orders") {
+            name = "orders"
+        }
             swal({
                 title: "Are you sure?",
                 text: `Once deleted, you will not be able to recover the ${name}!`,
@@ -29,15 +32,23 @@ export default function useDelete (dispatch) {
               }
               ).then((res)=> {
                 if(res)  {
-                    swal(`The ${name} is deleted!`, {
-                    icon: "success"})
-                    type=== "categories" ? 
-                    dispatch(delete_category(id))
-                    :dispatch(delete_product(id))}
-                else { swal(`Your ${name} is safe!`); }
+                    if(type === "orders") {
+                        window.location = "/dashboard/orders"
+                    } else {
+                        swal(`The ${name} is deleted!`, {
+                            icon: "success"})
+                            type=== "categories" ? 
+                            dispatch(delete_category(id))
+                            :dispatch(delete_product(id))}
+                    }
+
+                else { 
+                    swal(`Your ${name} is safe!`)
+                ; }
 
             }
               ).catch(err=> console.log(err))
+           
         
     }
 
