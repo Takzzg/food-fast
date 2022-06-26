@@ -3,20 +3,17 @@ import { check } from 'express-validator';
 import { 
     deleteCompletedOrders,
     deleteOrderById,
+    deleteUserOrders,
     getAllOrders, 
+    getOrderByID, 
+    getUserOrders, 
     postOrder,
     updateOrderStatus} from '../controllers/orderControllers.js'
 import { validarCampos } from '../../middlewares/validar-campo.js';
 
 const router = express.Router()
 
-//POST  http://localhost:3001/api/v1/order
-router.post('/',[
-    check("user","No es un id de MongoDb válido").isMongoId(),
-    check("productId","No es un id de MongoDb válido").isMongoId(),
-    validarCampos
-],postOrder);
-
+// Orders para el admin: 
 //GET http://localhost:3001/api/v1/orders
 router.get("/",getAllOrders);
 
@@ -29,5 +26,13 @@ router.delete('/:id', deleteOrderById)
 //PUT http://localhost:3001/api/v1/orders?id=${orderId}&status=${orderStatus}
 router.put('/', updateOrderStatus)
 
+// Orders para un usuario: 
+//GET http://localhost:3001/api/v1/orders/user/1231231
+router.get("/user/:userID",getUserOrders);
 
+//DELETE http://localhost:3001/api/v1/orders/orderDelete/1231231
+router.get('/orderDelete/:orderID', deleteUserOrders)
+
+// GET  http://localhost:3001/api/v1/orders/123123
+router.get('/:orderID', getOrderByID)
 export default router;

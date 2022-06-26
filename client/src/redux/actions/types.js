@@ -40,4 +40,11 @@ export const GET_ITEMS_CAR = "get_items_car"
 
 // Favorites
 export const GET_FAVORITES = "get_favorites"; 
-export const REMOVE_FAVORITE = "remove_favorite"
+export const REMOVE_FAVORITE = "remove_favorite"; 
+
+// Orders 
+export const GET_USER_ORDERS = "get_user_orders";
+export const GET_ORDER_BY_ID = "get_order_by_id"; 
+
+// 
+export const ADD_USER_ITEMS = "get_user_items"

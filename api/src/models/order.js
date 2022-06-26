@@ -13,9 +13,6 @@ const orderSchema = new mongoose.Schema({
         enum:["Pending","Rejected","Accepted","Completed"],
         default: "Pending"
     },
-    img: {
-        type: String
-    },
     date: {
         type: Date, // o string
         required: true,
@@ -26,8 +23,8 @@ const orderSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    productId: {
-        type: mongoose.Schema.Types.ObjectId,
+    products: {
+        type: Array,
         ref: "Product",
         required: true
     }

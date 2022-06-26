@@ -30,6 +30,8 @@ import PaymentPass from "./components/PaymentPass"
 import WishList from "./components/CommonUser/wishList"
 
 import UserReviews from "./components/Reviews/UserReviews"
+import UserOrders from "./components/CommonUser/ordersList"
+import OrderDetail from "./components/CommonUser/orderDetail"
 
 const ScrollToTop = () => {
     const location = useLocation()
@@ -56,9 +58,13 @@ function App() {
                         <Route index element={<DisplayProducts />} />
                         <Route path=":idProduct" element={<DetailProduct />} />
                     </Route>
+                    <Route path='/orders'>
+                        <Route path=":orderID" element={<OrderDetail />}/>
+                    </Route>
                     <Route path="/commonUser">
                         <Route path="profile" element={<ProfileUser />}/>
-                        <Route path="wishList" element={<WishList />} />
+                        <Route path=":userID/wishList" element={<WishList />} />
+                        <Route path=":userID/orders" element={<UserOrders />}/>
                     </Route>
                     <Route
                         path="/categories/:idCategory"

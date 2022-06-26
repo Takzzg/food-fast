@@ -34,6 +34,10 @@ const userSchema=new mongoose.Schema({
         required: true,
         default: false
     },
+    shopCart: {
+        type: Array,
+        default: []
+    },
    address:{
        type:String,   
        default: "EE UU"
