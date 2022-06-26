@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { GlobalContainer, SearchInput, SearchIcon } from "./UbicationBar.styled"
-import { FaSearchLocation } from "react-icons/fa"
+
 import { searchCategory } from "../../../redux/actions/async"
 import { BsFillMicFill } from "react-icons/bs"
 import { BsFillMicMuteFill } from "react-icons/bs"
-import style from "./style/mic.module.scss"
+import style from "./style/microspeech.module.scss"
 
 const SpeechRecognition =
     window.speechRecognition || window.webkitSpeechRecognition
@@ -78,7 +78,7 @@ const CategoryBar = () => {
                 placeholder={listen ? "Listening..." : "Filter categories..."}
             />
             {mic && (
-                <button className={style.micon} onClick={handleVoiceClick}>
+                <button className={style.mic_speech} onClick={handleVoiceClick}>
                     {listen ? <BsFillMicFill /> : <BsFillMicMuteFill />}
                 </button>
             )}
