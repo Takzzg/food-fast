@@ -7,7 +7,7 @@ import { searchProductAsync } from "../../redux/actions/async"
 import Autosuggest from "react-autosuggest"
 import { BsFillMicFill } from "react-icons/bs"
 import { BsFillMicMuteFill } from "react-icons/bs"
-import style from "./style/mic.module.scss"
+import style from "./style/speechRecog.module.scss"
 import "./autoStyles.scss"
 import axios from "axios"
 
@@ -26,8 +26,10 @@ export default function SearchBar() {
     }, [listen])
 
     const handleVoiceClick = () => {
-        dispatch(searchProductSync(input))
+        dispatch( searchProductSync(input))
         setListen((prevState) => !prevState)
+       
+       
     }
     const handleListen = () => {
         if (listen) {
@@ -131,7 +133,7 @@ export default function SearchBar() {
     }, [])
     return (
         <GlobalContainer>
-            <button className={style.mic} onClick={handleVoiceClick}>
+            <button className={style.microno} onClick={handleVoiceClick}>
                 {listen ? <BsFillMicFill /> : <BsFillMicMuteFill />}
             </button>
             <Autosuggest
@@ -146,9 +148,7 @@ export default function SearchBar() {
 
             <button onClick={handleClean}>Clean</button>
 
-            <SearchIcon theme={theme} onClick={handleSelect}>
-                <AiOutlineSearch />
-            </SearchIcon>
+           
         </GlobalContainer>
     )
 }

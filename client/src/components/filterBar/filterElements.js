@@ -47,10 +47,13 @@ export const IconClose = styled.div`
 
 export const ListContainer = styled.div`
     margin-bottom: 2rem;
+    
 `
+
 
 export const MyH4 = styled.h4`
     color: black;
+    
     font-family: "Roboto Mono", monospace;
 `
 export const ButtonContainer = styled.div`
@@ -58,6 +61,7 @@ export const ButtonContainer = styled.div`
     display: flex;
     align-items: flex-end;
     justify-content: flex-end;
+    
 `
 export const FilterButton = styled.button`
     background-color: #00ff00;
@@ -67,6 +71,7 @@ export const FilterButton = styled.button`
     border: 0px;
     font-size: 1.5rem;
     border-radius: 1rem;
+    cursor:pointer ;
 `
 
 //========================================================

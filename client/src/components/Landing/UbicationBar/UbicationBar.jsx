@@ -5,7 +5,7 @@ import { FaSearchLocation } from "react-icons/fa"
 import { searchCategory } from "../../../redux/actions/async"
 import { BsFillMicFill } from "react-icons/bs";
 import { BsFillMicMuteFill } from "react-icons/bs";
-import style from "./style/mic.module.scss"
+import style from "./style/microspeech.module.scss"
 
 const SpeechRecognition=window.SpeechRecognition || window.webkitSpeechRecognition
 const mic=new SpeechRecognition()
@@ -85,7 +85,7 @@ const CategoryBar = () => {
                 name="searchBar"
                 placeholder={listen?"Listening...":"Filter categories..."}
             />
-              <button className={style.micon}  onClick={handleVoiceClick}>
+              <button className={style.mic_speech}  onClick={handleVoiceClick}>
             {listen?<BsFillMicFill/>:<BsFillMicMuteFill/>}
               </button>
         </GlobalContainer>
