@@ -89,7 +89,7 @@ export default function ProfileUser() {
                 <img src={Avatar} alt="avatar"/>
             </SImgContainer>
             <SOptionsContainer>
-                <Link to={"/"}>
+                <Link to={`/commonUser/${user._id}/orders`}>
                     <ButtonContainer>My orders</ButtonContainer>
                 </Link>
                 

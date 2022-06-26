@@ -105,19 +105,36 @@ export const emailExists = async (req, res) => {
         res.json({ exists: false })
     }
 }
-/* 
-  console.log("Entre al emailExists! req.query es: ")
-  try {
-    let {email} = req.query
-    console.log("Entre al emailExists! req.query es: ", req?.query)
-    let gUser = await User.findOne({email: email})
-    if(gUser){
-      res.json({exists: true})
-    }else{
-      res.json({exists: false})
+
+
+export const manageProducts = async (req,res) => {
+    try{
+        const { id } = req.params;
+
+        const {product} = req.body; 
+        console.log(product) 
+        const Userfind = await User.findById(id); 
+        let coincidence = Userfind.shopCart.find(el=>  el._id === product._id); 
+
+        let data
+        if(!coincidence) {
+            data = [...Userfind.shopCart, product]
+        } else {
+            data = Userfind.shopCart.filter(el=> el._id !== product._id)
+        }
+        const update = await User.findByIdAndUpdate(id, {shopCart: data}, {new: true});
+        res.send(update)
+    } catch(e){
+        res.status(400).send("Error")
     }
-  } catch (e) {
-    console.log("Error en emailExists. ",e)
-    res.json({exists: false})
-  }
-*/
+}
+
+export const afterPay = async (req,res) => {
+    try{
+        const { id } = req.params; 
+        const update = await User.findByIdAndUpdate(id, {shopCart: []}, {new: true});
+        res.send(update)
+    }catch(e){
+        res.status(400).send("Error")
+    }
+}

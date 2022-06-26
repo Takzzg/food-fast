@@ -5,7 +5,7 @@ import FilterBar from "../filterBar"
 import { CardsContainer } from "./displayElements"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
-import { fetchAllProducts } from "../../redux/actions/async"
+import { fetchAllProducts, getShopCartUser } from "../../redux/actions/async"
 import axios from "axios"
 
 export default function DisplayProducts() {
@@ -24,6 +24,7 @@ export default function DisplayProducts() {
     const getData = async (id) => {
         const response = await axios.get(`http://localhost:3001/api/v1/favorites/${id}`)
         setList(response.data.products)
+        dispatch(getShopCartUser(id))
     }
 
     useEffect(()=> {
