@@ -118,9 +118,6 @@ export const getImgProductbyId = async (req, res) => {
 
 export const postProduct = async (req, res) => {
     const { name, description, stock, price, categories } = req.body
-    let array = categories.split(",")
-    array[0] = array[0].slice(1)
-    array[array.length - 1] = array[array.length - 1].slice(0, 1)
 
     const image = req.files
 
@@ -136,7 +133,7 @@ export const postProduct = async (req, res) => {
         description,
         stock,
         price,
-        categories: array
+        categories
     }
 
     const newProduct = new Product(data)

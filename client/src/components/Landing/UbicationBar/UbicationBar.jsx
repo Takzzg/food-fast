@@ -1,93 +1,87 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { GlobalContainer, SearchInput, SearchIcon } from "./UbicationBar.styled"
-import { FaSearchLocation } from "react-icons/fa"
+
 import { searchCategory } from "../../../redux/actions/async"
-import { BsFillMicFill } from "react-icons/bs";
-import { BsFillMicMuteFill } from "react-icons/bs";
+import { BsFillMicFill } from "react-icons/bs"
+import { BsFillMicMuteFill } from "react-icons/bs"
 import style from "./style/microspeech.module.scss"
 
-const SpeechRecognition=window.SpeechRecognition || window.webkitSpeechRecognition
-const mic=new SpeechRecognition()
+const SpeechRecognition =
+    window.speechRecognition || window.webkitSpeechRecognition
+const mic = SpeechRecognition ? new SpeechRecognition() : null
 
-mic.continuous = true;
-mic.interimResults = true;
-mic.lang = 'es-ES';
+if (mic) {
+    mic.continuous = true
+    mic.interimResults = true
+    mic.lang = "es-ES"
+}
 
 const CategoryBar = () => {
     const [input, setInput] = useState("")
     const dispatch = useDispatch()
-    const [listen,setListen]=useState(false)
+    const [listen, setListen] = useState(false)
 
-   
+    const handleListen = () => {
+        if (!mic) return
+        if (listen) {
+            mic.start()
 
-      const handleListen=()=>{
-        if(listen){
-          mic.start();
-    
-          mic.onend=()=>{
-            console.log("continue...");
-            mic.start();
-          }
-          
-    
-        }else{
-          mic.stop();
-          mic.onend=()=>{
-            console.log("micrófono en stop");
-    
-          }
-          setInput("")
+            mic.onend = () => {
+                console.log("continue...")
+                mic.start()
+            }
+        } else {
+            mic.stop()
+            mic.onend = () => {
+                console.log("micrófono en stop")
+            }
+            setInput("")
         }
-        mic.onstart=()=>{
-          console.log("Micrófono encendido...");
-    
+        mic.onstart = () => {
+            console.log("Micrófono encendido...")
         }
-        mic.onresult=(event)=>{
-            const transcript=Array.from(event.results)
-            .map((result)=>result[0])
-           .map((result)=>result.transcript).join("");
-           console.log(transcript)
-           setInput(transcript)
-           mic.onerror=(event)=>console.log(event.error)
-       }
-     }
+        mic.onresult = (event) => {
+            const transcript = Array.from(event.results)
+                .map((result) => result[0])
+                .map((result) => result.transcript)
+                .join("")
+            console.log(transcript)
+            setInput(transcript)
+            mic.onerror = (event) => console.log(event.error)
+        }
+    }
 
-     React.useEffect(()=>{
-        handleListen();
-      },[listen])
+    useEffect(() => {
+        handleListen()
+    }, [listen])
 
-     
-      
-      const handleVoiceClick=()=>{
-        
+    const handleVoiceClick = () => {
         dispatch(searchCategory(input))
-        setListen(prevState=>!prevState)
-       
-      }
+        setListen((prevState) => !prevState)
+    }
     // const search = () => {
     //     dispatch(searchCategory(input))
     // }
 
     const handleChange = (e) => {
-      
         setInput(e.target.value)
         dispatch(searchCategory(e.target.value))
     }
 
-   
-   
     return (
         <GlobalContainer className={"container"}>
             <SearchInput
                 value={input}
                 onChange={handleChange}
                 name="searchBar"
-                placeholder={listen?"Listening...":"Filter categories..."}
+                placeholder={listen ? "Listening..." : "Filter categories..."}
             />
-              <button className={style.mic_speech}  onClick={handleVoiceClick}>
-            {listen?<BsFillMicFill/>:<BsFillMicMuteFill/>}
-              </button>
+            {mic && (
+                <button className={style.mic_speech} onClick={handleVoiceClick}>
+                    {listen ? <BsFillMicFill /> : <BsFillMicMuteFill />}
+                </button>
+            )}
         </GlobalContainer>
     )
 }

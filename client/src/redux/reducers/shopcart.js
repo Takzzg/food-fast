@@ -3,7 +3,8 @@ import {
     REMOVE_ITEM_CAR,
     REMOVE_ALL_ITEM_CAR,
     CLEAN_CAR,
-    GET_ITEMS_CAR
+    GET_ITEMS_CAR,
+    ADD_USER_ITEMS
 } from "../actions/types"
 
 const initialState = {
@@ -13,6 +14,7 @@ const json = JSON.parse(window.localStorage.getItem("shoppingCart"))
 
 const shopCart = (state = initialState, action) => {
     let newState = { ...state }
+
     const index = newState.shopCart.findIndex(
         (el) => el._id === action.payload?._id
     )
@@ -21,6 +23,9 @@ const shopCart = (state = initialState, action) => {
     }
 
     switch (action.type) {
+        case ADD_USER_ITEMS:
+            newState.shopCart = action.payload;    
+        break
         case ADD_ITEM_CAR:
             if (index !== -1) {
                 newState.shopCart[index].quantity =

@@ -14,7 +14,10 @@ import {
     AUTH_USER,
     AUTH_ERROR,
     GOOGLE_LOGIN,
-    GET_FAVORITES
+    GET_FAVORITES,
+    GET_USER_ORDERS,
+    GET_ORDER_BY_ID,
+    ADD_USER_ITEMS
 } from "./types"
 
 export const baseUrl = `${
@@ -149,7 +152,6 @@ export const postNewPassword = async (payload) => {
 // Favorites 
 
 export const getFavorites = (productID) => async (dispatch) => {
-    //log up the user...
     try {
         const response = await axios.get(`http://localhost:3001/api/v1/products/${productID}`)
         dispatch({ type: GET_FAVORITES, payload: response.data })
@@ -171,3 +173,20 @@ export const getUserReviews = (id) =>
 
 export const deleteReview = (id) =>
     axios.delete(`${baseUrl}/reviews/${id}`).then((res) => res.data)
+
+// ORDERS
+export const getUserOrders = (userID) => async (dispatch) => {
+    const response = await axios.get(`http://localhost:3001/api/v1/orders/user/${userID}`)
+    dispatch({ type: GET_USER_ORDERS, payload: response.data })
+    }
+
+export const getUserOrderbyID = (orderID) => async (dispatch) => {
+    const response = await axios.get(`http://localhost:3001/api/v1/orders/${orderID}`); 
+    dispatch({type: GET_ORDER_BY_ID, payload: response.data}); 
+}
+
+// Get items shopcart user
+export const getShopCartUser = (userID) => async (dispatch) => {
+    const response = await axios.get(`http://localhost:3001/api/v1/user/${userID}`)
+    dispatch({type: ADD_USER_ITEMS, payload: response.data.shopCart})
+}

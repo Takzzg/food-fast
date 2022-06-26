@@ -2,6 +2,7 @@ import express from 'express';
 import {createOrden, captureOrder,cancelOrder} from '../controllers/paypalControllers.js'
 import Product from '../models/product.js';
 import Payement from '../models/payement.js';
+import Order from '../models/order.js';
 const router = express.Router()
 
 //http://localhost:3001/api/v1/paypal/createOrden
@@ -24,11 +25,18 @@ router.get('/pagos', async(req,res)=>{
 })
 
 // http://localhost:3001/api/v1/paypal/stock 
-router.patch('/stock', (req,res)=> {
-           // reducir stock del producto
-            const { resumeOrder } = req.body; 
+router.post('/stock', async (req,res)=> {
+            // Me tiene que llegar:
+            // {id: , price: , cantidad:, total: , newStock: }       
+
+            // reducir stock del producto
+            const { userID, total, resumeOrder } = req.body; 
             let promises = resumeOrder.map(el => Product.findByIdAndUpdate(el.id, {stock: el.newStock}));
            Promise.all(promises).then(result=> console.log("xd"))
-           res.json({msg: "Correct"})
+           // crear orden 
+           let data = {user: userID, products: resumeOrder, total: Number(total)}
+           const order = new Order(data); 
+           await order.save(); 
+           res.send(order)
 })
 export default router;

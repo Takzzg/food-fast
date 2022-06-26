@@ -13,7 +13,7 @@ import axios from "axios"
 
 const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition
-const mic = new SpeechRecognition()
+const mic = SpeechRecognition ? new SpeechRecognition() : null
 
 export default function SearchBar() {
     const [input, setInput] = useState("")
@@ -26,12 +26,11 @@ export default function SearchBar() {
     }, [listen])
 
     const handleVoiceClick = () => {
-        dispatch( searchProductSync(input))
+        dispatch(searchProductSync(input))
         setListen((prevState) => !prevState)
-       
-       
     }
     const handleListen = () => {
+        if (!mic) return
         if (listen) {
             mic.start()
 
@@ -85,27 +84,19 @@ export default function SearchBar() {
         const inputValue = value.trim().toLowerCase()
         const inputLength = inputValue.length
 
-        let filteredProducts = allProducts.filter(
-            (product) => {
-                let completeName = product.name
-                if (
-                    completeName
-                        .toLowerCase()
-                        .normalize("NFD")
-                        .replace(/[\u0300-\u036f]/g, "")
-                        .includes(inputValue)
-                ) {
-                    return product
-                }
+        let filteredProducts = allProducts.filter((product) => {
+            let completeName = product.name
+            if (
+                completeName
+                    .toLowerCase()
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .includes(inputValue)
+            ) {
+                return product
             }
-
-            // const handleChange = (e) => {
-            //     setInput(e.target.value)
-            //     dispatch(searchProduct(e.target.value))
-
-            //   }
-        )
-        return inputLength === 0 ? [] : filteredProducts
+            return inputLength === 0 ? [] : filteredProducts
+        })
     }
 
     const getData = () => {
@@ -133,9 +124,11 @@ export default function SearchBar() {
     }, [])
     return (
         <GlobalContainer>
-            <button className={style.microno} onClick={handleVoiceClick}>
-                {listen ? <BsFillMicFill /> : <BsFillMicMuteFill />}
-            </button>
+            {mic && (
+                <button className={style.microno} onClick={handleVoiceClick}>
+                    {listen ? <BsFillMicFill /> : <BsFillMicMuteFill />}
+                </button>
+            )}
             <Autosuggest
                 suggestions={products}
                 onSuggestionsFetchRequested={onSuggestionsFetchRequested}
@@ -148,7 +141,9 @@ export default function SearchBar() {
 
             <button onClick={handleClean}>Clean</button>
 
-           
+            <SearchIcon theme={theme} onClick={handleSelect}>
+                <AiOutlineSearch />
+            </SearchIcon>
         </GlobalContainer>
     )
 }

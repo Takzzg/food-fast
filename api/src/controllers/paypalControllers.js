@@ -64,7 +64,6 @@ export const captureOrder= async(req,res, next)=>{
     try {
       
       const { token } = req.query;
-      const { resumeOrder } = req.params; 
       const response = await axios.post(`${PAYPAL_API}/v2/checkout/orders/${token}/capture`, {},
         {
             auth: {

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import deliveryPNG from "../../assets/delivery.png"
 import { useParams, Link } from "react-router-dom";
 import {
@@ -13,21 +13,28 @@ import { clean_car } from "../../redux/actions/sync";
 import {IoMdArrowRoundBack} from "react-icons/io"; 
 import {GrDocumentText} from "react-icons/gr"
 import axios from "axios"; 
+import { getTotal } from "./functions";
 
 export default function PaymentPass() {
+  const [order, setOrder] = useState({}); 
   const params = useParams(); 
   const dispatch = useDispatch(); 
-  const shopcart = useSelector(state=> state.shopCart.shopCart)
+  const shopcart = useSelector(state=> state.shopCart.shopCart);
+  const user= useSelector(state=> state.user.authData.user); 
+
   useEffect(()=> {
     const after = async ()=> {
       if (params.isAcepted){
-        await axios.patch('http://localhost:3001/api/v1/paypal/stock', {
-          resumeOrder: shopcart.map(el=> ({id: el._id, newStock: el.stock - el.quantity}))
+        const response = await axios.post('http://localhost:3001/api/v1/paypal/stock', {
+          userID: user._id,
+          total: getTotal(shopcart),
+          resumeOrder: shopcart.map(el=> ({id: el._id, name: el.name, price: el.price, quantity: el.quantity, subTotal: el.price*el.quantity, newStock: el.stock - el.quantity}))
         })
+        setOrder(response.data)
         dispatch(clean_car())       
       }
     }
-    after(); 
+    if (shopcart.length !== 0) after(); 
 
   }, [])
   return (<GlobalContainer>
@@ -46,7 +53,7 @@ export default function PaymentPass() {
         </div>
       </Link>
 
-      <Link to="/">
+      <Link to={`/orders/${order._id}`}>
         <div id="order">See the order <GrDocumentText /></div>
       </Link>
     </ButtonsContainer>
