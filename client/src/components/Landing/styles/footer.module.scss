@@ -1,8 +1,11 @@
 .footer_contact{
     background-color: #6f490b;
     width: 100%;
-    padding-top:3rem;
+  
    
+}
+.footer_box{
+    height: 3rem;
 }
 
 .footer_title{
@@ -39,7 +42,7 @@
 .telegram_button{
  
     display: flex;
-    justify-content: center;
+  
     height: 50px;
     width: 10rem;
     border-radius:20px; 
@@ -49,7 +52,7 @@
     font-size: 20px;
     color: black;
     font-weight: bold;
-    padding-top:20px;
+    padding-top:17px;
     letter-spacing: 1px;
     box-shadow: 10px 0px 13px black;
     
@@ -63,10 +66,12 @@
     background-color: #00a4e6;
 }
 .tlg_button{
-        padding-left: 4rem;
-        position: relative;
-        bottom: 6rem;
-        text-decoration: none;
+     padding-left: 15rem;
+    position: relative;
+    bottom: 1rem;
+    text-decoration: none;
+    
+    
 }
 .telegram_button a{
     text-decoration: none;
