@@ -186,7 +186,11 @@ export const getUserOrderbyID = (orderID) => async (dispatch) => {
 }
 
 // Get items shopcart user
-export const getShopCartUser = (userID) => async (dispatch) => {
+export const getShopCartUser = (userID, products) => async (dispatch) => {
+    const savePrev = await axios.post(`http://localhost:3001/api/v1/user/shopCart/addPrevItem/${userID}`, {
+        products: products
+    })
     const response = await axios.get(`http://localhost:3001/api/v1/user/${userID}`)
     dispatch({type: ADD_USER_ITEMS, payload: response.data.shopCart})
 }
+

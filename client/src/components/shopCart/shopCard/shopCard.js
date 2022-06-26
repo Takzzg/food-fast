@@ -5,24 +5,40 @@ import {AiFillPlusCircle, AiFillMinusCircle} from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { add_item_car, remove_item_car } from "../../../redux/actions/sync";
 import {TbShoppingCartOff} from "react-icons/tb"
+import axios from "axios";
 
-export default function ShopProductCard({product, setCharge, charge}) {
+export default function ShopProductCard({product, setCharge, charge, user}) {
 
     const [quantity, setQuantity] = useState(1); 
 
     const dispatch = useDispatch(); 
-    const addItem = () => {
+    const addItem = async () => {
         dispatch(add_item_car(product))
+        if(user) { 
+            await axios.post(`http://localhost:3001/api/v1/user/shopCart/add/${user.user._id}`, {
+                 product: product   
+            })
+        }
         setQuantity(Number(quantity) + 1)
         setCharge(!charge);
     }
-    const removeItem = (all=false) => {
+    const removeItem = async (all=false) => {
         if(!all) {
+            if(user) { 
+                await axios.post(`http://localhost:3001/api/v1/user/shopCart/remove/${user.user._id}`, {
+                     product: product   
+                })
+            }
             dispatch(remove_item_car(product))
-            setQuantity(Number(quantity) - 1)
+            setQuantity(Number(quantity) - 1)      
         } else {
+            if(user) { 
+                await axios.post(`http://localhost:3001/api/v1/user/shopCart/removeSame/${user.user._id}`, {
+                     product: product   
+                })
+            }
             dispatch(remove_item_car(product, all))
-            setQuantity(0)
+            setQuantity(0)   
         }
         setCharge(!charge);
     }

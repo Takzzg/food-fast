@@ -48,3 +48,4 @@ export const GET_ORDER_BY_ID = "get_order_by_id";
 
 // 
 export const ADD_USER_ITEMS = "get_user_items"
+export const SAVE_CAR_ITEMS = "save_car_items"
