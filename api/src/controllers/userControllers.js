@@ -29,15 +29,13 @@ export const registerUser = async(req,res) =>{
 
 export const getUser = async(req,res) =>{
   try{
-    const user=await User.find()
-    if(!user){
+    const users=await User.find()
+    if(!users?.length){
       return res.status(400).json({
         msg:"No hay usuarios para mostrar"
       })
     }
-    return res.status(200).json({
-      user
-    })
+    return res.status(200).json(users)
   }catch(e){
     console.log(e)
   }
@@ -55,10 +53,15 @@ export const getUserById = async (req, res)=> {
 
 export const updateUser = async (req,res)=> {
   const { id } = req.params; 
-  const {name, address} = req.body; 
+  const {name, address, rol} = req.body; 
   try {
-    const user = await User.findByIdAndUpdate(id, {name, address})
-    res.json(user); 
+    if(typeof rol === undefined){
+      const user = await User.findByIdAndUpdate(id, {name, address})
+      res.json(user); 
+    }else{
+      const user = await User.findByIdAndUpdate(id, {rol})
+      res.json(user);
+    }
   }catch(e){
     res.status(404).send("Error en updateUser. ", e.message)
   }
@@ -69,11 +72,8 @@ export const emailExists = async (req, res)=>{
     let {email} = req.query
     let gUser = await User.findOne({email: email})
     if(gUser){
-      console.log("el usuario EXISTE en el emailExists. Returning true")
       res.json({exists: true})
     }else{
-      console.log("el usuario NO EXISTE en el emailExists. Returning false")
-
       res.json({exists: false})
     }
   } catch (e) {
@@ -81,6 +81,16 @@ export const emailExists = async (req, res)=>{
     res.json({exists: false})
   }
 }
+
+  export const deleteUser = async (req, res)=>{
+    try{
+      const { id } = req.params
+      await User.findByIdAndRemove(id)
+      res.status(200).send("Usuario removido.")
+    }catch(e){
+      console.log("Error en deleteUser controller. ",e)
+    }
+  }
 /* 
   console.log("Entre al emailExists! req.query es: ")
   try {

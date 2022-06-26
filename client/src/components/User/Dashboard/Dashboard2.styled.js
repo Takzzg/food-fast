@@ -34,6 +34,7 @@ export const DisplayDiv = styled.div`
     gap: 20px;
     padding: 20px;
     .categories,
+    .users,
     .products{
         display: flex;
         flex-direction: column;
@@ -99,5 +100,24 @@ export const StyledCard = styled.div`
             background-color: green;
             color: ${({ theme }) => theme.text.light};
         }
+    }
+`
+
+export const UserDiv = styled.div`
+    width: calc(100% - 40px);
+
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 2px;
+    padding-top: 70px;
+    position: relative;
+
+    .userCard{
+        width: 100%;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
     }
 `

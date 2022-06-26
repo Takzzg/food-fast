@@ -1,5 +1,5 @@
 //import styles from "";
-import { DisplayDiv, LateralDiv, StyledContainer, StyledCard } from './Dashboard2.styled'
+import { DisplayDiv, LateralDiv, StyledContainer, StyledCard, UserDiv } from './Dashboard2.styled'
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,14 +8,19 @@ import CategoryCard from '../../Categories/CategoryCard/CategoryCard';
 import ProductCard from '../../Products/ProductCard/ProductCard';
 import SearchBar from '../../searchBar';
 
-import { FaTrashAlt, FaEdit } from "react-icons/fa"
+import { FaTrashAlt, FaEdit, FaUserCircle } from "react-icons/fa"
 import useDelete from '../../CustomHooks/useDelete';
+import { fetchAllUsers, changePermissions } from '../../../redux/actions/async';
+
+import swal from "sweetalert"
+import toast, {Toaster} from "react-hot-toast"
 
 const Dashboard2 = function(){
     const filterCategories = useSelector(
         (state) => state.main.categories.filtered
     )
     const filterProducts = useSelector(state=>state.main.products.filtered)
+    const usersData = useSelector(state=>state.user.usersData)
 
     const dispatch = useDispatch();
     const theme = useSelector(state => state.theme.selectedTheme)
@@ -32,11 +37,13 @@ const Dashboard2 = function(){
           users: false
         }
     );
+    const [reRender, setreRender] = useState(0);
 
     
     useEffect(() => {
-        //cada q cambia el menu, guarda en el LS el menu actual
+        //cada q cambia el menu, guarda en el LS el menu actual. Terminar de implementar*
         window.localStorage.setItem("menu", JSON.stringify(menu));
+        if(!usersData.length) dispatch(fetchAllUsers());
     }, [menu]);
     
     function handleMenu(element) { //"value" ERA un boolean :v (segundo parámetro)
@@ -52,9 +59,29 @@ const Dashboard2 = function(){
         });
     }
 
+    function handlePermissions(id, rol) {
+        swal("¿Seguro que deseas cambiar el rol a este Usuario?", {
+            buttons: ["Cancelar", true],
+          }).then(respuesta=> { 
+              if(respuesta){ 
+                //action hacer admin al usuario 
+                
+                if(rol === "ADMIN"){ 
+                    toast.success("Le quitó permisos de Admin a este usuario!")
+                    changePermissions(id, rol="USER")
+                    setreRender(reRender+1)
+                }else{
+                   toast.success("Le dió permisos de Admin a este usuario!")
+                   changePermissions(id, rol="ADMIN")
+                   setreRender(reRender+1)
+               }
+              }
+          })
+    }
+
     const { handleDelete } = useDelete(dispatch)
 
-    // ******** mini components **********
+    //           ********   mini components  **********
     const Category = ({ c }) => (
         <StyledCard theme={theme}>
             <CategoryCard category={c} url={`/categories/${c._id}`} />
@@ -77,8 +104,7 @@ const Dashboard2 = function(){
             <ProductCard product={p} />
             <button
                 className="deleteBtn"
-                onClick={() => handleDelete("products", p._id, p.img)}
-            >
+                onClick={() => handleDelete("products", p._id, p.img)}>
                 <FaTrashAlt />
                 Delete
             </button>
@@ -89,9 +115,27 @@ const Dashboard2 = function(){
         </StyledCard>
     )
 
+    const User = ({ u }) => (
+        <div className='userCard'>
+            <FaUserCircle/>
+            <span>{u.email}</span>
+            <span>{u.rol}</span>
+            <button className='roleBtn'
+                onClick={()=> handlePermissions(u._id, u.rol)}>
+                {u.rol === "ADMIN" ? "Remove permissions" : "Give permissions"}
+            </button>
+            <button className="deleteBtn"
+                onClick={() => handleDelete("user", u._id, u.img)}>
+                <FaTrashAlt />
+                Delete
+            </button>
+        </div>
+    )
+
     //****************************************************
     return (
         <StyledContainer>
+            <Toaster/>
             <LateralDiv>
                 <section>foto... nombre usuari... "Admin"</section>
                 <div className='ButtonsContainer'>
@@ -116,7 +160,18 @@ const Dashboard2 = function(){
                 Dashboard (tarjetitas con info)
                 </>
             ) : menu.users ? (
-                <>USERS list</>
+                <UserDiv>
+                    <h3>Users</h3>
+                    <div className='allUsers'>
+                        {!usersData.length ? (
+                            <div>No users found...</div>
+                        ):(
+                            usersData.map(u=>
+                                <User key={u._id} u={u} />
+                            )
+                        )}
+                    </div>
+                </UserDiv>
             ) : menu.categories ? (
                 <div className="categories">
                     <CategoryBar />

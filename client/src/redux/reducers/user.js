@@ -1,6 +1,18 @@
-import { AUTH_USER, AUTH_ERROR, LOG_OUT, GOOGLE_LOGIN } from "../actions/types"
+import { 
+    AUTH_USER, 
+    AUTH_ERROR, 
+    LOG_OUT, 
+    GOOGLE_LOGIN, 
+    FETCH_USERS,
+    DELETE_USER
+ } from "../actions/types"
 
-const user = (state = { authData: JSON.parse(window.localStorage.getItem("profile")) || null }, action) => {
+const initialState = { 
+    authData: JSON.parse(window.localStorage.getItem("profile")) || null,
+    usersData: []
+}
+
+const user = (state = initialState, action) => {
     
     switch (action.type) {
         case AUTH_USER:
@@ -17,7 +29,13 @@ const user = (state = { authData: JSON.parse(window.localStorage.getItem("profil
         case LOG_OUT:
             localStorage.clear()
             return { ...state, authData: null }
-
+        case FETCH_USERS:
+            return {...state, usersData: action.payload}
+        case DELETE_USER:
+            let filteredUsers = state.usersData.filter(
+                el => el._id !== action.id
+            ) //acá podría filtrar un estado "filterUsers" de ser necesario
+            return {...state, usersData: filteredUsers}
         default:
             return state
     }

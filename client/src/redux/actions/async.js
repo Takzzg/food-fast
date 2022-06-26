@@ -13,7 +13,8 @@ import {
     FIND_CAT_BY_ID,
     AUTH_USER,
     AUTH_ERROR,
-    GOOGLE_LOGIN
+    GOOGLE_LOGIN,
+    FETCH_USERS
 } from "./types"
 
 
@@ -135,5 +136,23 @@ export const postNewPassword = async (payload) => {
         await axios.post(`${baseUrl}/auth/reset-password/${payload.id}/${payload.token}`,payload)
     }catch(e){
         console.log("Error en el postNewPassword. ", e)
+    }
+}
+
+export const fetchAllUsers =() => async (dispatch) =>{
+    try{
+        const result = await axios.get(`${baseUrl}/user`)
+        const users = result?.data
+        dispatch({type: FETCH_USERS, payload: users})
+    }catch(e){
+        console.log("Error en fetchAllUsers. ", e)
+    }
+}
+
+export const changePermissions = async (id, rol)=>{
+    try{
+        await axios.patch(`${baseUrl}/user/${id}`, {rol})
+    }catch(e){
+        console.log("Error en changePermissions. ", e)
     }
 }

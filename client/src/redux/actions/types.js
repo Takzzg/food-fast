@@ -29,6 +29,8 @@ export const AUTH_USER = "auth_user"
 export const LOG_OUT = "log_out"
 export const AUTH_ERROR = "auth_error"
 export const GOOGLE_LOGIN = "google_login"
+export const FETCH_USERS = "fetch_users"
+export const DELETE_USER = "delete_user"
 
 // Shop Cart
 export const ADD_ITEM_CAR = "add_item_car"; 
