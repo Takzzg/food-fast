@@ -27,6 +27,7 @@ import ProfileUser from "./components/CommonUser/profile/index"
 import Profile from "./components/User/Profile"
 
 import PaymentPass from "./components/PaymentPass"
+import Dashboard2 from "./components/User/Dashboard/Dashboard2"
 import WishList from "./components/CommonUser/wishList"
 
 import UserReviews from "./components/Reviews/UserReviews"
@@ -73,15 +74,8 @@ function App() {
 
                     <Route path="/dashboard">
                         {/* <Route index element={<Dashboard />} /> */}
-                        <Route
-                            index
-                            element={
-                                <PrivateRoute
-                                    element={Dashboard}
-                                    requiredRol="ADMIN"
-                                />
-                            }
-                        />
+                        <Route index element={<PrivateRoute
+                    element={Dashboard2}  requiredRol="ADMIN" />}/>
 
                         {/* <Route path="createProduct" element={<ProductForm />} /> */}
                         <Route

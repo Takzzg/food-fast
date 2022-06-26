@@ -15,6 +15,7 @@ import {
     FOCUS_ITEM_CAR,
     SEARCH_PRODUCT,
     GET_ITEMS_CAR,
+    DELETE_USER,
     REMOVE_FAVORITE
 } from "./types"
 
@@ -47,6 +48,7 @@ export const get_items_car = ()=> ({type: GET_ITEMS_CAR})
 
 export const searchProductSync = (name) => ({type: SEARCH_PRODUCT, name})
 
+export const delete_user = (id) => ({ type: DELETE_USER, id })
 
 // Favorites
 export const remove_favorite = (id)=> ({type: REMOVE_FAVORITE, id})

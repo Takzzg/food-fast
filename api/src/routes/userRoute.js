@@ -1,5 +1,7 @@
 import express from 'express';
-import  {registerUser, getUser, updateUser, getUserById, emailExists,  cleanCar, addItemCard, removeCarItem, removeAllSameItems, addPrevItemsAuth} from '../controllers/userControllers.js'
+import  {registerUser, getUser, updateUser, deleteUser,
+    getUserById, emailExists,  cleanCar, addItemCard, 
+    removeCarItem, removeAllSameItems, addPrevItemsAuth} from '../controllers/userControllers.js'
 import {registerValidation} from '../../middlewares/bodyValidator.js'
 
 const router = express.Router()
@@ -11,6 +13,8 @@ router.post('/',registerValidation, registerUser)
 //get  http://localhost:3001/api/v1/user
 router.get('/', getUser)
 
+//delete http://localhost:3001/api/v1/user
+router.delete('/:id', deleteUser)
 
 //get http://localhost:3001/api/v1/user/:id
 router.get('/:id', getUserById)

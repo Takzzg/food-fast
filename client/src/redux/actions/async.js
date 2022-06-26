@@ -14,6 +14,8 @@ import {
     AUTH_USER,
     AUTH_ERROR,
     GOOGLE_LOGIN,
+    FETCH_USERS,
+    ROL_CHANGE,
     GET_FAVORITES,
     GET_USER_ORDERS,
     GET_ORDER_BY_ID,
@@ -148,6 +150,26 @@ export const postNewPassword = async (payload) => {
     }
 }
 
+export const fetchAllUsers =() => async (dispatch) =>{
+    try{
+        const result = await axios.get(`${baseUrl}/user`)
+        const users = result?.data
+        dispatch({type: FETCH_USERS, payload: users})
+    }catch(e){
+        console.log("Error en fetchAllUsers. ", e)
+    }
+}
+
+export const changePermissions = (id, rol)=> async (dispatch)=> {
+    try{
+        const result = await axios.patch(`${baseUrl}/user/${id}`, {rol})
+        //result me devuelve el archivo a editar ANTES del cambio
+        const data=result.data
+        dispatch({type: ROL_CHANGE, payload: {id: id, rol: rol}})
+    }catch(e){
+        console.log("Error en changePermissions. ", e)
+    }
+}
 
 // Favorites 
 

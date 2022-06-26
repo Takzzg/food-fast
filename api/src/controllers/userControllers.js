@@ -56,9 +56,7 @@ export const getUser = async (req, res) => {
                 msg: "No hay usuarios para mostrar"
             })
         }
-        return res.status(200).json({
-            user
-        })
+        return res.status(200).json(user)
     } catch (e) {
         console.log(e)
     }
@@ -74,29 +72,29 @@ export const getUserById = async (req, res) => {
     }
 }
 
-export const updateUser = async (req, res) => {
-    const { id } = req.params
-    const { name, address } = req.body
+export const updateUser = async (req,res)=> {
+    const { id } = req.params; 
+    const {name, address, rol} = req.body; 
     try {
-        const user = await User.findByIdAndUpdate(id, { name, address })
-        res.json(user)
-    } catch (e) {
-        res.status(404).send("Error en updateUser. ", e.message)
+      if(typeof rol === undefined){
+        const user = await User.findByIdAndUpdate(id, {name, address})
+        res.json(user); 
+      }else{
+        const user = await User.findByIdAndUpdate(id, {rol})
+        res.json(user);
+      }
+    }catch(e){
+      res.status(404).send("Error en updateUser. ", e.message)
     }
-}
+  }
 
 export const emailExists = async (req, res) => {
     try {
         let { email } = req.query
         let gUser = await User.findOne({ email: email })
         if (gUser) {
-            console.log("el usuario EXISTE en el emailExists. Returning true")
             res.json({ exists: true })
         } else {
-            console.log(
-                "el usuario NO EXISTE en el emailExists. Returning false"
-            )
-
             res.json({ exists: false })
         }
     } catch (e) {
@@ -193,3 +191,13 @@ export const addPrevItemsAuth = async (req,res) => {
         res.status(400).send("Error")
     }
 }
+
+export const deleteUser = async (req, res)=>{
+    try{
+      const { id } = req.params
+      await User.findByIdAndRemove(id)
+      res.status(200).send("Usuario removido.")
+    }catch(e){
+      console.log("Error en deleteUser controller. ",e)
+    }
+  }
