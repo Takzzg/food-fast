@@ -21,7 +21,6 @@ const Dashboard2 = function(){
     )
     const filterProducts = useSelector(state=>state.main.products.filtered)
     const usersData = useSelector(state=>state.user.usersData)
-
     const dispatch = useDispatch();
     const theme = useSelector(state => state.theme.selectedTheme)
 

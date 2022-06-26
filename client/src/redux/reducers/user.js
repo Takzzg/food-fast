@@ -32,19 +32,23 @@ const user = (state = initialState, action) => {
         case LOG_OUT:
             localStorage.clear()
             return { ...state, authData: null }
+
         case FETCH_USERS:
             return {...state, usersData: action.payload}
+
         case DELETE_USER:
             let filteredUsers = state.usersData.filter(
                 el => el._id !== action.id
             ) //acá podría filtrar un estado "filterUsers" de ser necesario
             return {...state, usersData: filteredUsers}
+
         case ROL_CHANGE:
             let editedUsers = state.usersData.map(u=>{
                 if(u._id === action.payload.id) u.rol = action.payload.rol
                 return u;
             })
             return {...state, usersData: editedUsers}
+            
         default:
             return state
     }

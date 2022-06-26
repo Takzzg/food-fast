@@ -56,9 +56,7 @@ export const getUser = async (req, res) => {
                 msg: "No hay usuarios para mostrar"
             })
         }
-        return res.status(200).json({
-            user
-        })
+        return res.status(200).json(user)
     } catch (e) {
         console.log(e)
     }

@@ -98,7 +98,7 @@ const Landing = () => {
                     </div>
                 </div>
                 <div className={style.tlg_button}>
-                    <buttom className={style.telegram_button}>
+                    <button className={style.telegram_button}>
                         <img className={style.footer_img} src={logo} alt="" />
                         <a
                             href="https://msng.link/o/?@foodfast_app_bot=tg"
@@ -107,7 +107,7 @@ const Landing = () => {
                         >
                             Telegram
                         </a>
-                    </buttom>
+                    </button>
                 </div>
             </footer>
         </GlobalContainer>
