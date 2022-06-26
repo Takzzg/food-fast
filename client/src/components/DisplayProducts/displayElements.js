@@ -3,6 +3,10 @@ import styled from "styled-components"
 
 export const GlobalContainer = styled.div`
     background-color: ${({ theme }) => theme.colors.main};
+    max-height: 100vh;
+
+    display: grid;
+    grid-template-rows: auto 1fr;
 `
 export const FilterContainer = styled.div`
     color: ${({ theme }) => theme.text.highContrast};
@@ -20,6 +24,7 @@ export const CardsContainer = styled.section`
     gap: 1rem;
     padding: 1rem;
     background-color: ${({ theme }) => theme.colors.main};
+    overflow-y: auto;
 `
 
 export const CardContainer = styled.section`
@@ -85,5 +90,17 @@ export const FooterContainer = styled.div`
             transform: scale(1.2);
             color: ${({ theme }) => theme.colors.main};
         }
+    }
+
+    #Favorite {
+        fill: yellow;
+        color: black;
+        background-color: black;
+        cursor: pointer;
+    }
+
+    #noFavorite {
+        fill: white;
+        cursor: pointer;
     }
 `

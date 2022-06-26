@@ -17,11 +17,13 @@ const user = (state = initialState, action) => {
     
     switch (action.type) {
         case AUTH_USER:
-            localStorage.setItem("profile", JSON.stringify({ ...action?.payload }))
+            localStorage.setItem("profile", JSON.stringify({ ...action?.payload }))        
             return { ...state, authData: action?.payload }
 
         case GOOGLE_LOGIN:
             localStorage.setItem("profile", JSON.stringify({...action?.payload}))
+            let data2 = {shopCart: action.payload.user.shopCart}
+            window.localStorage.setItem("shoppingCart", JSON.stringify(data2))
             return { ...state, authData: action?.payload }
 
         case AUTH_ERROR:

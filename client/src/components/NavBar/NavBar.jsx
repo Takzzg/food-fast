@@ -28,11 +28,11 @@ import { UserAuth } from "../../context/AuthContext"
 import style from "./style/google.module.scss"
 
 const NavBar = () => {
-    
     const [userData, setUser] = useState(
         JSON.parse(localStorage.getItem("profile"))
     )
     const { user, logOut } = UserAuth()
+    const reduxUser = useSelector((state) => state.user.authData?.user)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const location = useLocation()
@@ -91,16 +91,15 @@ const NavBar = () => {
                 </CloseButton>
 
                 <MainIconContainer theme={theme}>
-                    
-                        <IoFastFoodSharp />
-                        <Title  theme={theme}>Food Fast</Title>
+                    <IoFastFoodSharp />
+                    <Title theme={theme}>Food Fast</Title>
                 </MainIconContainer>
 
                 {user?.displayName ? (
                     <ButtonsContainer theme={theme}>
                         <img
                             className={style.auth_google_photo}
-                            src={ userData?.user.photo || user?.photoURL}
+                            src={userData?.user?.photo || user?.photoURL}
                             alt="profile"
                         />
                         <span>{user?.displayName}</span>
@@ -143,20 +142,25 @@ const NavBar = () => {
                 <h3>CONSUMER</h3>
                 <NavLink url="/">Home</NavLink>
                 <NavLink url="/products">Products</NavLink>
-                <NavLink url="/">My orders</NavLink>
+                {reduxUser?.rol && (
+                    <>
+                        <NavLink url="/">My orders</NavLink>
+                        <NavLink url={`/user/${reduxUser._id}/reviews`}>
+                            My Reviews
+                        </NavLink>
+                    </>
+                )}
                 <NavLink url="/">Oferts</NavLink>
-                <NavLink url="/contact">Contact</NavLink>
+               
 
                 <hr />
-                <h3>SELLER</h3>
-                {userData?.user?.rol === "ADMIN" ? (
-                    <NavLink url="/dashboard" onClick={handleSelectRoute}>
-                        DashBoard
-                    </NavLink>
-                ) : userData?.user?.rol === "USER" ? (
-                    <h5>Debes tener permisos de Administrador!</h5>
-                ) : (
-                    <h5>Logueate para más funciones! ♥</h5>
+                {reduxUser?.rol === "ADMIN" && (
+                    <>
+                        <h3>SELLER</h3>
+                        <NavLink url="/dashboard" onClick={handleSelectRoute}>
+                            DashBoard
+                        </NavLink>
+                    </>
                 )}
 
                 <button onClick={() => dispatch(switchTheme())}>

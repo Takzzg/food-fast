@@ -20,6 +20,7 @@ box-sizing: border-box;
 border-radius: 5px;
 padding: 55px 30px;
 box-shadow: 6px 6px 6px #111;
+
 svg{
     width: 90px; height: 90px;
     position: absolute;
@@ -66,6 +67,7 @@ input[type="submit"]{
     margin: 10px 0 10px;
     transition: box-shadow .3s ease;
     transition: .3s;
+    cursor:pointer ;
     &:hover{
         background: #000;
         color: #ede;

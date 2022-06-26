@@ -1,6 +1,6 @@
 import swal from "sweetalert"; 
 import axios from "axios"; 
-import { LOG_OUT } from "../../redux/actions/types";
+import { LOG_OUT } from "../../../redux/actions/types";
 
 export const patchUser = async (id, name, address, dispatch)=> {
     try {

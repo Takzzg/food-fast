@@ -10,35 +10,69 @@ import { TbShoppingCartPlus, TbShoppingCartX } from "react-icons/tb"
 import { Link } from "react-router-dom"
 import { baseUrl } from "../../redux/actions/async"
 import { useDispatch, useSelector } from "react-redux"
-import { add_item_car, remove_item_car } from "../../redux/actions/sync"
+import { add_item_car, remove_favorite, remove_item_car } from "../../redux/actions/sync"
+import {AiFillStar} from "react-icons/ai"
+import axios from "axios"
 
-
-export default function SingleProductCard({ product }) {
-    const [isAdded, setIsAdded] = useState(false)
+export default function SingleProductCard({ product, list}) {
+    const [isAdded, setIsAdded] = useState(false);
+    const [isFavorite, setIsFavorite] = useState(false); 
+    const user = useSelector(state=> state.user.authData)
 
     const dispatch = useDispatch()
     const theme = useSelector((state) => state.theme.selectedTheme)
     const products = useSelector((state) => state.shopCart.shopCart)
-    const addItem = (e) => {
+
+
+    const addItem = async (e) => {
         e.preventDefault()
         const item = { ...product, img: {} }
+        if(user) {
+            await axios.post(`http://localhost:3001/api/v1/user/shopCart/add/${user.user._id}`,
+                { product: item }
+            )
+        }
         dispatch(add_item_car(item))
         setIsAdded(true)
     }
-    const removeItem = (e) => {
+    const removeItem = async (e) => {
         e.preventDefault()
         const item = { ...product, img: {} }
+        if(user) {
+            await axios.post(`http://localhost:3001/api/v1/user/shopCart/removeSame/${user.user._id}`, {
+                 product: item 
+            })
+        }
         dispatch(remove_item_car(item, true))
         setIsAdded(false)
     }
+
+    const handleAddFavorite = async (e) => {
+        e.preventDefault(); 
+        await axios.post(`http://localhost:3001/api/v1/favorites/${user.user._id}`, {
+            idProduct: product._id
+        })
+        setIsFavorite(true)
+    }
+
+    const handleRemoveFavorite = async (id) => {
+        await axios.post(`http://localhost:3001/api/v1/favorites/${user.user._id}`, {
+            idProduct: product._id
+        })
+        dispatch(remove_favorite(id))
+        setIsFavorite(false)
+    }
+
+
     useEffect(() => {
         let coincidence = products.find((el) => el._id === product._id)
         if (coincidence) setIsAdded(true)
-    }, [])
+        let isFavorite = list && list.find((el)=> el === product._id)
+        if (isFavorite) setIsFavorite(true)
+    }, [list])
     return (
         <CardContainer theme={theme}>
             <TitleDiv>{product.name}</TitleDiv>
-
             <ImageContainer
                 to={`/products/${product._id}`}
                 img={`${baseUrl}/products/img/${product._id}`}
@@ -54,6 +88,9 @@ export default function SingleProductCard({ product }) {
                 <Link to={`/products/${product._id}`} id="details">
                     <MdReadMore />
                 </Link>
+                {user && 
+                    <AiFillStar id={isFavorite ? "Favorite":"noFavorite"} onClick={!isFavorite ? handleAddFavorite:()=>handleRemoveFavorite(product._id)} /> 
+                }
             </FooterContainer>
         </CardContainer>
     )

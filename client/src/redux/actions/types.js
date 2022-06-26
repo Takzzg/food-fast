@@ -41,3 +41,14 @@ export const CLEAN_CAR = "clean_car"
 export const FOCUS_ITEM_CAR = "focus_item_car"
 export const GET_ITEMS_CAR = "get_items_car"
 
+// Favorites
+export const GET_FAVORITES = "get_favorites"; 
+export const REMOVE_FAVORITE = "remove_favorite"; 
+
+// Orders 
+export const GET_USER_ORDERS = "get_user_orders";
+export const GET_ORDER_BY_ID = "get_order_by_id"; 
+
+// 
+export const ADD_USER_ITEMS = "get_user_items"
+export const SAVE_CAR_ITEMS = "save_car_items"

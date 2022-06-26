@@ -11,13 +11,12 @@ import {
     FILTER_PRODUCTS,
     FIND_CAT_BY_ID,
     FIND_PRODUCT_BY_ID,
+    GET_FAVORITES,
+    REMOVE_FAVORITE,
     SEARCH_CATEGORY,
     SEARCH_PRODUCT,
-    SORTBYPRICE, 
-   
+    SORTBYPRICE
 } from "../actions/types"
-
-
 
 function filterProduct(product, categories) {
     if (categories) {
@@ -63,7 +62,8 @@ const initialState = {
     products: {
         all: [],
         filtered: [],
-        selected: []
+        selected: [],
+        favorites: []
     },
     categories: {
         all: [],
@@ -76,8 +76,6 @@ const initialState = {
     }
 }
 
-
-
 const main = (state = initialState, action) => {
     let newState = { ...state }
 
@@ -88,7 +86,7 @@ const main = (state = initialState, action) => {
         case ERROR:
             newState.error = action.payload
             break
-       
+
         // CATEGORIES
 
         case FIND_CAT_BY_ID:
@@ -151,22 +149,39 @@ const main = (state = initialState, action) => {
             break
 
         case SEARCH_PRODUCT:
-            if(action.name === "") {
-                newState.products.filtered = newState.products.all; 
+            if (action.name === "") {
+                newState.products.filtered = newState.products.all
             }
-            newState.products.filtered = newState.products.all.filter(product=>{
-                let completeName = product.name;
-                if(completeName.toLowerCase()
-                .normalize("NFD")
-                .replace(/[\u0300-\u036f]/g, "")
-                .includes(action.name)){
-                  return product;
+            newState.products.filtered = newState.products.all.filter(
+                (product) => {
+                    let completeName = product.name
+                    if (
+                        completeName
+                            .toLowerCase()
+                            .normalize("NFD")
+                            .replace(/[\u0300-\u036f]/g, "")
+                            .includes(action.name)
+                    ) {
+                        return product
+                    }
                 }
-              });
+            )
             break
         case "SEARCH_PRODUCT_ASYNC":
-              newState.products.filtered = action.payload;
+            newState.products.filtered = action.payload
+            break
+
+        case GET_FAVORITES:
+              let coincidence = newState.products.favorites.find(el => el._id === action.payload._id)
+              if(!coincidence) {
+                 newState.products.favorites = [...newState.products.favorites, action.payload]
+              }
         break
+
+        case REMOVE_FAVORITE:
+              newState.products.favorites = newState.products.favorites.filter(el=> el._id !== action.id)
+        break
+
 
         case DELETE_PRODUCT:
             newState.products.filtered = newState.products.filtered.filter(

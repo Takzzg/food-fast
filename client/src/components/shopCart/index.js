@@ -14,6 +14,7 @@ import ShopProductCard from "./shopCard/shopCard";
 
 export default function ShoppingCart() {
   const products = useSelector((state) => state.shopCart.shopCart);
+  const user = useSelector((state)=> state.user.authData); 
   const [items, setItems] = useState(1);
   const [subTotal, setSubTotal] = useState(1); 
   const [charge, setCharge] = useState(false); 
@@ -43,7 +44,7 @@ export default function ShoppingCart() {
               <div id="total">TOTAL</div>
             </Header>
 
-              {products.map(p=><ShopProductCard key={p._id} product={p} setCharge={setCharge} charge={charge}/>  )}
+              {products.map(p=><ShopProductCard key={p._id} product={p} setCharge={setCharge} charge={charge} user={user}/>  )}
           </div> 
         </ShopContainer>
 

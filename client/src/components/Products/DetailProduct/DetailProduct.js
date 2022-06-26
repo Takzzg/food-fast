@@ -11,37 +11,79 @@ import {
     CarShop,
     BuyButton,
     ButtonsContainer,
-    SecondMainContainer
+    SecondMainContainer,
+    ProductHeader,
+    ReviewsContainer
 } from "./detailElements"
 
 import { AiOutlineShoppingCart } from "react-icons/ai"
 import { AiOutlineCreditCard } from "react-icons/ai"
 import { useParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { baseUrl, findProductById } from "../../../redux/actions/async"
-import { add_item_car, clean_select_product, remove_item_car } from "../../../redux/actions/sync"
+import {
+    baseUrl,
+    deleteReview,
+    findProductById,
+    getProductReviews,
+    postReview
+} from "../../../redux/actions/async"
+import {
+    add_item_car,
+    clean_select_product,
+    remove_item_car
+} from "../../../redux/actions/sync"
+import ReviewCard from "../../Reviews/ReviewCard"
+import { BsStar, BsStarFill } from "react-icons/bs"
+import axios from "axios"
+
+const initialState = {
+    title: "",
+    comment: "",
+    score: ""
+}
 
 const DetailProduct = () => {
     const { idProduct } = useParams()
     const dispatch = useDispatch()
+    const theme = useSelector((state) => state.theme.selectedTheme)
     const product = useSelector((state) => state.main.products.selected)
-
+    const [reviews, setReviews] = useState([])
+    const [reviewForm, setReviewForm] = useState(initialState)
+    const [scoreAvg, setScoreAvg] = useState(0)
     const [isAdded, setIsAdded] = useState(false)
     const products = useSelector((state) => state.shopCart.shopCart)
-    const addItem = (e) => {
+    const userId = useSelector((state) => state.user.authData?.user._id)
+
+    const addItem = async (e) => {
         e.preventDefault()
         const item = { ...product, img: {} }
+        if(userId) {
+            await axios.post(`http://localhost:3001/api/v1/user/shopCart/add/${userId}`,
+                { product: item }
+            )
+        }
         dispatch(add_item_car(item))
         setIsAdded(true)
     }
-    const removeItem = (e) => {
+    const removeItem = async (e) => {
         e.preventDefault()
         const item = { ...product, img: {} }
+        if(userId) {
+            await axios.post(`http://localhost:3001/api/v1/user/shopCart/removeSame/${userId}`, {
+                product: item 
+           })
+        }
         dispatch(remove_item_car(item, true))
         setIsAdded(false)
     }
 
-
+    useEffect(() => {
+        let average = reviews.length
+            ? reviews.reduce((total, next) => total + next.score, 0) /
+              reviews.length
+            : 0
+        setScoreAvg(average.toFixed(2))
+    }, [setScoreAvg, reviews])
 
     useEffect(() => {
         let coincidence = products.find((el) => el._id === product._id)
@@ -50,17 +92,51 @@ const DetailProduct = () => {
 
     useEffect(() => {
         idProduct && dispatch(findProductById(idProduct))
+        getProductReviews(idProduct).then((reviews) => setReviews(reviews))
     }, [dispatch, idProduct])
 
     useEffect(() => {
         return () => dispatch(clean_select_product())
     }, [dispatch])
 
+    const fetchReviews = () => {
+        getProductReviews(idProduct).then((reviews) => setReviews(reviews))
+    }
+
+    const handleDeleteReview = (id) => {
+        deleteReview(id).then(() => fetchReviews())
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        const newReview = {
+            ...reviewForm,
+            date: new Date(),
+            userId,
+            productId: idProduct
+        }
+        postReview(newReview).then(() => fetchReviews())
+        setReviewForm(initialState)
+    }
+
+    const handleFormChange = (e) => {
+        setReviewForm({ ...reviewForm, [e.target.name]: e.target.value })
+    }
+
+    const setFormScore = (v) => {
+        setReviewForm({ ...reviewForm, score: v })
+    }
+
     if (!product || !product.name) return <h1>Loading...</h1>
 
     return (
-        <GlobalContainer>
-            <TitleContainer>{product.name}</TitleContainer>
+        <GlobalContainer theme={theme}>
+            <ProductHeader theme={theme}>
+                <TitleContainer>{product.name}</TitleContainer>
+                <div className="score">
+                    <BsStarFill /> {scoreAvg}/5
+                </div>
+            </ProductHeader>
             <MainContainer>
                 <ImageContainer>
                     <img
@@ -70,7 +146,7 @@ const DetailProduct = () => {
                 </ImageContainer>
 
                 <SecondMainContainer>
-                    <DescriptionContainer>
+                    <DescriptionContainer theme={theme}>
                         <ListItem>
                             <Etiqueta>DESCRIPTION:</Etiqueta>
                             <Data>{product.description}</Data>
@@ -99,22 +175,75 @@ const DetailProduct = () => {
                         </ListItem>
                     </DescriptionContainer>
 
-                    <ButtonsContainer>
-                            {!isAdded ? (
-                                <CarShop onClick={addItem} >
-                                     <AiOutlineShoppingCart id="car"  />
-                                </CarShop>
-                            ) : (
-                                <CarShop onClick={removeItem}>
-                                     <AiOutlineShoppingCart id="car" style={{color: "red"}}  />
-                                </CarShop>
-                            )}
-                        <BuyButton>
+                    <ButtonsContainer theme={theme}>
+                        {!isAdded ? (
+                            <CarShop theme={theme} onClick={addItem}>
+                                <AiOutlineShoppingCart id="car" />
+                            </CarShop>
+                        ) : (
+                            <CarShop theme={theme} onClick={removeItem}>
+                                <AiOutlineShoppingCart
+                                    id="car"
+                                    style={{ color: "red" }}
+                                />
+                            </CarShop>
+                        )}
+                        <BuyButton theme={theme}>
                             <AiOutlineCreditCard />
                         </BuyButton>
                     </ButtonsContainer>
                 </SecondMainContainer>
             </MainContainer>
+            <ReviewsContainer theme={theme}>
+                <span className="reviewsTitle">Reviews</span>
+                <form onSubmit={handleSubmit}>
+                    <span className="formTitle">Deja tu comentario</span>
+                    <label htmlFor="title">Titulo</label>
+                    <input
+                        type="text"
+                        name="title"
+                        id="title"
+                        value={reviewForm.title}
+                        onChange={handleFormChange}
+                    />
+                    <label htmlFor="comment">Comentario</label>
+                    <textarea
+                        name="comment"
+                        id="comment"
+                        value={reviewForm.comment}
+                        onChange={handleFormChange}
+                    />
+
+                    <label htmlFor="score">Puntaje</label>
+                    <div className="radioCont">
+                        {[1, 2, 3, 4, 5].map((v) => (
+                            <div
+                                className="scoreBtn"
+                                id={v}
+                                key={v}
+                                onClick={() => setFormScore(v)}
+                            >
+                                {reviewForm.score >= v ? (
+                                    <BsStarFill />
+                                ) : (
+                                    <BsStar />
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                    <input className="submit" type="submit" value="Enviar" />
+                </form>
+                <div className="reviews">
+                    {reviews.length &&
+                        reviews.map((r) => (
+                            <ReviewCard
+                                key={r._id}
+                                review={r}
+                                handleDelete={handleDeleteReview}
+                            />
+                        ))}
+                </div>
+            </ReviewsContainer>
         </GlobalContainer>
     )
 }

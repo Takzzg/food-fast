@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Avatar from "../../assets/avatar.png";
+import Avatar from "../../../assets/avatar.png"
 import {Link} from "react-router-dom"; 
 import {
   FGreeting,
@@ -19,7 +19,7 @@ import {
 } from "./profileElements";
 import { useDispatch, useSelector } from "react-redux";
 import { patchUser } from "./updateFunctions";
-import { LOG_OUT } from "../../redux/actions/types";
+import { LOG_OUT } from "../../../redux/actions/types";
 export default function ProfileUser() {
     const [isEdit, setIsEdit] = useState(false); 
 
@@ -89,11 +89,11 @@ export default function ProfileUser() {
                 <img src={Avatar} alt="avatar"/>
             </SImgContainer>
             <SOptionsContainer>
-                <Link to={"/"}>
+                <Link to={`/commonUser/${user._id}/orders`}>
                     <ButtonContainer>My orders</ButtonContainer>
                 </Link>
                 
-                <Link  to={"/"}> 
+                <Link  to={"/commonUser/wishList"}> 
                    <ButtonContainer>Wish List</ButtonContainer>
                 </Link>
 

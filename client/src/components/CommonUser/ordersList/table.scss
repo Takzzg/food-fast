@@ -1,0 +1,70 @@
+
+.table {
+	background-color: whitesmoke;
+}
+
+.row {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+}
+
+.row:hover {
+	background-color: crimson;
+}
+
+.row:nth-child(even) {
+	background-color: #dfdfdf;
+}
+
+.row:nth-child(even):hover {
+	background-color: crimson;
+}
+
+.title {
+	display: flex;
+	justify-content: center;
+	background-color: #dfdfdf;
+}
+
+.header .row {
+	padding: 10px;
+	background-color: cornflowerblue;
+}
+
+.header .row div {
+	display: flex;
+	justify-content: center;
+	font-weight: 600;
+	color: white;
+}
+
+.body .row {
+	padding: 10px;
+	cursor: pointer;
+}
+
+.body .row div {
+	display: flex;
+	justify-content: center;
+}
+
+.footer .row {
+	padding: 5px;
+	background-color: #777777;
+}
+
+.footer .row div {
+	display: flex;
+	justify-content: center;
+	color: white;
+}
+
+.options {
+	display: flex;
+	justify-content: space-between;
+	padding: 10px;
+}
+
+.page-active {
+	color: crimson;
+}

@@ -15,9 +15,12 @@ import {
     AUTH_ERROR,
     GOOGLE_LOGIN,
     FETCH_USERS,
-    ROL_CHANGE
+    ROL_CHANGE,
+    GET_FAVORITES,
+    GET_USER_ORDERS,
+    GET_ORDER_BY_ID,
+    ADD_USER_ITEMS
 } from "./types"
-
 
 export const baseUrl = `${
     process.env.NODE_ENV === "production"
@@ -76,7 +79,6 @@ export const searchCategory = (name) =>
         : clean_categories()
 
 export const postCategory = (category) => (dispatch) =>
-
     axios
         .post(`${baseUrl}/categories`, category)
         .then(() => dispatch(fetchAllCategories()))
@@ -90,12 +92,19 @@ export const deleteCategory = (id) => (dispatch) =>
 
 // USER
 
-export const googleLogin = (userData) => (dispatch) =>{
-    try{
-        dispatch({type: GOOGLE_LOGIN, payload: userData})
-    }catch(e){
-        dispatch({type: AUTH_ERROR, payload: {error: e}})
-        console.log("Error en la google login. ",e.message);
+export const googleLogin = (userData) => (dispatch) => {
+    try {
+        console.log(userData)
+        axios
+            .get(`${baseUrl}/user/?email=${userData.user.email}`)
+            .then((res) => {
+                let combinedUser = { ...userData }
+                combinedUser.user = { ...res.data[0], ...userData.user }
+                dispatch({ type: GOOGLE_LOGIN, payload: combinedUser })
+            })
+    } catch (e) {
+        dispatch({ type: AUTH_ERROR, payload: { error: e } })
+        console.log("Error en la google login. ", e.message)
     }
 }
 
@@ -104,38 +113,39 @@ export const login = (input) => async (dispatch) => {
         //log in the user...
         const data = await axios.post(`${baseUrl}/auth/login`, input)
 
-        dispatch({type: AUTH_USER, payload: data?.data})
-    }catch(e){
-        dispatch({type: AUTH_ERROR, payload: {error: e}})
-        console.log("Error en la action login. ",e.message);
-
+        dispatch({ type: AUTH_USER, payload: data?.data })
+    } catch (e) {
+        dispatch({ type: AUTH_ERROR, payload: { error: e } })
+        console.log("Error en la action login. ", e.message)
     }
 }
 export const logup = (input) => async (dispatch) => {
     try {
         //log up the user...
         await axios.post(`${baseUrl}/user`, input)
-        
-        dispatch({ type: AUTH_USER, payload: {success: true} })
+        dispatch({ type: AUTH_USER, payload: { success: true } })
     } catch (e) {
-        dispatch({type: AUTH_ERROR, payload: {error: e}})
+        dispatch({ type: AUTH_ERROR, payload: { error: e } })
         console.log("Error en la action logup. ", e)
     }
 }
 
 export const postForgotPassword = async (email) => {
-    try{
-        await axios.post(`${baseUrl}/auth/forgot-password`, {email})
-    }catch(e){
-        console.log("Error en el postForgotPassword. ",e.message)
-        throw new Error('Inexistent email.')
+    try {
+        await axios.post(`${baseUrl}/auth/forgot-password`, { email })
+    } catch (e) {
+        console.log("Error en el postForgotPassword. ", e.message)
+        throw new Error("Inexistent email.")
     }
 }
 
 export const postNewPassword = async (payload) => {
-    try{
-        await axios.post(`${baseUrl}/auth/reset-password/${payload.id}/${payload.token}`,payload)
-    }catch(e){
+    try {
+        await axios.post(
+            `${baseUrl}/auth/reset-password/${payload.id}/${payload.token}`,
+            payload
+        )
+    } catch (e) {
         console.log("Error en el postNewPassword. ", e)
     }
 }
@@ -160,3 +170,49 @@ export const changePermissions = (id, rol)=> async (dispatch)=> {
         console.log("Error en changePermissions. ", e)
     }
 }
+
+// Favorites 
+
+export const getFavorites = (productID) => async (dispatch) => {
+    try {
+        const response = await axios.get(`http://localhost:3001/api/v1/products/${productID}`)
+        dispatch({ type: GET_FAVORITES, payload: response.data })
+    }catch(e){
+        const defaultReponse = {id: "12123123", name: "Product not found", description: "deleted product"}
+        dispatch({ type: GET_FAVORITES, payload: defaultReponse })
+    }
+    }
+// REVIEWS
+
+export const postReview = (review) =>
+    axios.post(`${baseUrl}/reviews`, review).then((res) => res.data)
+
+export const getProductReviews = (id) =>
+    axios.get(`${baseUrl}/reviews/product/${id}`).then((res) => res.data)
+
+export const getUserReviews = (id) =>
+    axios.get(`${baseUrl}/reviews/user/${id}`).then((res) => res.data)
+
+export const deleteReview = (id) =>
+    axios.delete(`${baseUrl}/reviews/${id}`).then((res) => res.data)
+
+// ORDERS
+export const getUserOrders = (userID) => async (dispatch) => {
+    const response = await axios.get(`http://localhost:3001/api/v1/orders/user/${userID}`)
+    dispatch({ type: GET_USER_ORDERS, payload: response.data })
+    }
+
+export const getUserOrderbyID = (orderID) => async (dispatch) => {
+    const response = await axios.get(`http://localhost:3001/api/v1/orders/${orderID}`); 
+    dispatch({type: GET_ORDER_BY_ID, payload: response.data}); 
+}
+
+// Get items shopcart user
+export const getShopCartUser = (userID, products) => async (dispatch) => {
+    const savePrev = await axios.post(`http://localhost:3001/api/v1/user/shopCart/addPrevItem/${userID}`, {
+        products: products
+    })
+    const response = await axios.get(`http://localhost:3001/api/v1/user/${userID}`)
+    dispatch({type: ADD_USER_ITEMS, payload: response.data.shopCart})
+}
+
