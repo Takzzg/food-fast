@@ -33,6 +33,8 @@ import WishList from "./components/CommonUser/wishList"
 import UserReviews from "./components/Reviews/UserReviews"
 import UserOrders from "./components/CommonUser/ordersList"
 import OrderDetail from "./components/CommonUser/orderDetail"
+import OrdersAdmin from "./components/User/orders"
+import OrderAdminDetail from "./components/User/orders/orderDetailAndUpdate"
 
 const ScrollToTop = () => {
     const location = useLocation()
@@ -77,6 +79,8 @@ function App() {
                         <Route index element={<PrivateRoute
                     element={Dashboard2}  requiredRol="ADMIN" />}/>
 
+                        <Route path="orders" element={<OrdersAdmin />}/>
+                        <Route path="orders/:orderID" element={<OrderAdminDetail />} />
                         {/* <Route path="createProduct" element={<ProductForm />} /> */}
                         <Route
                             path="createProduct"

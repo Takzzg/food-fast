@@ -25,10 +25,12 @@ export const switchTheme = () => ({ type: SWITCH_THEME })
 
 export const clean_categories = () => ({ type: CLEAN_CATEGORIES })
 export const delete_category = (id) => ({ type: DELETE_CATEGORY, id })
-export const filterbyCategories = (categories, price) => ({
+export const filterbyCategories = (filter) => ({
     type: FILTER_BY_CATEGORY,
-    categories,
-    price
+    categories: filter.categories,
+    price: filter.price, 
+    rating: filter.rating, 
+    stock: filter.stock
 })
 
 // Products

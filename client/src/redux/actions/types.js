@@ -46,9 +46,10 @@ export const GET_FAVORITES = "get_favorites";
 export const REMOVE_FAVORITE = "remove_favorite"; 
 
 // Orders 
+export const GET_ALL_ORDERS = "get_all_orders"; 
 export const GET_USER_ORDERS = "get_user_orders";
 export const GET_ORDER_BY_ID = "get_order_by_id"; 
-
+export const GET_USER_INFORMATION = "get_user_information"; 
 // 
 export const ADD_USER_ITEMS = "get_user_items"
 export const SAVE_CAR_ITEMS = "save_car_items"

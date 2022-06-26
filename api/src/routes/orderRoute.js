@@ -24,7 +24,7 @@ router.delete('/', deleteCompletedOrders)
 router.delete('/:id', deleteOrderById)
 
 //PUT http://localhost:3001/api/v1/orders?id=${orderId}&status=${orderStatus}
-router.put('/', updateOrderStatus)
+router.patch('/', updateOrderStatus)
 
 // Orders para un usuario: 
 //GET http://localhost:3001/api/v1/orders/user/1231231

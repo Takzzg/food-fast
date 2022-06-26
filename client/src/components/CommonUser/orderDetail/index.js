@@ -10,7 +10,6 @@ export default function OrderDetail() {
     const dispatch = useDispatch(); 
     useEffect(()=> {
         dispatch(getUserOrderbyID(params.orderID))
-
     }, [])
     return(
     <section className={styles.ContainerOrder}>
@@ -26,7 +25,7 @@ export default function OrderDetail() {
                 <div className={styles.cell}>
                     Unit Price
                 </div>
-                <div claclassName={styles.cell}>
+                <div className={styles.cell}>
                     Quantity
                 </div>
                 <div className={styles.cell}>
