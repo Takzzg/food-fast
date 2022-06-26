@@ -13,7 +13,7 @@ import axios from "axios"
 
 const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition
-const mic = new SpeechRecognition()
+const mic = SpeechRecognition ? new SpeechRecognition() : null
 
 export default function SearchBar() {
     const [input, setInput] = useState("")
@@ -30,6 +30,7 @@ export default function SearchBar() {
         setListen((prevState) => !prevState)
     }
     const handleListen = () => {
+        if (!mic) return
         if (listen) {
             mic.start()
 
@@ -83,27 +84,19 @@ export default function SearchBar() {
         const inputValue = value.trim().toLowerCase()
         const inputLength = inputValue.length
 
-        let filteredProducts = allProducts.filter(
-            (product) => {
-                let completeName = product.name
-                if (
-                    completeName
-                        .toLowerCase()
-                        .normalize("NFD")
-                        .replace(/[\u0300-\u036f]/g, "")
-                        .includes(inputValue)
-                ) {
-                    return product
-                }
+        let filteredProducts = allProducts.filter((product) => {
+            let completeName = product.name
+            if (
+                completeName
+                    .toLowerCase()
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .includes(inputValue)
+            ) {
+                return product
             }
-
-            // const handleChange = (e) => {
-            //     setInput(e.target.value)
-            //     dispatch(searchProduct(e.target.value))
-
-            //   }
-        )
-        return inputLength === 0 ? [] : filteredProducts
+            return inputLength === 0 ? [] : filteredProducts
+        })
     }
 
     const getData = () => {
@@ -131,9 +124,11 @@ export default function SearchBar() {
     }, [])
     return (
         <GlobalContainer>
-            <button className={style.mic} onClick={handleVoiceClick}>
-                {listen ? <BsFillMicFill /> : <BsFillMicMuteFill />}
-            </button>
+            {mic && (
+                <button className={style.mic} onClick={handleVoiceClick}>
+                    {listen ? <BsFillMicFill /> : <BsFillMicMuteFill />}
+                </button>
+            )}
             <Autosuggest
                 suggestions={products}
                 onSuggestionsFetchRequested={onSuggestionsFetchRequested}

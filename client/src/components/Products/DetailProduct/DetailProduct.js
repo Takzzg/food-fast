@@ -51,7 +51,7 @@ const DetailProduct = () => {
     const [scoreAvg, setScoreAvg] = useState(0)
     const [isAdded, setIsAdded] = useState(false)
     const products = useSelector((state) => state.shopCart.shopCart)
-    const userId = useSelector((state) => state.user.authData !== null  ? state.user.authData.user._id:state.user.authData)
+    const userId = useSelector((state) => state.user.authData?.user._id)
 
     const addItem = (e) => {
         e.preventDefault()

@@ -90,8 +90,6 @@ export const postCategory = async (req, res) => {
         const { name, description } = req.body
         const image = req.files
 
-        console.log(name, description, image)
-
         let exists = await Categories.find({ name: name })
         if (exists.length)
             return res.status(409).json({

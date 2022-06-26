@@ -47,7 +47,6 @@ export const getUser = async (req, res) => {
         const { email } = req.query
         if (email) {
             const user = await User.find({ email })
-            console.log(user)
             return res.status(200).send(user)
         }
 
