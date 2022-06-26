@@ -34,6 +34,7 @@ import {
 } from "../../../redux/actions/sync"
 import ReviewCard from "../../Reviews/ReviewCard"
 import { BsStar, BsStarFill } from "react-icons/bs"
+import axios from "axios"
 
 const initialState = {
     title: "",
@@ -53,15 +54,25 @@ const DetailProduct = () => {
     const products = useSelector((state) => state.shopCart.shopCart)
     const userId = useSelector((state) => state.user.authData?.user._id)
 
-    const addItem = (e) => {
+    const addItem = async (e) => {
         e.preventDefault()
         const item = { ...product, img: {} }
+        if(userId) {
+            await axios.post(`http://localhost:3001/api/v1/user/shopCart/add/${userId}`,
+                { product: item }
+            )
+        }
         dispatch(add_item_car(item))
         setIsAdded(true)
     }
-    const removeItem = (e) => {
+    const removeItem = async (e) => {
         e.preventDefault()
         const item = { ...product, img: {} }
+        if(userId) {
+            await axios.post(`http://localhost:3001/api/v1/user/shopCart/removeSame/${userId}`, {
+                product: item 
+           })
+        }
         dispatch(remove_item_car(item, true))
         setIsAdded(false)
     }

@@ -18,12 +18,10 @@ import {
 } from "../../redux/actions/async"
 import { useLocation } from "react-router-dom"
 import { UserAuth } from "../../context/AuthContext"
-import styled from "styled-components"
 import Loading from "../Loading/Loading"
 
 const Landing = () => {
     const dispatch = useDispatch()
-    const location = useLocation()
     const { user } = UserAuth()
     const theme = useSelector((state) => state.theme.selectedTheme)
     const allCategories = useSelector((state) => state.main.categories.all)

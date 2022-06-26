@@ -27,22 +27,22 @@ export default function SingleProductCard({ product, list}) {
     const addItem = async (e) => {
         e.preventDefault()
         const item = { ...product, img: {} }
-   
-        const response = await axios.post(`http://localhost:3001/api/v1/user/shopCart/${user.user._id}`, {
-                product: {...item, quantity: 1}
-        })
-
+        if(user) {
+            await axios.post(`http://localhost:3001/api/v1/user/shopCart/add/${user.user._id}`,
+                { product: item }
+            )
+        }
         dispatch(add_item_car(item))
         setIsAdded(true)
     }
     const removeItem = async (e) => {
         e.preventDefault()
         const item = { ...product, img: {} }
-
-        await fetch(`http://localhost:3001/api/v1/user/shopCart/${user.user._id}`, {
-                method: "POST",
-                product: item
+        if(user) {
+            await axios.post(`http://localhost:3001/api/v1/user/shopCart/removeSame/${user.user._id}`, {
+                 product: item 
             })
+        }
         dispatch(remove_item_car(item, true))
         setIsAdded(false)
     }

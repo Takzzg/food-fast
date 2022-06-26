@@ -31,6 +31,7 @@ export default function PaymentPass() {
           resumeOrder: shopcart.map(el=> ({id: el._id, name: el.name, price: el.price, quantity: el.quantity, subTotal: el.price*el.quantity, newStock: el.stock - el.quantity}))
         })
         setOrder(response.data)
+        await axios.delete(`http://localhost:3001/api/v1/user/shopCart/${user._id}`)
         dispatch(clean_car())       
       }
     }

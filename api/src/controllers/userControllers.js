@@ -106,20 +106,23 @@ export const emailExists = async (req, res) => {
 }
 
 
-export const manageProducts = async (req,res) => {
+export const addItemCard = async (req,res) => {
     try{
         const { id } = req.params;
 
         const {product} = req.body; 
-        console.log(product) 
+
         const Userfind = await User.findById(id); 
         let coincidence = Userfind.shopCart.find(el=>  el._id === product._id); 
+        let index = Userfind.shopCart.findIndex(el=> el._id === product._id); 
 
         let data
         if(!coincidence) {
-            data = [...Userfind.shopCart, product]
+            let newProduct = {...product, quantity: 1}
+            data = [...Userfind.shopCart, newProduct]
         } else {
-            data = Userfind.shopCart.filter(el=> el._id !== product._id)
+            data = [...Userfind.shopCart]
+            data[index] = {...coincidence, quantity: coincidence.quantity + 1}
         }
         const update = await User.findByIdAndUpdate(id, {shopCart: data}, {new: true});
         res.send(update)
@@ -128,11 +131,64 @@ export const manageProducts = async (req,res) => {
     }
 }
 
-export const afterPay = async (req,res) => {
+export const removeCarItem = async (req,res)=> {
+    try{
+        const { id } = req.params;
+        const {product} = req.body; 
+
+        const Userfind = await User.findById(id); 
+        let coincidence = Userfind.shopCart.find(el=>  el._id === product._id); 
+        let index = Userfind.shopCart.findIndex(el=> el._id === product._id); 
+
+        let data
+        if(coincidence.quantity <= 1) {
+            data = Userfind.shopCart.filter(el=> el._id !== product._id)
+        } else {
+            data = [...Userfind.shopCart]
+            data[index] = {...coincidence, quantity: coincidence.quantity - 1}
+        }
+
+        const update = await User.findByIdAndUpdate(id, {shopCart: data}, {new: true});
+        res.send(update)
+    } catch(e){
+        res.status(400).send("Error")
+    }
+}
+
+export const removeAllSameItems = async (req,res) => {
+    try {
+        const { id } = req.params;
+        const {product} = req.body; 
+        const Userfind = await User.findById(id); 
+        let data = Userfind.shopCart.filter(el=> el._id !== product._id)
+        const update = await User.findByIdAndUpdate(id, {shopCart: data}, {new: true});
+        res.send(update)
+    } catch(e) {
+        res.status(400).send("Error")
+    }
+}
+
+
+export const cleanCar = async (req,res) => {
     try{
         const { id } = req.params; 
         const update = await User.findByIdAndUpdate(id, {shopCart: []}, {new: true});
         res.send(update)
+    }catch(e){
+        res.status(400).send("Error")
+    }
+}
+
+export const addPrevItemsAuth = async (req,res) => {
+    try{
+        const {id} = req.params; 
+        const {products} = req.body;
+        const Userfind = await User.findById(id);
+        if (Userfind.shopCart.length === 0){
+            const update = await User.findByIdAndUpdate(id, {shopCart: products}, {new: true}); 
+            return res.send(update)
+        }
+        res.send("El usuario ya tiene carrito")
     }catch(e){
         res.status(400).send("Error")
     }

@@ -1,5 +1,5 @@
 import express from 'express';
-import  {registerUser, getUser, updateUser, getUserById, emailExists, manageProducts, afterPay} from '../controllers/userControllers.js'
+import  {registerUser, getUser, updateUser, getUserById, emailExists,  cleanCar, addItemCard, removeCarItem, removeAllSameItems, addPrevItemsAuth} from '../controllers/userControllers.js'
 import {registerValidation} from '../../middlewares/bodyValidator.js'
 
 const router = express.Router()
@@ -22,8 +22,19 @@ router.get('/verify/exists', emailExists)
 
 
 // shopCart 
-// http://localhost:3001/api/v1/user/shopCart/1231231231
-router.post('/shopCart/:id', manageProducts)
+// http://localhost:3001/api/v1/user/shopCart/add/1231231231
+router.post('/shopCart/add/:id', addItemCard)
+
+// http://localhost:3001/api/v1/user/shopCart/remove/1231231231
+router.post('/shopCart/remove/:id', removeCarItem)
+
+// http://localhost:3001/api/v1/user/shopCart/removeSame/1231231231
+router.post('/shopCart/removeSame/:id', removeAllSameItems)
+
+// http://localhost:3001/api/v1/user/shopCart/addPrevItem/1231231231
+router.post('/shopCart/addPrevItem/:id', addPrevItemsAuth)
+
 // limpiar carrito luego de comprar
-router.delete('/shopCart/:id', afterPay)
+router.delete('/shopCart/:id', cleanCar)
+
 export default router;
