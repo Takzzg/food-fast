@@ -9,7 +9,6 @@ import style from "./style/mic.module.scss"
 
 const SpeechRecognition =
     window.speechRecognition || window.webkitSpeechRecognition
-console.log(SpeechRecognition)
 const mic = SpeechRecognition ? new SpeechRecognition() : null
 
 if (mic) {
