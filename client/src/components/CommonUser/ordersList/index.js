@@ -34,7 +34,7 @@ export default function UserOrders (){
                         <div className="row">
                             <div>{el._id}</div>
                             <div>{el.total}</div>
-                            <div>{el.date}</div>
+                            <div>{new Date(el.date.toString()).toDateString()}</div>
                             <div>{el.status}</div>
                         </div>
                     </Link>

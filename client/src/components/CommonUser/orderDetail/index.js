@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import { getUserOrderbyID } from "../../../redux/actions/async";
@@ -10,6 +10,7 @@ export default function OrderDetail() {
     const dispatch = useDispatch(); 
     useEffect(()=> {
         dispatch(getUserOrderbyID(params.orderID))
+
     }, [])
     return(
     <section className={styles.ContainerOrder}>
@@ -25,7 +26,7 @@ export default function OrderDetail() {
                 <div className={styles.cell}>
                     Unit Price
                 </div>
-                <div className={styles.cell}>
+                <div claclassName={styles.cell}>
                     Quantity
                 </div>
                 <div className={styles.cell}>
@@ -48,7 +49,7 @@ export default function OrderDetail() {
                     {p.quantity}
                 </div>
                 <div className={styles.cell} data-title="Date">
-                    {order.date}
+                    {new Date(order.date.toString()).toDateString()}
                 </div>
                 <div className={styles.cell} data-title="SubTotal">
                     $ {p.subTotal}
