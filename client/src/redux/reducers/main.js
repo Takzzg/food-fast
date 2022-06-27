@@ -18,26 +18,35 @@ import {
     SORTBYPRICE
 } from "../actions/types"
 
-function filterProduct(product, categories) {
+function filterProduct(products, categories, rating, stock, price) {
+    let returnValue
     if (categories) {
-        let arrayCategories = product.categories
-
-        if (arrayCategories) {
-            let counter = 0
-            for (let i = 0; i < categories.length; i++) {
-                for (let j = 0; j < arrayCategories.length; j++) {
-                    if (arrayCategories[j] === categories[i]) {
-                        counter++
+        returnValue = products.filter(
+            (el) => {
+                let arrayCategories = el.categories; 
+                if (arrayCategories) {
+                    let counter = 0
+                    for (let i = 0; i < categories.length; i++) {
+                        for (let j = 0; j < arrayCategories.length; j++) {
+                            if (arrayCategories[j] === categories[i]) {
+                                counter++
+                            }
+                        }
                     }
+                    if (counter === categories.length) return true
+                    else return false
                 }
-            }
-            if (counter === categories.length) return true
-            else return false
-        }
-        return false
+                return false})}    
+    if (rating) {
+        returnValue = returnValue.filter(el=> el.rating === rating); 
     }
-
-    return true
+    if (stock) {
+        returnValue = returnValue.filter((a,b)=> Number(a.stock) - Number(b.stock) )
+    }
+    if (price) {
+        returnValue = returnValue.filter((a,b)=> Number(a.price) - Number(b.price))
+    }
+    return returnValue; 
 }
 
 function compareProducts(a, b, form) {
@@ -123,11 +132,6 @@ const main = (state = initialState, action) => {
             newState.products.filtered = action.payload
             break
 
-        case SORTBYPRICE:
-            newState.products.filtered = newState.products.filtered.filter(
-                (a, b) => compareProducts(a, b, action.form)
-            )
-            break
 
         case CLEAN_SELECT_PRODUCT:
             newState.products.selected = {}
@@ -140,12 +144,9 @@ const main = (state = initialState, action) => {
             break
 
         case FILTER_BY_CATEGORY:
-            newState.products.filtered = newState.products.filtered.filter(
-                (el) => filterProduct(el, action.categories)
-            )
-            newState.products.filtered = newState.products.filtered.sort(
-                (a, b) => compareProducts(a, b, action.price)
-            )
+            // action.price, action.categories, action.stock. action.rating
+            newState.products.filtered = filterProduct(newState.products.all, action.categories, action.rating, action.stock, action.price)
+
             break
 
         case SEARCH_PRODUCT:
