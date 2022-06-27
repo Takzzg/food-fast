@@ -1,19 +1,27 @@
 import axios from "axios"
-import { delete_category, delete_product } from "../../redux/actions/sync"
-import swal from "sweetalert"; 
+import { delete_category, delete_product, delete_user } from "../../redux/actions/sync"
+import swal from "sweetalert";
 
 const baseUrl = "http://localhost:3001/api/v1"
 
 
 
-export default function useDelete (dispatch) {
+export default function useDelete(dispatch) {
 
     const handleDelete = (type, id, imgPath) => {
-        let name = "Category"
-        
-        if(type === "products") {
-            name = "Product"
+        let name = ""
+
+        /*         if(type === "products") {
+                    name = "Product"
+                } */
+
+        switch (type) {
+            case "categories": name = "Category"; break;
+            case "products": name = "Product"; break;
+            case "user": name = "User"; break;
+            default: break;
         }
+        
         if(type === "orders") {
             name = "orders"
         }
@@ -50,7 +58,36 @@ export default function useDelete (dispatch) {
               ).catch(err=> console.log(err))
            
         
+
+        swal({
+            title: "Are you sure?",
+            text: `Once deleted, you will not be able to recover the ${name}!`,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    axios.delete(`${baseUrl}/${type}/${id}`);
+                    return true
+                } else return false
+            }
+            ).then((res) => {
+                if (res) {
+                    swal(`The ${name} is deleted!`, {
+                        icon: "success"
+                    })
+                    type === "categories" ?
+                        dispatch(delete_category(id))
+                        : type === "products" ? dispatch(delete_product(id))
+                        : dispatch(delete_user(id))
+                }
+                else { swal(`Your ${name} is still here!`); }
+
+            }
+            ).catch(err => console.log(err))
+
     }
 
-    return {handleDelete}
+    return { handleDelete }
 }

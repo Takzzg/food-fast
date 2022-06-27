@@ -60,7 +60,7 @@ export const forgotPass = async (req, res) => {
 
     const link=`${apiBaseUrl}/auth/reset-password/${user.id}/${token}`
 
-    const emailOptions = {
+/*     const emailOptions = {
         from: 'FoodFAST',
         to: email,
         subject: "Password reset link",
@@ -87,9 +87,9 @@ export const forgotPass = async (req, res) => {
         </div>
         ` } 
     await emailer.sendMail(emailOptions);
-    console.log("Correo enviado!!!")
+    console.log("Correo enviado!!!") */
 
-    //console.log("\t♥******* ♦ LINK DEBAJO ♦ ********♥\n", link)
+    console.log("\t♥******* ♦ LINK DEBAJO ♦ ********♥\n", link)
 
         res.json({
             msg: "Password reset link has been sent to your email"

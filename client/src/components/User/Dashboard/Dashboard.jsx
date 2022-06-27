@@ -73,7 +73,7 @@ const Dashboard = () => {
                 <div className="categories">
                     <CategoryBar />
 
-                    <Link className="addBtn" to="createCategory">
+                    <Link className="addBtn" to="createCategory"> 
                         Crear categoria nueva
                     </Link>
 
