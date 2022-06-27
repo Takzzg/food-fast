@@ -12,7 +12,7 @@ export const getProduct = async (req, res) => {
             const product = await Product.find({
                 name: { $regex: name, $options: "i" }
             })
-           ç
+           
            
             return product.length === 0
                 ? res.json({ error: "not found product" })
