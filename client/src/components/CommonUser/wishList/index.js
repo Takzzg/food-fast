@@ -13,8 +13,11 @@ export default function WishList () {
     const favorites = useSelector(state=> state.main.products.favorites)
     const getData = async (id) => {
         const response = await axios.get(`http://localhost:3001/api/v1/favorites/${id}`)
-        await response.data.products.map(p=> dispatch(getFavorites(p)))
-        setList(response.data.products)
+        if (response.data.products) {
+            await response.data.products.map(p=> dispatch(getFavorites(p)))
+            setList(response.data.products)
+        }
+
     }
 
     useEffect(()=> {
@@ -24,7 +27,7 @@ export default function WishList () {
     return(<GlobalContainer>
         <TitleContainer>Wish List</TitleContainer>
         <CardsContainer>
-            {favorites.map(p=> <SingleCard key={p._id} product={p}/>)}
+            {list.length!==0 ? favorites.map(p=> <SingleCard key={p._id} product={p}/>):<div>You dont have favorites</div>}
         </CardsContainer>
     </GlobalContainer>)
 }

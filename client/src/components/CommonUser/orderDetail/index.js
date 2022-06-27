@@ -14,6 +14,8 @@ export default function OrderDetail() {
     return(
     <section className={styles.ContainerOrder}>
         <div id={styles.title}>
+
+            {console.log(order)}
             <div>Order N° -- {order._id} </div>
             <div>Status -- {order.status}</div>
         </div>

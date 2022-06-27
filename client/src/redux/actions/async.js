@@ -210,7 +210,7 @@ export const getUserOrders = (userID) => async (dispatch) => {
 
 export const getUserOrderbyID = (orderID, getUserInformation) => async (dispatch) => {
     const response = await axios.get(`http://localhost:3001/api/v1/orders/${orderID}`);
-    let response2
+    let response2 = {}; 
     if(getUserInformation) {
         const userID = response.data.user; 
         response2 = await axios.get(`http://localhost:3001/api/v1/user/${userID}`)

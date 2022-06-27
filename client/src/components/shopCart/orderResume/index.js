@@ -10,19 +10,24 @@ AditionalContainer,
 TotalContainer,
 GoPayContainer
 } from "./elements";
+import { useSelector } from "react-redux";
 
 export default function OrdenSumary({items, subTotal}) {
-
+  const user = useSelector(state=> state.user.authData); 
   const [err, setErr] = useState(false); 
 
   const handlePay = async (mount) => {
     try {
-      const response = await axios.post("http://localhost:3001/api/v1/paypal/createOrden", {
-        mount: mount,
-        description: `Estas comprando ${items} items de FoodFast`
-      } )
-      console.log(response.data)
-      window.location.replace(response.data); 
+      if(user) {
+        const response = await axios.post("http://localhost:3001/api/v1/paypal/createOrden", {
+          mount: mount,
+          description: `Estas comprando ${items} items de FoodFast`
+        } )
+        window.location.replace(response.data); 
+      } else {
+        alert("You must be login for continuos")
+      }
+
     } catch(e){
       setErr(true);     
     }
