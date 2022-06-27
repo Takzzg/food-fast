@@ -143,9 +143,7 @@ export default function SearchBar() {
 
             <button onClick={handleClean}>Clean</button>
 
-            <SearchIcon theme={theme} onClick={handleSelect}>
-                <AiOutlineSearch />
-            </SearchIcon>
+           
         </GlobalContainer>
     )
 }
