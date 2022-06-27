@@ -19,6 +19,7 @@ export default function useDelete(dispatch) {
             case "categories": name = "Category"; break;
             case "products": name = "Product"; break;
             case "user": name = "User"; break;
+            case "orders": name = "Order"; break;
             default: break;
         }
         
@@ -74,13 +75,15 @@ export default function useDelete(dispatch) {
             }
             ).then((res) => {
                 if (res) {
-                    swal(`The ${name} is deleted!`, {
-                        icon: "success"
-                    })
-                    type === "categories" ?
+                    if(type === "orders"){
+                        window.location = "/dashboard/orders"
+                    } else {
+                        swal(`The ${name} is deleted!`, { icon: "success" })
+                        type === "categories" ?
                         dispatch(delete_category(id))
                         : type === "products" ? dispatch(delete_product(id))
                         : dispatch(delete_user(id))
+                    }
                 }
                 else { swal(`Your ${name} is still here!`); }
 

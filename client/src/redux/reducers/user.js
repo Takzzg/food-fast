@@ -30,7 +30,7 @@ const user = (state = initialState, action) => {
             return { ...state, authData: action?.payload}
 
         case LOG_OUT:
-            localStorage.clear()
+            window.localStorage.removeItem('profile')
             return { ...state, authData: null }
 
         case FETCH_USERS:
@@ -39,7 +39,7 @@ const user = (state = initialState, action) => {
         case DELETE_USER:
             let filteredUsers = state.usersData.filter(
                 el => el._id !== action.id
-            ) //acá podría filtrar un estado "filterUsers" de ser necesario
+            )
             return {...state, usersData: filteredUsers}
 
         case ROL_CHANGE:

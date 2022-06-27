@@ -35,8 +35,10 @@ const Landing = () => {
     useEffect(() => {
         !allCategories.length && dispatch(fetchAllCategories())
     }, [dispatch])
+
     useEffect(() => {
-        if (user?.accessToken) {
+        if (user?.accessToken && !window.localStorage.getItem('profile')) {
+            
             dispatch(
                 googleLogin({
                     token: {

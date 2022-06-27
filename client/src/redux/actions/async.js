@@ -96,7 +96,7 @@ export const deleteCategory = (id) => (dispatch) =>
 
 export const googleLogin = (userData) => (dispatch) => {
     try {
-        console.log(userData)
+        console.log("googleLogin!")
         axios
             .get(`${baseUrl}/user/?email=${userData.user.email}`)
             .then((res) => {

@@ -101,6 +101,7 @@ const NavBar = () => {
                             className={style.auth_google_photo}
                             src={userData?.user?.photo || user?.photoURL}
                             alt="profile"
+                            referrerPolicy="no-referrer"
                         />
                         <span>{user?.displayName}</span>
                         {/* <span className={style.auth_google_email}>{user?.email}</span> */}
