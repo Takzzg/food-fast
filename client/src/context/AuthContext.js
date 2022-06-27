@@ -57,7 +57,6 @@ export const AuthContextProvider = ({ children }) => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             if(currentUser){
-                console.log("Dispatcho :c. currentUser es: ", currentUser)
                 dispatch(registerGoogleAccount(currentUser))
             }
             setUser(currentUser)

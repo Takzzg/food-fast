@@ -20,6 +20,9 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { patchUser } from "./updateFunctions";
 import { LOG_OUT } from "../../../redux/actions/types";
+import { UserAuth } from "../../../context/AuthContext";
+import toast,{Toaster} from "react-hot-toast";
+
 export default function ProfileUser() {
     const [isEdit, setIsEdit] = useState(false); 
 
@@ -27,6 +30,7 @@ export default function ProfileUser() {
     const handleNoEdit = (e) => { e.preventDefault(); setIsEdit(false); }
     const user = useSelector((state)=> state.user.authData && state.user.authData.user)
     const dispatch = useDispatch(); 
+    const { logOut } = UserAuth();
 
     const [form, setForm] = useState({
       name: "",
@@ -44,8 +48,17 @@ export default function ProfileUser() {
         setIsEdit(false); 
         patchUser(user._id, form.name, form.address, dispatch)
     }
-    const handleLogOut = () => {
-      dispatch({type: LOG_OUT})
+    const handleLogOut = async () => { //falta el google logout
+      try{
+        if(user.isGoogleAccount){
+          await logOut();
+        }
+        dispatch( {type: LOG_OUT} )
+        toast.success("Good Bye!", { icon: "👋" })
+        
+      }catch(e){
+        console.log("Error en handleLogOut del profile. ",e)
+      }
     }
     useEffect(() => {
       setForm({name: user.name, email: user.email, address: user.address})
@@ -53,6 +66,7 @@ export default function ProfileUser() {
 
   return (
     <GlobalContainer>
+      <Toaster/>
       <FirstColumn>
         <FTitle>Hi! {user.name} 👋</FTitle>
         <FGreeting>Welcome back!</FGreeting>

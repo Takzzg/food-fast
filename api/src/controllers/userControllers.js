@@ -76,9 +76,10 @@ export const updateUser = async (req,res)=> {
     const { id } = req.params; 
     const {name, address, rol} = req.body; //el "rol" solo lo recibe desde el "dar permisos" del dashboard
     try {
-    //si se llama "updateUser" desde otro lado como la sección de editar perfil, el "rol" será "undefined"
-      if(typeof rol === undefined){
-    //dentro de este if, la función queda igual a cuando sólo editaba nombre y adress.
+        //si se llama "updateUser" desde otro lado como la sección de editar perfil, el "rol" será "undefined"
+      if(typeof rol === 'undefined'){//MI ERROR, comparaba con undefined, y no con el string 'undefined'. SOLUCIONADO
+
+        //dentro de este if, la función queda igual a cuando sólo editaba nombre y adress.
         const user = await User.findByIdAndUpdate(id, {name, address}, {new: true})//{new:true} añadido
         res.json(user); 
       }else{
