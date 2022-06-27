@@ -72,6 +72,12 @@ export const FooterContainer = styled.div`
     font-size: 1.5rem;
     font-family: "Bangers", cursive;
     color: black;
+    svg {
+        cursor: pointer;
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
     #car {
         cursor: pointer;
         &:hover {

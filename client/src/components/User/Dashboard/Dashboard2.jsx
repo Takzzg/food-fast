@@ -165,6 +165,12 @@ const Dashboard2 = function(){
                     className="menuBtn">
                         U s e r s
                     </button>
+                    <Link to="/dashboard/orders">
+                    <button>
+                        Orders
+                    </button>
+                    </Link>
+                    
                 </div>
             </LateralDiv>
 

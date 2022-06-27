@@ -20,6 +20,10 @@ export default function SearchBar() {
     const dispatch = useDispatch()
     const theme = useSelector((state) => state.theme.selectedTheme)
     const [listen, setListen] = useState(false)
+    const productsF = useSelector((state) => state.main.products.filtered)
+    const allProducts = useSelector((state) => state.main.products.all)
+    const [products, setProducts] = useState(productsF ? productsF : [])
+
 
     useEffect(() => {
         handleListen()
@@ -59,9 +63,6 @@ export default function SearchBar() {
         }
     }
     // ==================================
-    const productsF = useSelector((state) => state.main.products.filtered)
-    const allProducts = useSelector((state) => state.main.products.all)
-    const [products, setProducts] = useState(productsF ? productsF : [])
 
     const renderSuggestion = (suggestion) => (
         <div onClick={() => handleSelect(suggestion.name)}>
@@ -95,8 +96,9 @@ export default function SearchBar() {
             ) {
                 return product
             }
-            return inputLength === 0 ? [] : filteredProducts
         })
+
+        return inputLength === 0 ? [] : filteredProducts
     }
 
     const getData = () => {

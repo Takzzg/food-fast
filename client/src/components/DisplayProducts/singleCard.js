@@ -11,7 +11,7 @@ import { Link } from "react-router-dom"
 import { baseUrl } from "../../redux/actions/async"
 import { useDispatch, useSelector } from "react-redux"
 import { add_item_car, remove_favorite, remove_item_car } from "../../redux/actions/sync"
-import {AiFillStar} from "react-icons/ai"
+import {AiFillHeart, AiOutlineHeart} from "react-icons/ai"
 import axios from "axios"
 
 export default function SingleProductCard({ product, list}) {
@@ -89,7 +89,8 @@ export default function SingleProductCard({ product, list}) {
                     <MdReadMore />
                 </Link>
                 {user && 
-                    <AiFillStar id={isFavorite ? "Favorite":"noFavorite"} onClick={!isFavorite ? handleAddFavorite:()=>handleRemoveFavorite(product._id)} /> 
+                    !isFavorite ? <AiOutlineHeart onClick={handleAddFavorite}/>:<AiFillHeart onClick={()=> handleRemoveFavorite(product._id)}/>
+                    
                 }
             </FooterContainer>
         </CardContainer>

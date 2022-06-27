@@ -22,6 +22,7 @@ const orders = (state = initialState, action) => {
             if (action.payload[1]) {
                 newState.userSelected = action.payload[1]
             }
+            console.log(action.payload[0])
             newState.selected = action.payload[0]; 
         break
         case GET_USER_INFORMATION:

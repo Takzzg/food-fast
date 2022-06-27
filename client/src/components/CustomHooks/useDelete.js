@@ -22,6 +22,43 @@ export default function useDelete(dispatch) {
             case "orders": name = "Order"; break;
             default: break;
         }
+        
+        if(type === "orders") {
+            name = "orders"
+        }
+            swal({
+                title: "Are you sure?",
+                text: `Once deleted, you will not be able to recover the ${name}!`,
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+              })
+              .then((willDelete) => {
+                if(willDelete) {
+                axios.delete(`${baseUrl}/${type}/${id}`);
+                return true
+            } else return false
+              }
+              ).then((res)=> {
+                if(res)  {
+                    if(type === "orders") {
+                        window.location = "/dashboard/orders"
+                    } else {
+                        swal(`The ${name} is deleted!`, {
+                            icon: "success"})
+                            type=== "categories" ? 
+                            dispatch(delete_category(id))
+                            :dispatch(delete_product(id))}
+                    }
+
+                else { 
+                    swal(`Your ${name} is safe!`)
+                ; }
+
+            }
+              ).catch(err=> console.log(err))
+           
+        
 
         swal({
             title: "Are you sure?",

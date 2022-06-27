@@ -93,15 +93,15 @@ export default function ProfileUser() {
                     <ButtonContainer>My orders</ButtonContainer>
                 </Link>
                 
-                <Link  to={"/commonUser/wishList"}> 
+                <Link  to={`/commonUser/${user._id}/wishList`}> 
                    <ButtonContainer>Wish List</ButtonContainer>
                 </Link>
 
-                <Link  to={"/"}>
+                <Link  to={"/user/shoppingCart"}>
                     <ButtonContainer>My Shopcart</ButtonContainer>
                 </Link>
 
-                <Link  to={"/"}>
+                <Link  to={`/user/${user._id}/reviews`}>
                    <ButtonContainer>My Reviews</ButtonContainer>
                 </Link>
 
