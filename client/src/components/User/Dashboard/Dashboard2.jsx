@@ -21,6 +21,7 @@ const Dashboard2 = function(){
     )
     const filterProducts = useSelector(state=>state.main.products.filtered)
     const usersData = useSelector(state=>state.user.usersData)
+    const currentUser = useSelector(state=>state.user.authData.user)
     const dispatch = useDispatch();
     const theme = useSelector(state => state.theme.selectedTheme)
 
@@ -116,7 +117,11 @@ const Dashboard2 = function(){
 
     const User = ({ u }) => (
         <div className='userCard'>
-            <FaUserCircle/>
+            {
+            u.isGoogleAccount ? <img src={u.photo} referrerPolicy="no-referrer"
+            className='google_photo'/>
+            : <FaUserCircle className='userCircle'/>
+            }
             <span>{u.email}</span>
             <span>{u.rol}</span>
             <button className='roleBtn'
@@ -125,8 +130,8 @@ const Dashboard2 = function(){
             </button>
             <button className="deleteBtn"
                 onClick={() => handleDelete("user", u._id, u.img)}>
-                <FaTrashAlt />
                 Delete
+                <FaTrashAlt className='buttonIcon'/>
             </button>
         </div>
     )
@@ -136,19 +141,29 @@ const Dashboard2 = function(){
         <StyledContainer>
             <Toaster/>
             <LateralDiv>
-                <section>foto... nombre usuari... "Admin"</section>
+                <section className='user_section'>
+                    {currentUser.isGoogleAccount ? <img src={currentUser.photo}
+                    referrerPolicy='no-referrer' className='google_photo'/>
+                    : <FaUserCircle className='userCircle'/>}
+                    <p>{currentUser.name}</p>
+                    "Administrator"
+                </section>
                 <div className='ButtonsContainer'>
-                    <button onClick={() => handleMenu("dashboard")}>
-                        Dashboard menu
+                    <button onClick={() => handleMenu("dashboard")}
+                    className="menuBtn">
+                        D a s h b o a r d
                     </button>
-                    <button onClick={() => handleMenu("categories")}>
-                        Botón categorías
+                    <button onClick={() => handleMenu("categories")}
+                    className="menuBtn">
+                        C a t e g o r i e s
                     </button>
-                    <button onClick={() => handleMenu("products")}>
-                        Botón Products
+                    <button onClick={() => handleMenu("products")}
+                    className="menuBtn">
+                        P r o d u c t s
                     </button>
-                    <button onClick={() => handleMenu("users")}>
-                        Botón Users
+                    <button onClick={() => handleMenu("users")}
+                    className="menuBtn">
+                        U s e r s
                     </button>
                 </div>
             </LateralDiv>
@@ -159,8 +174,8 @@ const Dashboard2 = function(){
                 Dashboard (tarjetitas con info)
                 </>
             ) : menu.users ? (
-                <UserDiv>
-                    <h3>Users</h3>
+                <UserDiv theme={theme}>
+                    <section className='cabezal'><h2>Users</h2></section>
                     <div className='allUsers'>
                         {!usersData.length ? (
                             <div>No users found...</div>
