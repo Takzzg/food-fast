@@ -125,7 +125,6 @@ export default function FilterBar() {
                     Filtrar Resultados
                 </div>
                 <Modal isOpen={isOpen}>
-                    {console.log(filter)}
                     <IconClose>
                         <AiFillCloseCircle onClick={handleClose} />
                     </IconClose>

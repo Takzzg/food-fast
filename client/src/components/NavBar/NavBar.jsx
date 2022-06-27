@@ -144,7 +144,7 @@ const NavBar = () => {
                 <NavLink url="/products">Products</NavLink>
                 {reduxUser?.rol && (
                     <>
-                        <NavLink url="/">My orders</NavLink>
+                        <NavLink url={`/commonUser/${reduxUser._id}/orders`}>My orders</NavLink>
                         <NavLink url={`/user/${reduxUser._id}/reviews`}>
                             My Reviews
                         </NavLink>

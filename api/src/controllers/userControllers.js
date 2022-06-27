@@ -76,13 +76,8 @@ export const updateUser = async (req,res)=> {
     const { id } = req.params; 
     const {name, address, rol} = req.body; 
     try {
-      if(typeof rol === undefined){
-        const user = await User.findByIdAndUpdate(id, {name, address})
-        res.json(user); 
-      }else{
-        const user = await User.findByIdAndUpdate(id, {rol})
-        res.json(user);
-      }
+      const user = await User.findByIdAndUpdate(id, {name, address}, {new: true})
+      res.json(user); 
     }catch(e){
       res.status(404).send("Error en updateUser. ", e.message)
     }

@@ -150,6 +150,12 @@ const Dashboard2 = function(){
                     <button onClick={() => handleMenu("users")}>
                         Botón Users
                     </button>
+                    <Link to="/dashboard/orders">
+                    <button>
+                        Orders
+                    </button>
+                    </Link>
+                    
                 </div>
             </LateralDiv>
 

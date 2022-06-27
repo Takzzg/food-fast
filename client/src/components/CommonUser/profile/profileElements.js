@@ -2,8 +2,10 @@ import styled from "styled-components";
 
 export const GlobalContainer = styled.section`
     display: flex;
-    height: 100%;
-    width: 100%;
+    height: 90%;
+    width: 90%;
+    margin-top: 5%;
+    margin-left: 5%;
 `; 
 
 export const FirstColumn = styled.section`
