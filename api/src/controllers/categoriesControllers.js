@@ -1,21 +1,34 @@
 import Categories from "../models/category.js"
-import path, { dirname } from "path"
-import { fileURLToPath } from "url"
-import pkg from "fs-extra"
-const { unlink } = pkg
-const __dirname = dirname(fileURLToPath(import.meta.url))
+import Product from "../models/product.js"
+
+//posibles categorias
+//almuerzo 
+//merienda
+//sandwichs
+//hamburguesas
+//pizzas
+//emmpanadas
+//bebidas
+//veggie
 
 export const categories = async (req, res) => {
     try {
-        const cate = await Categories.find()
-        const newCategories = cate.map((el) => {
-            el.img = {}
-            return el
-        })
-        return res.json(newCategories)
+        const categories = await Categories.find()
+        return res.json(categories)
     } catch (error) {
         console.log(error)
         return res.json({ error: "Error de servidor" })
+    }
+}
+//busqueda por category
+export const categoryProduct = async (req, res) => {
+    
+    try {
+        const productsCtegory = await Product.find({category: req.query.name})
+        if(productsCtegory.length === 0) return res.json({err : "Not found products category"})
+        return res.json(productsCtegory)
+    } catch (error) {
+        console.log(error)
     }
 }
 
@@ -27,15 +40,9 @@ export const category = async (req, res) => {
             name: { $regex: name, $options: "i" }
         })
 
-        let newCategories = categories.map((el) => {
-            el.img = {}
-            return el
-        })
-
         if (categories.length === 0)
             return res.json({ error: "not found category" })
-
-        return res.json(newCategories)
+        return res.json(categories)
     } catch (error) {
         console.log(error.message)
         return res.status(500).json({ error: "Error de servidor" })
@@ -50,17 +57,13 @@ export const findCatById = async (req, res) => {
                 .status(500)
                 .json({ error: `BAD REQUEST - No id provided` })
 
-        let cat = await Categories.findById(id)
-        if (!cat)
+        let catgory = await Categories.findById(id)
+        if (!catgory)
             return res
                 .status(404)
                 .json({ error: `No Category found with ID: ${id}` })
-        let returnData = {
-            _id: cat._id,
-            name: cat.name,
-            description: cat.description
-        }
-        return res.json(returnData)
+       
+        return res.json(catgory)
     } catch (error) {
         return res.status(500).json({ error })
     }
@@ -88,8 +91,6 @@ export const getImgCategorybyID = async (req, res) => {
 export const postCategory = async (req, res) => {
     try {
         const { name, description } = req.body
-        const image = req.files
-
         let exists = await Categories.find({ name: name })
         if (exists.length)
             return res.status(409).json({
@@ -100,9 +101,6 @@ export const postCategory = async (req, res) => {
             name,
             description
         })
-        myCategory.img.data = image.imageCategory.data
-        myCategory.img.contentType = image.imageCategory.mimetype
-
         await myCategory.save()
         res.status(201).json(myCategory)
     } catch (e) {

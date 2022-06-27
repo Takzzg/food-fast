@@ -8,9 +8,9 @@ const productSchema = new mongoose.Schema({
     description: {
         type: String
     },
-    img: {
-        data: Buffer,
-        contentType: String
+    image: {
+        public_id: String,
+        secure_url: String,
     },
     price: {
         type: Number,
@@ -26,10 +26,8 @@ const productSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    categories: {
-        type: Array,
-        ref: "Category",
-        required: true
+    category: {
+        type: String,
     },
     stock: {
         type: Number,

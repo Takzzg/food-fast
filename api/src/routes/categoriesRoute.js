@@ -8,7 +8,9 @@ import {
     postCategory,
     findCatById,
     upDateCategory,
-    getImgCategorybyID
+    getImgCategorybyID,
+
+    categoryProduct
 } from "../controllers/categoriesControllers.js"
 
 
@@ -16,6 +18,14 @@ const router = express.Router()
 
 //GET: http://localhost:3001/api/v1/categories
 router.get("/", categories)
+
+
+
+//GET: http://localhost:3001/api/v1/categories/categoryProduct?name=merienda
+router.get("/categoryProduct", categoryProduct)
+
+
+
 
 //GET: http://localhost:3001/api/v1/categories/category?name=merienda
 router.get("/category", category)
