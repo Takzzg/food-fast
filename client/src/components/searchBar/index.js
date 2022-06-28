@@ -10,6 +10,7 @@ import { BsFillMicMuteFill } from "react-icons/bs"
 import style from "./style/speechRecog.module.scss"
 import "./autoStyles.scss"
 import axios from "axios"
+import { AiOutlineReload } from "react-icons/ai";
 
 const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition
@@ -141,7 +142,9 @@ export default function SearchBar() {
                 onSuggestionSelected={() => setInput("")}
             />
 
-            <button onClick={handleClean}>Clean</button>
+            <button className={style.clean_product} onClick={handleClean}>
+            <AiOutlineReload/>
+            </button>
 
            
         </GlobalContainer>

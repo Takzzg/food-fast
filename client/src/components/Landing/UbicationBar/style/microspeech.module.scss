@@ -1,4 +1,10 @@
 .mic_speech{
     cursor:pointer;
-    
+    width: 50px;
+    background:#c9933e;
+    border-radius: 10px;
+    &:hover{
+        background-color:#e29314 ;
+        
+    }
 }
