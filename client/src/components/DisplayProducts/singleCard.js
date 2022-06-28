@@ -75,7 +75,7 @@ export default function SingleProductCard({ product, list}) {
             <TitleDiv>{product.name}</TitleDiv>
             <ImageContainer
                 to={`/products/${product._id}`}
-                img={`${baseUrl}/products/img/${product._id}`}
+                img={product.image && product.image.secure_url}
             />
 
             <FooterContainer theme={theme}>

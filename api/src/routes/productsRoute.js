@@ -1,16 +1,15 @@
 import express from 'express';
-
 import { check } from 'express-validator';
 import { validarCampos } from '../../middlewares/validar-campo.js';
-import verifyToken from '../../middlewares/validateToken.js'
 
 import { deleteProduct,
         putProduct, 
         upDate,  
         postProduct, 
         getProduct,
-        getImgProductbyId, 
-        getProductbyId} from '../controllers/productsControllers.js';
+        getProductbyId,
+
+    } from '../controllers/productsControllers.js';
 
 
 const router = express.Router()
@@ -19,12 +18,11 @@ const router = express.Router()
 //get product = http://localhost:3001/api/v1/products
 router.get('/', getProduct)
 
+//Post product = http://localhost:3001/api/v1/products
+router.post('/', postProduct)
 
 //GET http://localhost:3001/api/v1/products/12345
 router.get('/:id', getProductbyId);
-
-//GET IMAGE http://localhost:3001/api/v1/products/img/4748231
-router.get('/img/:id', getImgProductbyId)
 
 //post product =  http://localhost:3001/api/v1/products
 router.post("/",[
@@ -32,10 +30,8 @@ router.post("/",[
     validarCampos
 ],postProduct)
 
-
 //patch product =  http://localhost:3001/api/v1/products/:id
 router.patch('/:id', upDate)  
-
 
 //put product = http://localhost:3001/api/v1/products/754325
 router.put("/:id",[

@@ -28,11 +28,12 @@ app.use(cookieParser())
 app.use(express.json())
 app.use(cors())
 app.use(morgan("dev"))
-app.use(
-    fileUpload({
-        limits: { fileSize: 50 * 1024 * 1024 }
-    })
-)
+app.use(fileUpload({
+    useTempFiles : true,
+    tempFileDir : './uploads'
+}));
+
+
 app.use(express.static(path.join(__dirname, "public")))
 
 app.get("/welcome", (req, res) => {

@@ -66,7 +66,7 @@ export default function CategoryForm() {
         const formdata = new FormData()
         formdata.append("name", categoryForm.name)
         formdata.append("description", categoryForm.description)
-        formdata.append("imageCategory", file)
+        formdata.append("image", file)
         dispatch(postCategory(formdata))
             .then(() =>
                 swal(

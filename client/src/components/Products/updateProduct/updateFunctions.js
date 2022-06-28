@@ -10,26 +10,24 @@ export const PatchProduct = (
     setIsAvailable,
     setImgCharge
 ) => {
-    const url = `http://localhost:3001/api/v1/products/${id}?name=${form.name}&description=${form.description}&stock=${form.stock}&price=${form.price}&categories=${form.categories}`
-    if (!file) {
-        fetch(url, {
-            method: "PATCH"
-        })
-            .then((res) => setIsSend(true))
-            .catch((err) => console.log(err))
-        CleanProductsInput(setIsSend, setForm, setIsAvailable, setImgCharge)
-    } else {
-        const formdata = new FormData()
-        formdata.append("imageProduct", file)
+    const url = `http://localhost:3001/api/v1/products/${id}`
+    const formdata = new FormData()
+        formdata.append("name", form.name)
+        formdata.append("description", form.description)
+        formdata.append("price", form.price)
+        formdata.append("stock", form.stock)
+        formdata.append("categories", form.categories)
+        formdata.append("prevImg", JSON.stringify(form.image))
+        formdata.append("image", file)
 
-        fetch(url, {
+    fetch(url, {
             method: "PATCH",
             body: formdata
         })
             .then((res) => setIsSend(true))
             .catch((err) => console.log(err))
         CleanProductsInput(setIsSend, setForm, setIsAvailable, setImgCharge)
-    }
+    
 
     swal({
         title: "The product is updated correctly",

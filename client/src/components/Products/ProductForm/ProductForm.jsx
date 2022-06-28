@@ -97,7 +97,7 @@ export default function ProductForm() {
         formdata.append("price", productForm.price)
         formdata.append("stock", productForm.stock)
         formdata.append("categories", productForm.categories)
-        formdata.append("imageProduct", file)
+        formdata.append("image", file)
         dispatch(postProduct(formdata))
             .then(() =>
                 swal(
