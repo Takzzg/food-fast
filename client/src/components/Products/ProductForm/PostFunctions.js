@@ -1,7 +1,7 @@
 
 
 export const PostProduct = (form, formdata) => {
-    const url = `http://localhost:3001/api/v1/products?name=${form.name}&description=${form.description}&stock=${form.stock}&price=${form.price}&categories=${form.categories}`
+    const url = `http://localhost:3001/api/v1/products`
     fetch(url, {
         method: "POST", 
         body: formdata

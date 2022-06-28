@@ -83,10 +83,9 @@ export default function UpdateProduct() {
     }
 
     useEffect(() => {
-        console.log("Soy el useEffect en bucle :v")
-        !product && dispatch(findProductById(id))
+        dispatch(findProductById(id))
         setForm(product)
-    }, [dispatch, id, product])
+    }, [dispatch, id, product.name])
 
     return (
         <GlobalContainer>
@@ -253,7 +252,7 @@ export default function UpdateProduct() {
                             <PrevImgContainer>
                                 {/* <img src={IMAGE_PRODUCT +id} alt="preview"/> */}
                                 <img
-                                    src={`${baseUrl}/products/img/${id}`}
+                                    src={form.image && form.image.secure_url}
                                     alt="preview"
                                 />
                             </PrevImgContainer>

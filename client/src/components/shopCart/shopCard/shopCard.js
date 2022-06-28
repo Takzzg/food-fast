@@ -50,7 +50,7 @@ export default function ShopProductCard({product, setCharge, charge, user}) {
     return(
     <MainContainer>
         <FirstColumn>
-            <img src={`${baseUrl}/products/img/${product._id}`} alt="product"/>
+            <img src={product.image && product.image.secure_url} alt="product"/>
         </FirstColumn>
         
         <SecondColumn>
