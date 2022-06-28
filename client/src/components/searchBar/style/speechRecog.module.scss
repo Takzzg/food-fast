@@ -1,4 +1,22 @@
 .microno{
     cursor:pointer;
-    
+    width: 50px;
+    background:#c9933e;
+    border-radius: 10px;
+    &:hover{
+        background-color:#e29314 ;
+        
+    }
+}
+.clean_product{
+    cursor:pointer;
+    width: 50px;
+    background:#c9933e;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 20px;
+    &:hover{
+        background-color:#e29314 ;
+        
+    }
 }
