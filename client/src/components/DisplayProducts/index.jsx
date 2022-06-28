@@ -16,7 +16,7 @@ export default function DisplayProducts() {
     const theme = useSelector((state) => state.theme.selectedTheme)
     const allProducts = useSelector((state) => state.main.products.all)
     const filterProducts = useSelector((state) => state.main.products.filtered)
-    const products = useSelector((state) => state.shopCart.shopCart);
+    const products = useSelector((state) => state.shopCart.shopCart)
     const userSelector = useSelector(
         (state) => state.user.authData && state.user.authData.user
     )
@@ -27,7 +27,7 @@ export default function DisplayProducts() {
 
     const getData = async (id) => {
         const response = await axios.get(
-            `http://localhost:3001/api/v1/favorites/${id}`
+            `${process.env.REACT_APP_BACK_URL}/api/v1/favorites/${id}`
         )
         dispatch(getShopCartUser(id, products))
         setList(response.data.products)

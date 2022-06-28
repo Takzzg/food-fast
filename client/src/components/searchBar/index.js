@@ -10,7 +10,7 @@ import { BsFillMicMuteFill } from "react-icons/bs"
 import style from "./style/speechRecog.module.scss"
 import "./autoStyles.scss"
 import axios from "axios"
-import { AiOutlineReload } from "react-icons/ai";
+import { AiOutlineReload } from "react-icons/ai"
 
 const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition
@@ -24,7 +24,6 @@ export default function SearchBar() {
     const productsF = useSelector((state) => state.main.products.filtered)
     const allProducts = useSelector((state) => state.main.products.all)
     const [products, setProducts] = useState(productsF ? productsF : [])
-
 
     useEffect(() => {
         handleListen()
@@ -103,9 +102,11 @@ export default function SearchBar() {
     }
 
     const getData = () => {
-        axios.get("http://localhost:3001/api/v1/products").then((response) => {
-            setProducts(response.data)
-        })
+        axios
+            .get(`${process.env.REACT_APP_BACK_URL}/api/v1/products`)
+            .then((response) => {
+                setProducts(response.data)
+            })
     }
     // ================================
     const handleChange = (e) => {
@@ -143,10 +144,8 @@ export default function SearchBar() {
             />
 
             <button className={style.clean_product} onClick={handleClean}>
-            <AiOutlineReload/>
+                <AiOutlineReload />
             </button>
-
-           
         </GlobalContainer>
     )
 }

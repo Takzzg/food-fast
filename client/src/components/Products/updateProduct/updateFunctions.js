@@ -10,7 +10,7 @@ export const PatchProduct = (
     setIsAvailable,
     setImgCharge
 ) => {
-    const url = `http://localhost:3001/api/v1/products/${id}?name=${form.name}&description=${form.description}&stock=${form.stock}&price=${form.price}&categories=${form.categories}`
+    const url = `${process.env.REACT_APP_BACK_URL}/api/v1/products/${id}?name=${form.name}&description=${form.description}&stock=${form.stock}&price=${form.price}&categories=${form.categories}`
     if (!file) {
         fetch(url, {
             method: "PATCH"
