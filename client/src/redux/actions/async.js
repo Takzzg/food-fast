@@ -53,7 +53,7 @@ export const searchProductAsync = (name) =>
         : clean_products()
 
 export const findProductById = (id) =>
-    fetch(`${baseUrl}/products/${id}`, FIND_PRODUCT_BY_ID)
+    fetch(`http://localhost:3001/api/v1/products/${id}`, FIND_PRODUCT_BY_ID)
 
 export const newFilterProduct = (filterOrder, sortOrder) =>
     fetch(

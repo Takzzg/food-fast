@@ -368,10 +368,11 @@ export const OrnamentContainer = styled.div`
 export const ButtonCreate = styled.button`
     background-color: ${({ color }) => color};
     width: 50%;
+    z-index: 3;
     height: ${(props) => (props.isAvailable ? "2rem" : "0px")};
     color: ${(props) => (props.isAvailable ? "black" : "transparent")};
-    position: absolute;
     transition: height 1s;
+    position: absolute;
     top: 88%;
     left: 25%;
     cursor: ${(props) => (props.isAvailable ? "pointer" : "normal")};

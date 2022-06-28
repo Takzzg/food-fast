@@ -19,7 +19,7 @@ export default function SingleCard ({product}) {
 
     return(
     <CardContainer>
-        <Imagen img={`${baseUrl}/products/img/${product._id}`}>
+        <Imagen img={product.image && product.image.secure_url}>
             
             <Info id="info">
                 <IoTrashBinOutline onClick={handleRemoveFavorite}/>
