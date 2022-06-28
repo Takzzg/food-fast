@@ -16,7 +16,6 @@ import authRoute from "./src/routes/authRouter.js"
 import paypal from "./src/routes/paypalRoute.js"
 import reviews from "./src/routes/reviewsRouter.js"
 import Favorites from './src/routes/favorites.js'
-
 import fileUpload from "express-fileupload"
 import path, { dirname } from "path"
 import { fileURLToPath } from "url"
