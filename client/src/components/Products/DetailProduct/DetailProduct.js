@@ -82,6 +82,7 @@ const DetailProduct = () => {
     }
 
     useEffect(() => {
+        console.log(reviews)
         let average = reviews.length
             ? reviews.reduce((total, next) => total + next.score, 0) /
               reviews.length
