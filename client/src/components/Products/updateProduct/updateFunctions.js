@@ -8,7 +8,8 @@ export const PatchProduct = (
     setIsSend,
     setForm,
     setIsAvailable,
-    setImgCharge
+    setImgCharge, 
+    Navigate
 ) => {
     const url = `${process.env.REACT_APP_BACK_URL}/api/v1/products/${id}`
     const formdata = new FormData()
@@ -32,9 +33,7 @@ export const PatchProduct = (
         title: "The product is updated correctly",
         text: "Continuos!",
         icon: "success"
-    }).then(function () {
-        window.location = "/dashboard"
-    })
+    }).then(()=> Navigate("/dashboard"))
 }
 
 export const CleanProductsInput = (

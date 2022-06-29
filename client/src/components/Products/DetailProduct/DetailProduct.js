@@ -13,7 +13,8 @@ import {
     ButtonsContainer,
     SecondMainContainer,
     ProductHeader,
-    ReviewsContainer
+    ReviewsContainer,
+    NotAvailable
 } from "./detailElements"
 
 import { AiOutlineShoppingCart } from "react-icons/ai"
@@ -157,6 +158,8 @@ const DetailProduct = () => {
                 </ImageContainer>
 
                 <SecondMainContainer>
+                    {product.stock ===0 && <NotAvailable>Producto No disponible</NotAvailable>}
+                    
                     <DescriptionContainer theme={theme}>
                         <ListItem>
                             <Etiqueta>DESCRIPTION:</Etiqueta>
@@ -167,7 +170,7 @@ const DetailProduct = () => {
                             style={{
                                 display: "flex",
                                 alignItems: "flex-end",
-                                justifyContent: "center"
+                                justifyContent: "center",
                             }}
                         >
                             <ListItem>
@@ -185,24 +188,24 @@ const DetailProduct = () => {
                             <Data>{product.categories}</Data>
                         </ListItem>
                     </DescriptionContainer>
-
-                    <ButtonsContainer theme={theme}>
+                    {product.stock !== 0 && <ButtonsContainer theme={theme}>
                         {!isAdded ? (
                             <CarShop theme={theme} onClick={addItem}>
                                 <AiOutlineShoppingCart id="car" />
                             </CarShop>
                         ) : (
-                            <CarShop theme={theme} onClick={removeItem}>
+                            <CarShop theme={theme} onClick={removeItem} disabled={product.stock === 0}>
                                 <AiOutlineShoppingCart
                                     id="car"
-                                    style={{ color: "red" }}
+                                    style={{ color: "red" }} 
                                 />
                             </CarShop>
                         )}
                         <BuyButton theme={theme}>
                             <AiOutlineCreditCard />
                         </BuyButton>
-                    </ButtonsContainer>
+                    </ButtonsContainer>}
+                    
                 </SecondMainContainer>
             </MainContainer>
             <ReviewsContainer theme={theme}>

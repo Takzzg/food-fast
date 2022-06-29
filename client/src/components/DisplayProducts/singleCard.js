@@ -3,12 +3,13 @@ import {
     CardContainer,
     TitleDiv,
     ImageContainer,
-    FooterContainer
+    FooterContainer,
+    NotAvaible
 } from "./displayElements"
-import { MdReadMore } from "react-icons/md"
+import { MdReadMore, MdOutlineDoNotDisturb } from "react-icons/md"
 import { TbShoppingCartPlus, TbShoppingCartX } from "react-icons/tb"
 import { Link } from "react-router-dom"
-import { baseUrl } from "../../redux/actions/async"
+
 import { useDispatch, useSelector } from "react-redux"
 import {
     add_item_car,
@@ -85,6 +86,7 @@ export default function SingleProductCard({ product, list }) {
     return (
         <CardContainer theme={theme}>
             <TitleDiv>{product.name}</TitleDiv>
+            {/* {product.stock === 0 && <NotAvaible id="notAvaible" to={`/products/${product._id}`}><MdOutlineDoNotDisturb /></NotAvaible>} */}
             <ImageContainer
                 to={`/products/${product._id}`}
                 img={product.image && product.image.secure_url}
@@ -92,10 +94,14 @@ export default function SingleProductCard({ product, list }) {
 
             <FooterContainer theme={theme}>
                 ${product.price}
-                {!isAdded ? (
-                    <TbShoppingCartPlus id="car" onClick={addItem} />
-                ) : (
-                    <TbShoppingCartX id="car" onClick={removeItem} />
+                {product.stock !== 0 && (
+                    <div>
+                        {!isAdded ? (
+                            <TbShoppingCartPlus id="car" onClick={addItem} />
+                        ) : (
+                            <TbShoppingCartX id="car" onClick={removeItem} />
+                        )}
+                    </div>
                 )}
                 <Link to={`/products/${product._id}`} id="details">
                     <MdReadMore />
