@@ -32,7 +32,8 @@ import {
 
 export const baseUrl = `${process.env.REACT_APP_BACK_URL}/api/v1`
 
-const fetch = (url, type) => (dispatch) =>
+const fetch = (url, type) => (dispatch) => {
+    console.log(baseUrl + url)
     axios
         .get(baseUrl + url)
         .then((res) => dispatch({ type: type, payload: res.data }))
@@ -40,6 +41,7 @@ const fetch = (url, type) => (dispatch) =>
             console.log(`error en ${type} \n url = ${url} \n mensaje = ${err}`)
             dispatch({ type: ERROR, payload: err })
         })
+}
 
 // PRODUCTS
 
