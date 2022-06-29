@@ -33,7 +33,6 @@ import {
 export const baseUrl = `${process.env.REACT_APP_BACK_URL}/api/v1`
 
 const fetch = (url, type) => (dispatch) => {
-    console.log(baseUrl + url)
     axios
         .get(baseUrl + url)
         .then((res) => dispatch({ type: type, payload: res.data }))
