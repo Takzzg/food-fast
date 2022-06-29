@@ -35,6 +35,7 @@ export const GlobalContainer = styled.div`
         /* padding-top: 20vh; */
         z-index: 1;
         padding: 5rem 1rem;
+        font-style: italic;
     }
 `
 

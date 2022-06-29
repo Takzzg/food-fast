@@ -7,7 +7,7 @@ export default function SelectedList({setFormCategories, form, color}) {
 
     const handleChange = (e)=> {
         let value = e.target.value;
-        let coincidence = form.categories.find(el=> el === value)
+        let coincidence = form.categories && form.categories.find(el=> el === value)
         if(!coincidence) {
             setFormCategories(prev=> ({...prev, categories: [...prev.categories, value]}))
         } 

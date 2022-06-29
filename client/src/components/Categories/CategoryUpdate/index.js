@@ -24,7 +24,7 @@ import FormBG from "../../FormBG/FormBG"
 
 export default function ModifyCategory() {
     const { id } = useParams()
-    const [form, setForm] = useState({ name: "", description: "", img: null })
+    const [form, setForm] = useState({ name: "", description: "", image: {} })
     const [errors, setErrors] = useState({})
     // const [isSend, setIsSend] = useState(false)
     const [isEmpty, setIsEmpty] = useState(false)
@@ -61,6 +61,7 @@ export default function ModifyCategory() {
 
     return (
         <GlobalContainer>
+            {console.log(form)}
             <FormBG />
             {isEmpty && (
                 <MessageContainer color={"red"}>
@@ -102,7 +103,6 @@ export default function ModifyCategory() {
                         </ErrorMsg>
                     }
                 </InputContainer>
-                {console.log(form.img)}
                 <InputContainer>
                     <Label>Image:</Label>
                     <InputFiled
@@ -125,7 +125,7 @@ export default function ModifyCategory() {
                         <PrevContainer>
                             <PrevImgContainer>
                                 <img
-                                    src={`${baseUrl}/categories/img/${id}`}
+                                    src={form.image && form.image.secure_url}
                                     alt="preview"
                                 />
                             </PrevImgContainer>

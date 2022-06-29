@@ -62,7 +62,7 @@ const Landing = () => {
             }
         >
             <div className="ornament" />
-            <h1 className="welcome">Everything you want in one place</h1>
+            <h1 className="welcome">Todo lo que necesitas, en un sòlo lugar</h1>
 
             <CategoryBar className="LocationBar" />
             <CategoriesContainer>

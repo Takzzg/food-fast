@@ -12,7 +12,7 @@ const CategoryCard = ({ category, url }) => {
             theme={theme}
             key={_id}
             to={url}
-            img={`${baseUrl}/categories/img/${_id}`}
+            img={category.image && category.image.secure_url}
         >
             <div className="img" />
             <span className="name">{name}</span>
