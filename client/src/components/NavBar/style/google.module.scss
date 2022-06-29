@@ -2,7 +2,7 @@
     cursor:pointer;
     border-radius: 8px;
     height: 70%; text-decoration: none;
-    width: 40%;
+    width: 30%;
     background-color: #e5e5e5;
     border:1px solid orange;
     font-size: 1rem;
@@ -14,16 +14,32 @@
     
     &:hover {
         background-color: rgb(222, 155, 30);
+        box-shadow: 0 0 8px grey;
     }  
 }
 .auth_google_photo{
-    border-radius: 20px;
+    border-radius: 22px;
     width: 2rem;
-    
 }
 .auth_google_email{
     position:absolute;
     top:7.5rem;
     left:4rem;
-    font-size:9.7px;
+    font-size: 10px;
+}
+
+#switchTheme{
+    border-radius: 50%;
+    width: 50px;
+    margin: 0 30px 5px 0;
+    align-self: flex-end;
+    transition: .4s;
+    svg{
+        width: 40px; height: 40px;
+    }
+    &:hover{
+        color: white;
+        background-color: black;
+        box-shadow: 0 0 15px 8px grey;
+    }
 }
