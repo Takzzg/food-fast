@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { FifthColumn, FirstColumn, FourthColumn, MainContainer, SecondColumn, ThirdColumn } from "./cardElements";
-import { baseUrl } from "../../../redux/actions/async";
 import {AiFillPlusCircle, AiFillMinusCircle} from "react-icons/ai"; 
 import { useDispatch } from "react-redux";
 import { add_item_car, remove_item_car } from "../../../redux/actions/sync";
@@ -13,7 +12,7 @@ export default function ShopProductCard({product, setCharge, charge, user}) {
 
     const dispatch = useDispatch(); 
     const addItem = async () => {
-        if(quantity <= product.stock) {
+        if(quantity < product.stock) {
             dispatch(add_item_car(product))
             if(user) { 
                 await axios.post(`http://localhost:3001/api/v1/user/shopCart/add/${user.user._id}`, {
@@ -27,7 +26,7 @@ export default function ShopProductCard({product, setCharge, charge, user}) {
         }
     }
     const removeItem = async (all=false) => {
-        if(quantity <= product.stock && !all) {
+        if(quantity > 0 && !all) {
 
                 if(user) { 
                     await axios.post(`http://localhost:3001/api/v1/user/shopCart/remove/${user.user._id}`, {
@@ -42,7 +41,7 @@ export default function ShopProductCard({product, setCharge, charge, user}) {
                      product: product   
                 })
             }
-            dispatch(remove_item_car(product, all))
+            dispatch(remove_item_car(product, true))
             setQuantity(0)   
         }
         setCharge(!charge);

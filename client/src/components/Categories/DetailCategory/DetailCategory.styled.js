@@ -4,14 +4,14 @@ export const StyledCategoryDetail = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-
+    height: 100%;
+    width: 100%;
     .banner {
         width: 100%;
-        height: 20rem;
-
+        height: 30%;
         background-image: url(${({ img }) => img});
         background-position: center;
-        background-size: contain;
+         background-size: contain; 
         background-repeat: no-repeat;
 
         display: flex;
@@ -23,9 +23,11 @@ export const StyledCategoryDetail = styled.div`
     }
 
     .products {
+        height: 70%;
         display: flex;
         flex-direction: column;
         /* align-items: center; */
         gap: 0.25rem;
+    
     }
 `

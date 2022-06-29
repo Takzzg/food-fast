@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { baseUrl, findCatById } from "../../../redux/actions/async"
 import { validateForm } from "../../CustomHooks/validateForm"
 import { Message } from "rsuite"
@@ -28,7 +28,7 @@ export default function ModifyCategory() {
     const [errors, setErrors] = useState({})
     // const [isSend, setIsSend] = useState(false)
     const [isEmpty, setIsEmpty] = useState(false)
-
+    const Navigate = useNavigate();
     const dispatch = useDispatch()
     const category = useSelector((state) => state.main.categories.detail)
 
@@ -137,7 +137,7 @@ export default function ModifyCategory() {
                     <CreateButton
                         color="green"
                         style={{ marginLeft: "20rem" }}
-                        onClick={() => PatchCategory(form, file)}
+                        onClick={() => PatchCategory(form, file, Navigate)}
                     >
                         Update Category
                     </CreateButton>

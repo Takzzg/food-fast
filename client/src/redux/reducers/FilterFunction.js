@@ -29,7 +29,7 @@ export default function FilterFunction (products, filtersOptions){
 
     // Filtro por raiting
     if(rating !== null) {
-        newProducts = newProducts.filter(el=> el.rating === rating)
+        newProducts = newProducts.filter(el=> Math.round(el.rating) === rating)
     }
 
     // Filtro por stock, primero si el stock es 0 no se muestra 

@@ -114,6 +114,10 @@ export const SecondMainContainer = styled.div`
     justify-content: center;
     width: 31.5rem;
 `
+export const NotAvailable = styled.div`
+    color: red;
+    font-size: 3rem;
+`
 export const ImageContainer = styled.section`
     display: flex;
     align-items: center;
