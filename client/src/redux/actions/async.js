@@ -37,7 +37,9 @@ const fetch = (url, type) => (dispatch) => {
         .get(baseUrl + url)
         .then((res) => dispatch({ type: type, payload: res.data }))
         .catch((err) => {
-            console.log(`error en ${type} \n url = ${url} \n mensaje = ${err}`)
+            console.log(
+                `error en ${type} \n url = ${baseUrl + url} \n mensaje = ${err}`
+            )
             dispatch({ type: ERROR, payload: err })
         })
 }
