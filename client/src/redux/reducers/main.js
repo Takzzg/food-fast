@@ -91,7 +91,7 @@ const main = (state = initialState, action) => {
 
         case FETCH_PRODUCTS:
             newState.products.all = sortByName(action.payload)
-            newState.products.filtered = action.payload
+            newState.products.filtered = action.payload.filter(el=> el.stock > 0); 
             break
 
 

@@ -1,7 +1,7 @@
 import swal from 'sweetalert'
 
 
-export const PatchCategory = (form, file) =>{
+export const PatchCategory = (form, file, Navigate) =>{
     const formdata = new FormData(); 
         formdata.append('image', file)
         formdata.append('name', form.name)
@@ -16,9 +16,7 @@ export const PatchCategory = (form, file) =>{
         title: "The category is updated correctly",
         text: "Continuos!",
         icon: "success",
-      }).then(function() {
-        window.location = "/dashboard";
-    });
+      }).then(()=> Navigate('/dashboard"'));
 }
 export const CleanCategoryImputs = (setIsSend, setForm, setIsAvailable, setImgCharge) => {
     setTimeout(()=> {

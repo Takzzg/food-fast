@@ -27,12 +27,13 @@ import { Message } from "rsuite"
 import { baseUrl, findProductById } from "../../../redux/actions/async"
 import { useDispatch, useSelector } from "react-redux"
 import { validateForm } from "../../CustomHooks/validateForm"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { PatchProduct } from "./updateFunctions"
 import FormBG from "../../FormBG/FormBG"
 
 export default function UpdateProduct() {
     const { id } = useParams()
+    const Navigate = useNavigate(); 
     const [form, setForm] = useState({
         name: "",
         description: "",
@@ -274,7 +275,8 @@ export default function UpdateProduct() {
                         setIsSend,
                         setForm,
                         setIsAvailable,
-                        setImgCharge
+                        setImgCharge,
+                        Navigate
                     )
                 }
             >
