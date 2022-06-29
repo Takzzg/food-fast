@@ -39,7 +39,7 @@ export default function UpdateProduct() {
         price: 0,
         stock: 0,
         categories: [],
-        img: null
+        image: null
     })
 
     const [errors, setErrors] = useState({})
@@ -69,10 +69,7 @@ export default function UpdateProduct() {
         setFile(newFile)
         if (newFile) setImgCharge(true)
         else setImgCharge(false)
-        if (e.target.name === "stock") {
-            if (e.target.value > 0) setIsAvailable(true)
-            else setIsAvailable(false)
-        }
+
     }
 
     const handleChange = (e) => {
@@ -80,6 +77,10 @@ export default function UpdateProduct() {
         setForm({ ...form, [name]: value })
         let currentErrors = validateForm({ ...form, [name]: value }, "product")
         setErrors(currentErrors)
+        if (name === "stock") {
+            if (e.target.value > 0) setIsAvailable(true)
+            else setIsAvailable(false)
+        }
     }
 
     useEffect(() => {

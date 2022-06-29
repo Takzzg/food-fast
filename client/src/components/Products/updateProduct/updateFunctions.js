@@ -16,7 +16,7 @@ export const PatchProduct = (
         formdata.append("description", form.description)
         formdata.append("price", form.price)
         formdata.append("stock", form.stock)
-        formdata.append("categories", form.categories)
+        formdata.append("categories", JSON.stringify(form.categories))
         formdata.append("prevImg", JSON.stringify(form.image))
         formdata.append("image", file)
 
