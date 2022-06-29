@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom"
 // import { fetchAllCategories } from "./redux/actions/async"
 import { useSelector } from "react-redux"
@@ -15,7 +15,7 @@ import NavBar from "./components/NavBar/NavBar"
 import Landing from "./components/Landing/Landing"
 import DetailProduct from "./components/Products/DetailProduct/DetailProduct"
 import DetailCategory from "./components/Categories/DetailCategory/DetailCategoty"
-import Dashboard from "./components/User/Dashboard/Dashboard"
+// import Dashboard from "./components/User/Dashboard/Dashboard"
 import ProductForm from "./components/Products/ProductForm/ProductForm"
 import CategoryForm from "./components/Categories/CategoryForm"
 import Orders from "./components/Orders/Orders"
@@ -35,6 +35,7 @@ import UserOrders from "./components/CommonUser/ordersList"
 import OrderDetail from "./components/CommonUser/orderDetail"
 import OrdersAdmin from "./components/User/orders"
 import OrderAdminDetail from "./components/User/orders/orderDetailAndUpdate"
+// import { fetchAllCategories, fetchAllProducts } from "./redux/actions/async"
 
 const ScrollToTop = () => {
     const location = useLocation()
@@ -45,7 +46,13 @@ const ScrollToTop = () => {
 
 function App() {
     // const [{isopen,user},dispatch]=useStateValue()
+
     // const dispatch = useDispatch()
+    // useEffect(() => {
+    //     dispatch(fetchAllCategories())
+    //     dispatch(fetchAllProducts())
+    // }, [dispatch])
+
     const theme = useSelector((state) => state.theme.selectedTheme)
 
     return (
@@ -61,13 +68,13 @@ function App() {
                         <Route index element={<DisplayProducts />} />
                         <Route path=":idProduct" element={<DetailProduct />} />
                     </Route>
-                    <Route path='/orders'>
-                        <Route path=":orderID" element={<OrderDetail />}/>
+                    <Route path="/orders">
+                        <Route path=":orderID" element={<OrderDetail />} />
                     </Route>
                     <Route path="/commonUser">
-                        <Route path="profile" element={<ProfileUser />}/>
+                        <Route path="profile" element={<ProfileUser />} />
                         <Route path=":userID/wishList" element={<WishList />} />
-                        <Route path=":userID/orders" element={<UserOrders />}/>
+                        <Route path=":userID/orders" element={<UserOrders />} />
                     </Route>
                     <Route
                         path="/categories/:idCategory"
@@ -76,11 +83,21 @@ function App() {
 
                     <Route path="/dashboard">
                         {/* <Route index element={<Dashboard />} /> */}
-                        <Route index element={<PrivateRoute
-                    element={Dashboard2}  requiredRol="ADMIN" />}/>
+                        <Route
+                            index
+                            element={
+                                <PrivateRoute
+                                    element={Dashboard2}
+                                    requiredRol="ADMIN"
+                                />
+                            }
+                        />
 
-                        <Route path="orders" element={<OrdersAdmin />}/>
-                        <Route path="orders/:orderID" element={<OrderAdminDetail />} />
+                        <Route path="orders" element={<OrdersAdmin />} />
+                        <Route
+                            path="orders/:orderID"
+                            element={<OrderAdminDetail />}
+                        />
                         {/* <Route path="createProduct" element={<ProductForm />} /> */}
                         <Route
                             path="createProduct"
