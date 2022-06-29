@@ -52,7 +52,7 @@ export default function OrdersAdmin() {
         if(!orders.length){
             dispatch(getAllOrder())
         }
-    }, [])
+    }, [status])
 
     //pruebitaa
     const [orderID, setOrderId] = useState("")
@@ -74,6 +74,7 @@ export default function OrdersAdmin() {
                         <option value="status">Estado</option>
                     </select>
                     {isStatus && <select onChange={handleStatusChange}>
+                            <option value={"Pending"} defaultValue disabled>-Estado:-</option>
                             <option value={"Pending"}>Pendiente</option>
                             <option value={"Rejected"}>Rechazada</option>
                             <option value={"Accepted"}>Aceptada</option>

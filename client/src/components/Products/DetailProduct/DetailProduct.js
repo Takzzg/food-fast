@@ -16,7 +16,7 @@ import {
     ReviewsContainer,
     NotAvailable
 } from "./detailElements"
-
+import {Link} from "react-router-dom"
 import { AiOutlineShoppingCart } from "react-icons/ai"
 import { AiOutlineCreditCard } from "react-icons/ai"
 import { useParams } from "react-router-dom"
@@ -36,6 +36,7 @@ import {
 import ReviewCard from "../../Reviews/ReviewCard"
 import { BsStar, BsStarFill } from "react-icons/bs"
 import axios from "axios"
+import Loading from "../../Loading/Loading"
 
 const initialState = {
     title: "",
@@ -54,6 +55,7 @@ const DetailProduct = () => {
     const [isAdded, setIsAdded] = useState(false)
     const products = useSelector((state) => state.shopCart.shopCart)
     const userId = useSelector((state) => state.user.authData?.user._id)
+    const user = useSelector((state)=> state.user.authData)
 
     const addItem = async (e) => {
         e.preventDefault()
@@ -128,7 +130,7 @@ const DetailProduct = () => {
         setReviewForm({ ...reviewForm, score: v })
     }
 
-    if (!product || !product.name) return <h1>Loading...</h1>
+    if (!product || !product.name) return <Loading >Loading...</Loading>
 
     return (
         <GlobalContainer theme={theme}>
@@ -174,7 +176,7 @@ const DetailProduct = () => {
                         </div>
                         <ListItem>
                             <Etiqueta>Categories:</Etiqueta>
-                            <Data>{product.categories}</Data>
+                            <Data>{product.categories.join(", ")}</Data>
                         </ListItem>
                     </DescriptionContainer>
                     {product.stock !== 0 && <ButtonsContainer theme={theme}>
@@ -190,16 +192,20 @@ const DetailProduct = () => {
                                 />
                             </CarShop>
                         )}
-                        <BuyButton theme={theme}>
-                            <AiOutlineCreditCard />
-                        </BuyButton>
+
+                            <BuyButton theme={theme} to="/user/shoppingCart">
+                                    <AiOutlineCreditCard />
+                            </BuyButton>
+
+
                     </ButtonsContainer>}
                     
                 </SecondMainContainer>
             </MainContainer>
+            
             <ReviewsContainer theme={theme}>
                 <span className="reviewsTitle">Reviews</span>
-                <form onSubmit={handleSubmit}>
+                {user &&  <form onSubmit={handleSubmit}>
                     <span className="formTitle">Deja tu comentario</span>
                     <label htmlFor="title">Titulo</label>
                     <input
@@ -235,7 +241,8 @@ const DetailProduct = () => {
                         ))}
                     </div>
                     <input className="submit" type="submit" value="Enviar" />
-                </form>
+                </form>}
+               
                 <div className="reviews">
                     {reviews.length &&
                         reviews.map((r) => (

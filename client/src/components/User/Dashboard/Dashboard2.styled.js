@@ -102,6 +102,9 @@ export const DisplayDiv = styled.div`
         display: flex;
         justify-content: space-between;
     }
+    #orders {
+        width: 100%;
+    }
 `
 export const InfoDiv = styled.div`
     width: 100%;

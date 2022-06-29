@@ -26,7 +26,7 @@ import { MdOutlineEventAvailable } from "react-icons/md"
 import FormBG from "../../FormBG/FormBG"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { postProduct } from "../../../redux/actions/async"
+import { fetchAllCategories, postProduct } from "../../../redux/actions/async"
 import swal from "sweetalert"
 
 const initialForm = {
@@ -45,15 +45,16 @@ export default function ProductForm() {
     const [file, setFile] = useState(null)
     const [productForm, setProductForm] = useState(initialForm)
     const [productErrors, setProductErrors] = useState(initialForm)
+    const [disablePostBtn, setDisablePostBtn] = useState(true); 
 
     const isAvailable = !!(productForm.stock > 0)
 
-    const disablePostBtn = !!(
-        productErrors.name ||
-        productErrors.description ||
-        productErrors.img ||
-        productErrors.price <= 0
-    )
+    const controllButton = () => {
+        if (productErrors.name || productErrors.description || productErrors.price) {
+            return setDisablePostBtn(true); 
+        }
+        return setDisablePostBtn(false)
+    } 
 
     useEffect(() => {
         let newErrors = { ...initialForm }
@@ -72,8 +73,12 @@ export default function ProductForm() {
             newErrors.price = "Invalid price"
 
         setProductErrors(newErrors)
+        controllButton()
     }, [productForm])
 
+    useEffect(()=>{
+        dispatch(fetchAllCategories()); 
+    }, [])
     const handleProductForm = (e) => {
         setProductForm({ ...productForm, [e.target.name]: e.target.value })
     }
@@ -111,7 +116,6 @@ export default function ProductForm() {
 
     return (
         <GlobalContainer>
-        {console.log(productForm.categories)}
 
             <FormBG />
             <Title>CREATE PRODUCT</Title>
@@ -151,7 +155,7 @@ export default function ProductForm() {
                     </InputContainer>
 
                     <InputContainer
-                        className="row"
+                        className="rowForm"
                         color={"rgba(201, 147, 62)"}
                     >
                         <Label>Price:</Label>
@@ -189,7 +193,7 @@ export default function ProductForm() {
                     </InputContainer>
 
                     <InputContainer
-                        className="row"
+                        className="rowForm"
                         color={"rgba(201, 147, 62)"}
                     >
                         <Label>Stock:</Label>
@@ -273,7 +277,7 @@ export default function ProductForm() {
                 </SecondColumnContainer>
                 <ButtonCreate
                     color="orange"
-                    isAvailable={disablePostBtn}
+                    isAvailable={!disablePostBtn}
                     onClick={() => handleProductPost(file, setFile)}
                 >
                     Create Product

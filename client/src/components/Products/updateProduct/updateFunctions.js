@@ -34,7 +34,7 @@ export const PatchProduct = (
         title: "The product is updated correctly",
         text: "Continuos!",
         icon: "success"
-    }).then(()=> Navigate("/dashboard"))
+    }).then(()=> Navigate('/dashboard'))
 }
 
 export const CleanProductsInput = (
