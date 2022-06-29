@@ -1,49 +1,70 @@
 .ContainerOrder{
+    padding: 0 15px 0 15px;
     height: 100%;
-    width: 100%;
+    width: 870px;
     display: flex;
     flex-direction: column;
-    justify-content:flex-start;
+    justify-content:center;
     align-items: center;
-    overflow: auto;
+    overflow:auto;
+}
+
+select{
+    width: 130px; 
+    padding: 4px 4px 2px 4px;
+    background: #333; color: #eee;
+    border-radius: 5px;
+    font-family: monospace; font-size: 16px;
 }
 
 #title {
-    font-size: 2rem;
-    padding: .5rem;
+    font-size: 2.5rem;
+    padding: .3rem;
     text-align: center;
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
     font-family: 'Lobster';
     margin: 2rem;
-    width: 50%;
+    width: 85%;
     margin-bottom: 0rem;
 }
 .table {
-    width: 70%;
+    width: 100%;
+    border: 3px solid grey;
+    border-radius: 5px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-    display: table;
+    background: radial-gradient(#ddd, #555);
+    
     @media screen and (max-width: 580px) {
         display: block
     }
 }
 
 #header{
-    background: #27ae60
+    background: linear-gradient(#744a06, #b39c3a);
+    color: #eee;
+    font-size: 22px; font-weight: bold;
 }
 
 .rowDetail {
-    display: table-row;
-    background: #f6f6f6;
+    background: transparent;
+    display: flex;
+    justify-content:space-between;
+    width: 100%; color: #222;
+    
+    font-size: 16px;
+    //display: table-row;
     cursor: pointer;
     text-decoration: none;
+    transition: .3s;
     &:hover {
-        background-color: aqua;
+        background-color: #444;
+        color: #ccc;
     }
     
     &.header {
         font-weight: 900;
-        color: #ffffff;
+        color: #ffff;
     }
 
     
@@ -71,6 +92,8 @@
 
     
 .cell {
+    display: flex;
+    flex-direction: column;
     margin-bottom: 10px;
     &:before {
         margin-bottom: 3px;
@@ -88,7 +111,7 @@
 }
 .cell {
     padding: 6px 12px;
-    display: table-cell;
+    //display: table-cell;
     @media screen and (max-width: 580px) {
         padding: 2px 16px;
         display: block
@@ -98,11 +121,20 @@
 
 #footer{
     background: #969696;
+    font-size: 22px;
 }
 
 #filter {
+    margin: 8px 0 5px 0;
     font-family: monospace;
-    font-size: 1rem;
+    font-size: 18px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-around;
+}
+
+.detailCell{
+    width: 180px; height: 80px;
+    font-size: 19px;
+    display: flex; justify-content: center;
+    align-items: center;
 }

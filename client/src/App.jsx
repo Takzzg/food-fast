@@ -79,9 +79,9 @@ function App() {
                         <Route index element={<PrivateRoute
                     element={Dashboard2}  requiredRol="ADMIN" />}/>
 
-                        <Route path="orders" element={<OrdersAdmin />}/>
-                        <Route path="orders/:orderID" element={<OrderAdminDetail />} />
-                        {/* <Route path="createProduct" element={<ProductForm />} /> */}
+                        {/* <Route path="orders" element={<OrdersAdmin />}/> */}
+                        {/* <Route path="orders/:orderID" element={<OrderAdminDetail params='id'/>} /> */}
+                        
                         <Route
                             path="createProduct"
                             element={
@@ -92,10 +92,6 @@ function App() {
                             }
                         />
 
-                        {/* <Route
-                            path="createCategory"
-                            element={<CategoryForm />}
-                        /> */}
                         <Route
                             path="createCategory"
                             element={
