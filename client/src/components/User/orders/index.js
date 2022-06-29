@@ -57,7 +57,7 @@ export default function OrdersAdmin() {
     //pruebitaa
     const [orderID, setOrderId] = useState("")
     function selectOrder(id){
-        console.log("entré al selectOrder! el id es: ",typeof id)
+        
         setOrderId(id)
     }
 

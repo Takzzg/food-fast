@@ -42,7 +42,11 @@ export const CardContainer = styled.section`
 
     &:hover {
         transform: scale(1.05);
+        #notAvaible {
+            bottom: 11rem;
+        }
     }
+
 `
 
 export const TitleDiv = styled.div`
@@ -63,6 +67,22 @@ export const ImageContainer = styled(Link)`
 
     min-height: 10rem;
     border-radius: 1rem;
+`
+
+export const NotAvaible = styled(Link)`
+    position: absolute;
+    height: 10rem;
+    display: flex;
+    width: 15rem;
+    cursor: pointer;
+    bottom: 12rem;
+    svg {
+        height: 100%;
+        width: auto;
+        margin: auto;
+        color: red;
+    }
+
 `
 
 export const FooterContainer = styled.div`

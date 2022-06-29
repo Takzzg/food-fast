@@ -17,20 +17,21 @@ export default function UserOrders (){
         <OrdersContainer>
             <div className="table">
             <div className="title">
-                <h1>My orders</h1>
+                <h1>Mis órdenes de compra</h1>
             </div>
             <div className="header">
                 <div className="row">
-                    <div>Order ID</div>
-                    <div>Mount</div>
-                    <div>Date</div>
-                    <div>Status</div>
+                    <div>ID</div>
+                    <div>Monto</div>
+                    <div>Fecha</div>
+                    <div>Estado</div>
                 </div>
             </div>
 
             <div className="body">
                 {orders.map(el=> (
-                    <Link to={`/orders/${el._id}`} style={{textDecoration:"none", color: "black"}}>
+                    <Link to={`/orders/${el._id}`} key={el._id}
+                    style={{textDecoration:"none", color: "black"}}>
                         <div className="row">
                             <div>{el._id}</div>
                             <div>{el.total}</div>

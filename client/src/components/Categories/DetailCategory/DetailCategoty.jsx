@@ -45,7 +45,7 @@ const DetailCategory = () => {
     return !!category ? (
         <StyledCategoryDetail
             theme={theme}
-            img={`${baseUrl}/categories/img/${idCategory}`}
+            img={category.image && category.image.secure_url}
         >
             <div className="banner">{category.name}</div>
             <div className="products">

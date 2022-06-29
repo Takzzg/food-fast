@@ -26,7 +26,7 @@ const UserReviews = () => {
 
     return (
         <StyledUserReviews theme={theme}>
-            <h1>user: {user && user.name}</h1>
+            <h1>reseñas de {user && user.name}</h1>
             <div className="reviews">
                 {reviews.length &&
                     reviews.map((r) => (
