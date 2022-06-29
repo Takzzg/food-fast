@@ -23,7 +23,7 @@ const ReviewCard = ({ review, handleDelete }) => {
                     className="deleteBtn"
                 >
                     <FaTrashAlt />
-                    Delete
+                    Borrar
                 </div>
             )}
 
@@ -40,8 +40,8 @@ const ReviewCard = ({ review, handleDelete }) => {
                 <span className="comment">{review.comment}</span>
                 <span className="info">
                     <span className="author">
-                        {review.userId && review.userId.name} <FaUserAlt /> <BsArrowRight />
-                        <IoFastFoodSharp /> {review.productId.name}
+                        {review.userId && review?.userId.name} <FaUserAlt /> <BsArrowRight />
+                        <IoFastFoodSharp /> {review?.productId.name}
                     </span>
                     <span className="date">
                         <FiClock />

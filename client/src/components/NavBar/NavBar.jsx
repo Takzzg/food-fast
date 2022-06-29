@@ -16,14 +16,14 @@ import {
 } from "./NavBar.styled"
 import { IoFastFoodSharp } from "react-icons/io5"
 import { GiHamburgerMenu } from "react-icons/gi"
-import { AiFillCloseCircle } from "react-icons/ai"
+import { AiFillCloseCircle, AiOutlineLogout } from "react-icons/ai"
 import { FiLogOut, FiLogIn } from "react-icons/fi"
+import { MdDarkMode, MdLightMode } from "react-icons/md"
 import { FaUserAlt } from "react-icons/fa"
 import { useDispatch, useSelector } from "react-redux"
 import { switchTheme } from "../../redux/actions/sync"
 import { LOG_OUT } from "../../redux/actions/types"
 
-import { AiOutlineLogout } from "react-icons/ai"
 import { UserAuth } from "../../context/AuthContext"
 import style from "./style/google.module.scss"
 
@@ -140,32 +140,33 @@ const NavBar = () => {
                 {/* <ListRoutes> */}
                 <hr />
 
-                <h3>CONSUMER</h3>
+                <h3>CONSUMIDOR</h3>
                 <NavLink url="/">Home</NavLink>
-                <NavLink url="/products">Products</NavLink>
+                <NavLink url="/products">Productos</NavLink>
                 {reduxUser?.rol && (
                     <>
-                        <NavLink url={`/commonUser/${reduxUser._id}/orders`}>My orders</NavLink>
+                        <NavLink url={`/commonUser/${reduxUser._id}/orders`}>Mis Órdenes</NavLink>
                         <NavLink url={`/user/${reduxUser._id}/reviews`}>
-                            My Reviews
+                            Mis reseñas
                         </NavLink>
                     </>
                 )}
-                <NavLink url="/">Oferts</NavLink>
+                {/* <NavLink url="/">Ofertas</NavLink> */}
                
 
                 <hr />
                 {reduxUser?.rol === "ADMIN" && (
                     <>
-                        <h3>SELLER</h3>
+                        <h3>VENDEDOR</h3>
                         <NavLink url="/dashboard" onClick={handleSelectRoute}>
                             DashBoard
                         </NavLink>
                     </>
                 )}
 
-                <button onClick={() => dispatch(switchTheme())}>
-                    Switch to {theme.name === "light" ? "dark" : "light"} theme
+                <button id={style.switchTheme}
+                onClick={() => dispatch(switchTheme())}>
+                    {theme.name === "light" ? <MdDarkMode/> : <MdLightMode/>}
                 </button>
             </NavBarContainer>
         </GlobalContainer>
