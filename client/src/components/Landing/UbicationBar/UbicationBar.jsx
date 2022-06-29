@@ -75,7 +75,7 @@ const CategoryBar = () => {
                 value={input}
                 onChange={handleChange}
                 name="searchBar"
-                placeholder={listen ? "Listening..." : "Filter categories..."}
+                placeholder={listen ? "Escuchando..." : "Filtrar cetegorías..."}
             />
             {mic && (
                 <button className={style.mic_speech} onClick={handleVoiceClick}>

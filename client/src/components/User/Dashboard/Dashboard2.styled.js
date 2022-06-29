@@ -29,6 +29,7 @@ export const LateralDiv = styled.div`
             outline: none;
             background: rgb(206, 151, 80);
             height: 24px;
+            width: 100%;
             font-size: 14px;
             font-family: 'Lucida Sans';
             cursor:pointer;
@@ -95,10 +96,41 @@ export const DisplayDiv = styled.div`
         }
     }
     .cabezal{
-        font-size: 25px;
+        font-family: 'Lobster';
+        font-size: 40px;
         margin-bottom: 20px;
         display: flex;
         justify-content: space-between;
+    }
+`
+export const InfoDiv = styled.div`
+    width: 100%;
+    display: flex; flex-direction: row;
+    justify-content: space-around;
+    padding-top: 30px;
+    svg{
+        width: 50px; height: 50px;
+        box-shadow: 0 0 10px black;
+        border-radius: 25px;
+    }
+    .infoCard{
+        border: 3px solid grey;
+        border-radius: 7px;
+        width: 250px; height: 170px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        box-shadow: 6px 5px 10px black;
+    }
+    .infoTitle{
+        color: #333;
+        font-family: 'Lucida Sans';
+    }
+    .info{
+        font-size: 26px;
+        color: #555;
+        font-weight: bold;
     }
 `
 
@@ -213,7 +245,8 @@ export const UserDiv = styled.div`
             border: 0;
             outline: none;
             background: rgb(206, 151, 80);
-            height: 26px;
+            height: fit-content;
+            width: 130px;
             font-size: 14px;
             font-weight: bold;
             border-radius: 4px;
