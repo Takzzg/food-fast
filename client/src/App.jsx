@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom"
 // import { fetchAllCategories } from "./redux/actions/async"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
 import GlobalStyle from "./GlobalStyles"
 import DisplayProducts from "./components/DisplayProducts/index"
@@ -35,6 +35,7 @@ import UserOrders from "./components/CommonUser/ordersList"
 import OrderDetail from "./components/CommonUser/orderDetail"
 import OrdersAdmin from "./components/User/orders"
 import OrderAdminDetail from "./components/User/orders/orderDetailAndUpdate"
+import { fetchAllCategories, fetchAllProducts } from "./redux/actions/async"
 // import { fetchAllCategories, fetchAllProducts } from "./redux/actions/async"
 
 const ScrollToTop = () => {
@@ -47,11 +48,11 @@ const ScrollToTop = () => {
 function App() {
     // const [{isopen,user},dispatch]=useStateValue()
 
-    // const dispatch = useDispatch()
-    // useEffect(() => {
-    //     dispatch(fetchAllCategories())
-    //     dispatch(fetchAllProducts())
-    // }, [dispatch])
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(fetchAllCategories())
+        dispatch(fetchAllProducts())
+    }, [dispatch])
 
     const theme = useSelector((state) => state.theme.selectedTheme)
 
