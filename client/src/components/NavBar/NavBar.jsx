@@ -63,7 +63,7 @@ const NavBar = () => {
         setShowNavbar(false)
         dispatch({ type: LOG_OUT })
         toast.success("Good Bye!", { icon: "👋" })
-        navigate("/")
+        navigate("/login")
     }
 
     const NavLink = ({ url, children }) => (
