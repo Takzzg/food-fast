@@ -104,7 +104,11 @@ const DetailProduct = () => {
     }, [dispatch])
 
     const fetchReviews = () => {
-        getProductReviews(idProduct).then((reviews) => setReviews(reviews))
+        // getProductReviews(idProduct).then((reviews) => setReviews(reviews))
+        getProductReviews(idProduct).then((reviews) => {
+            console.log(reviews)
+            return setReviews(reviews)
+        })
     }
 
     const handleDeleteReview = (id) => {
@@ -241,6 +245,7 @@ const DetailProduct = () => {
                 </form>
                 <div className="reviews">
                     {reviews.length &&
+                        console.log(reviews) &&
                         reviews.map((r) => (
                             <ReviewCard
                                 key={r._id}
