@@ -64,7 +64,7 @@ export const postProduct= async(req,res)=>{
             description,
             price,
             available,
-            category,
+            categories,
             stock} = req.body
    try {
     const data = {
@@ -72,7 +72,7 @@ export const postProduct= async(req,res)=>{
         description,
         price,
         available,
-        category,
+        categories,
         stock
     }
     const product = new Product(data)
