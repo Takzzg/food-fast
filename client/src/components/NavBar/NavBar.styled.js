@@ -15,16 +15,18 @@ export const OpenButton = styled.div`
     top: 0;
     left: 0;
     padding: 2rem;
-    height: 2rem;
-    width: 2rem;
+    height: 2.3rem;
+    width: 2.3rem;
 
     svg {
         height: 100%;
         width: 100%;
         width: auto;
         cursor: pointer;
+        padding: 3px; transition: .3s; 
         &:hover {
             transform: scale(1.2);
+            box-shadow: 0 0 12px grey; border-radius: 20px;
         }
     }
 `
@@ -74,10 +76,13 @@ export const NavBarContainer = styled.section`
         justify-content: center;
         align-items: center;
         padding: 1rem;
+        transition: .3s;
         background-color: ${({ theme }) => theme.colors.background};
 
         &:hover {
+            transition: .3s;
             background-color: ${({ theme }) => theme.colors.main};
+            box-shadow: 0 0 17px 4px grey;
         }
     }
 `
@@ -119,7 +124,11 @@ export const ButtonsContainer = styled.div`
         width: 50px;
     }
     span{
-        margin: 10px;
+        width: 110px; height: fit-content;
+        margin: 2px;
+        font-family: Lobster;
+        font-size: 18px;
+        border-bottom: 2px dotted grey;
     }
     svg{
         padding: 5px;
