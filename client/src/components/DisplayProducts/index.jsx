@@ -8,6 +8,7 @@ import { useEffect } from "react"
 import { fetchAllProducts, getShopCartUser } from "../../redux/actions/async"
 import axios from "axios"
 import Loading from "../Loading/Loading"
+import FilterFunction from "../../redux/reducers/FilterFunction"
 
 export default function DisplayProducts() {
     const [list, setList] = useState([])
@@ -17,6 +18,9 @@ export default function DisplayProducts() {
     const allProducts = useSelector((state) => state.main.products.all)
     const filterProducts = useSelector((state) => state.main.products.filtered)
     const products = useSelector((state) => state.shopCart.shopCart);
+    
+ 
+
     const userSelector = useSelector(
         (state) => state.user.authData && state.user.authData.user
     )

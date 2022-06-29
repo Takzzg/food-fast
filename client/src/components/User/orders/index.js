@@ -4,6 +4,9 @@ import { getAllOrder } from "../../../redux/actions/async";
 import styles from "../../CommonUser/orderDetail/tableDetail.module.scss"
 import { Link } from "react-router-dom"
 
+//pruebita
+import OrderAdminDetail from "./orderDetailAndUpdate";
+
 export default function OrdersAdmin() {
     const [isStatus, setIsStatus] = useState(false); 
     const [filter, setFilter] = useState({type: "date", form: "asc"})
@@ -46,31 +49,42 @@ export default function OrdersAdmin() {
         return current
     }
     useEffect(()=> {
-        dispatch(getAllOrder())
+        if(!orders.length){
+            dispatch(getAllOrder())
+        }
     }, [])
-    return(
+
+    //pruebitaa
+    const [orderID, setOrderId] = useState("")
+    function selectOrder(id){
+        console.log("entré al selectOrder! el id es: ",typeof id)
+        setOrderId(id)
+    }
+
+    return !orderID?(
         <section className={styles.ContainerOrder}>
             <div id={styles.title}>
-                <div>ORDERS</div>
+                <div>Órdenes</div>
 
                 <div id={styles.filter}>
-                    <label>Filter By:</label>
+                    <label>Filtrar por:</label>
                     <select onChange={handleChange} name="type">
-                        <option value={"mount"}>Mount</option>
-                        <option value={"date"}>Date</option>
-                        <option value="status">Status</option>
+                        <option value={"mount"}>Monto</option>
+                        <option value={"date"}>Fecha</option>
+                        <option value="status">Estado</option>
                     </select>
                     {isStatus && <select onChange={handleStatusChange}>
-                            <option value={"Pending"}>Pending</option>
-                            <option value={"Rejected"}>Rejected</option>
-                            <option value={"Accepted"}>Accepted</option>
-                            <option value={"Completed"}>Completed</option>
+                            <option value={"Pending"}>Pendiente</option>
+                            <option value={"Rejected"}>Rechazada</option>
+                            <option value={"Accepted"}>Aceptada</option>
+                            <option value={"Completed"}>Completa</option>
                         </select>}   
+                        <label>Ordenar: </label>
                     <div>
                         <input type={"radio"} name="form" value="asc" onChange={handleChange} />
-                        <label>Asc</label>
+                        <label>Asc </label>
                         <input type={"radio"} name="form" value="dsc" onChange={handleChange}  />
-                        <label>Dsc</label>
+                        <label>Desc</label>
                     </div>
                 </div>
                 
@@ -80,24 +94,51 @@ export default function OrdersAdmin() {
             </div>
             <div className={styles.table}>
                 <div className={styles.rowDetail} id={styles.header}>
+                    
                     <div className={styles.cell}>
-                        Order
+                        Órden
                     </div>
-                    <div className={styles.cell}>
+                    <div>‎    ‎ ‎  </div>
+                    {/* <div className={styles.cell}>
                         User
-                    </div>
+                    </div> */}
                     <div className={styles.cell}>
-                        Date
+                        Fecha
                     </div>
                     <div className={styles.cell}>
                         Total
                     </div>
                     <div className={styles.cell}>
-                        Status
+                        Estado
                     </div>
                 </div>
                 {orders&& filterOrders(orders).map(o=> (
-                <Link to={`/dashboard/orders/${o._id}`} className={styles.rowDetail} key={o._id}>
+
+                <button onClick={()=>{selectOrder(o._id)}}
+                 className={styles.rowDetail} key={o._id}>
+                    <div className={styles.cell} data-title="Order">
+                        {o._id}
+                    </div>
+                    {/* <div className={styles.cell} data-title="User">
+                        {o.user}
+                    </div> */}
+                    <div className={styles.cell} data-title="Date">
+                        {new Date(o.date.toString()).toDateString()}
+                    </div>
+                    <div className={styles.cell} data-title="Total">
+                        $ {o.total}
+                    </div>
+                    <div className={styles.cell} data-title="Status">
+                        {o.status}
+                    </div>
+                </button>
+                ))}
+    
+            </div>
+        </section>) : <OrderAdminDetail id={orderID}/>
+}
+
+/*                 <Link to={`/dashboard/orders/${o._id}`} className={styles.rowDetail} key={o._id}>
                     <div className={styles.cell} data-title="Order">
                         {o._id}
                     </div>
@@ -113,10 +154,4 @@ export default function OrdersAdmin() {
                     <div className={styles.cell} data-title="SubTotal">
                         {o.status}
                     </div>
-    
-                </Link>
-                ))}
-    
-            </div>
-        </section>)
-}
+                </Link> */

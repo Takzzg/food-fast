@@ -16,7 +16,8 @@ import {
     SEARCH_PRODUCT,
     GET_ITEMS_CAR,
     DELETE_USER,
-    REMOVE_FAVORITE
+    REMOVE_FAVORITE,
+    NESTED_FILTERING
 } from "./types"
 
 export const switchTheme = () => ({ type: SWITCH_THEME })
@@ -25,13 +26,10 @@ export const switchTheme = () => ({ type: SWITCH_THEME })
 
 export const clean_categories = () => ({ type: CLEAN_CATEGORIES })
 export const delete_category = (id) => ({ type: DELETE_CATEGORY, id })
-export const filterbyCategories = (filter) => ({
-    type: FILTER_BY_CATEGORY,
-    categories: filter.categories,
-    price: filter.price, 
-    rating: filter.rating, 
-    stock: filter.stock
+export const nestedFiltering = (filterOptions) => ({type: NESTED_FILTERING, 
+    filterOptions
 })
+
 
 // Products
 

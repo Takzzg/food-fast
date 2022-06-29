@@ -5,7 +5,7 @@ import {v2 as cloudinary} from 'cloudinary'
 cloudinary.config({
     cloud_name: "diwebykgr", 
     api_key: "234979838848653", 
-    api_secret: "fAGAWF7ygh28bLARjD_GvbriVWg",
+    api_secret: process.env.API_SECRET,
     secure: true
   })
   

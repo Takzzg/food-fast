@@ -64,7 +64,7 @@ export const postProduct= async(req,res)=>{
             description,
             price,
             available,
-            categories,
+            categories, // <-- Aquí
             stock} = req.body
    try {
     const data = {
@@ -72,7 +72,7 @@ export const postProduct= async(req,res)=>{
         description,
         price,
         available,
-        categories,
+        categories: JSON.parse(categories), // <--- Y aqui
         stock
     }
     const product = new Product(data)
@@ -127,7 +127,7 @@ export const upDate = async (req, res) => {
             description,
             stock,
             price,
-            categories,
+            categories: JSON.parse(categories),
             image: prevImage
         }
         if (req.files?.image) {
