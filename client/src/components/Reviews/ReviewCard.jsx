@@ -42,7 +42,7 @@ const ReviewCard = ({ review, handleDelete }) => {
                     <span className="author">
                         {review.userId && review?.userId.name} <FaUserAlt />{" "}
                         <BsArrowRight />
-                        <IoFastFoodSharp /> {review?.productId.name}
+                        <IoFastFoodSharp /> {review?.productId?.name}
                     </span>
                     <span className="date">
                         <FiClock />
