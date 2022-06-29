@@ -133,6 +133,8 @@ const DetailProduct = () => {
 
     if (!product || !product.name) return <h1>Loading...</h1>
 
+    console.log(reviews)
+
     return (
         <GlobalContainer theme={theme}>
             <ProductHeader theme={theme}>
