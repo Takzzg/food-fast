@@ -7,55 +7,17 @@ import {
     ERROR,
     FETCH_CATEGORIES,
     FETCH_PRODUCTS,
-    FILTER_BY_CATEGORY,
     FILTER_PRODUCTS,
     FIND_CAT_BY_ID,
     FIND_PRODUCT_BY_ID,
     GET_FAVORITES,
+    NESTED_FILTERING,
     REMOVE_FAVORITE,
     SEARCH_CATEGORY,
     SEARCH_PRODUCT,
-    SORTBYPRICE
 } from "../actions/types"
+import FilterFunction from "./FilterFunction"
 
-function filterProduct(products, categories, rating, stock, price) {
-    let returnValue
-    if (categories) {
-        returnValue = products.filter(
-            (el) => {
-                let arrayCategories = el.categories; 
-                if (arrayCategories) {
-                    let counter = 0
-                    for (let i = 0; i < categories.length; i++) {
-                        for (let j = 0; j < arrayCategories.length; j++) {
-                            if (arrayCategories[j] === categories[i]) {
-                                counter++
-                            }
-                        }
-                    }
-                    if (counter === categories.length) return true
-                    else return false
-                }
-                return false})}    
-    if (rating) {
-        returnValue = returnValue.filter(el=> el.rating === rating); 
-    }
-    if (stock) {
-        returnValue = returnValue.filter((a,b)=> Number(a.stock) - Number(b.stock) )
-    }
-    if (price) {
-        returnValue = returnValue.filter((a,b)=> Number(a.price) - Number(b.price))
-    }
-    return returnValue; 
-}
-
-function compareProducts(a, b, form) {
-    if (form === "1") {
-        return a.price - b.price
-    } else {
-        return b.price - a.price
-    }
-}
 
 const sortByName = (arr) =>
     arr.sort((a, b) => {
@@ -143,11 +105,10 @@ const main = (state = initialState, action) => {
                 (newState.products.filtered = [...action.payload])
             break
 
-        case FILTER_BY_CATEGORY:
-            // action.price, action.categories, action.stock. action.rating
-            newState.products.filtered = filterProduct(newState.products.all, action.categories, action.rating, action.stock, action.price)
-
-            break
+        case NESTED_FILTERING:
+                let data = FilterFunction(newState.products.all, action.filterOptions)
+                newState.products.filtered = data; 
+        break
 
         case SEARCH_PRODUCT:
             if (action.name === "") {

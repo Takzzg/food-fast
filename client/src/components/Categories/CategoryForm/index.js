@@ -25,7 +25,7 @@ import { useNavigate } from "react-router-dom"
 const initialForm = {
     name: "",
     description: "",
-    img: ""
+    image: {}
 }
 
 export default function CategoryForm() {

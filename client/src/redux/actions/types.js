@@ -9,7 +9,7 @@ export const FETCH_CATEGORIES = "fetch_categories"
 export const SEARCH_CATEGORY = "search_category"
 export const CLEAN_CATEGORIES = "clean_categories"
 export const DELETE_CATEGORY = "delete_category"
-export const FILTER_BY_CATEGORY = "filter_by_category"
+export const NESTED_FILTERING = "nested_filtering"
 export const FIND_CAT_BY_ID = "find_cat_by_id"
 
 // Products

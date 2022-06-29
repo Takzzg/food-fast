@@ -96,7 +96,7 @@ export default function ProductForm() {
         formdata.append("description", productForm.description)
         formdata.append("price", productForm.price)
         formdata.append("stock", productForm.stock)
-        formdata.append("categories", productForm.categories)
+        formdata.append("categories", JSON.stringify(productForm.categories))
         formdata.append("image", file)
         dispatch(postProduct(formdata))
             .then(() =>
@@ -111,6 +111,8 @@ export default function ProductForm() {
 
     return (
         <GlobalContainer>
+        {console.log(productForm.categories)}
+
             <FormBG />
             <Title>CREATE PRODUCT</Title>
             <MainContainer>
@@ -221,7 +223,7 @@ export default function ProductForm() {
                         />
 
                         <TagsProduct color="orange">
-                            Tags for this product:
+                            Categories for this product:
                             {productForm.categories.map((el) => (
                                 <TagCard key={el} color="orange">
                                     <div id="tag">{el}</div>
