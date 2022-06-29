@@ -66,7 +66,7 @@ export const newFilterProduct = (filterOrder, sortOrder) =>
 
 export const postProduct = (product) => (dispatch) =>
     axios
-        .post(`/products`, product)
+        .post(`${baseUrl}/products`, product)
         .then(() => dispatch(fetchAllProducts()))
         .catch((err) => dispatch({ type: ERROR, payload: err }))
 
@@ -83,13 +83,13 @@ export const searchCategory = (name) =>
 
 export const postCategory = (category) => (dispatch) =>
     axios
-        .post(`/categories`, category)
+        .post(`${baseUrl}/categories`, category)
         .then(() => dispatch(fetchAllCategories()))
         .catch((err) => dispatch({ type: ERROR, payload: err }))
 
 export const deleteCategory = (id) => (dispatch) =>
     axios
-        .delete(`/categories/${id}`)
+        .delete(`${baseUrl}/categories/${id}`)
         .then(() => dispatch(fetchAllCategories()))
         .catch((err) => dispatch({ type: ERROR, payload: err }))
 
@@ -98,11 +98,13 @@ export const deleteCategory = (id) => (dispatch) =>
 export const googleLogin = (userData) => (dispatch) => {
     try {
         console.log("googleLogin!")
-        axios.get(`/user/?email=${userData.user.email}`).then((res) => {
-            let combinedUser = { ...userData }
-            combinedUser.user = { ...res.data[0], ...userData.user }
-            dispatch({ type: GOOGLE_LOGIN, payload: combinedUser })
-        })
+        axios
+            .get(`${baseUrl}/user/?email=${userData.user.email}`)
+            .then((res) => {
+                let combinedUser = { ...userData }
+                combinedUser.user = { ...res.data[0], ...userData.user }
+                dispatch({ type: GOOGLE_LOGIN, payload: combinedUser })
+            })
     } catch (e) {
         dispatch({ type: AUTH_ERROR, payload: { error: e } })
         console.log("Error en la google login. ", e.message)
@@ -112,7 +114,7 @@ export const googleLogin = (userData) => (dispatch) => {
 export const login = (input) => async (dispatch) => {
     try {
         //log in the user...
-        const data = await axios.post(`/auth/login`, input)
+        const data = await axios.post(`${baseUrl}/auth/login`, input)
 
         dispatch({ type: AUTH_USER, payload: data?.data })
     } catch (e) {
@@ -123,7 +125,7 @@ export const login = (input) => async (dispatch) => {
 export const logup = (input) => async (dispatch) => {
     try {
         //log up the user...
-        await axios.post(`/user`, input)
+        await axios.post(`${baseUrl}/user`, input)
         dispatch({ type: AUTH_USER, payload: { success: true } })
     } catch (e) {
         dispatch({ type: AUTH_ERROR, payload: { error: e } })
@@ -133,7 +135,7 @@ export const logup = (input) => async (dispatch) => {
 
 export const postForgotPassword = async (email) => {
     try {
-        await axios.post(`/auth/forgot-password`, { email })
+        await axios.post(`${baseUrl}/auth/forgot-password`, { email })
     } catch (e) {
         console.log("Error en el postForgotPassword. ", e.message)
         throw new Error("Inexistent email.")
@@ -143,7 +145,7 @@ export const postForgotPassword = async (email) => {
 export const postNewPassword = async (payload) => {
     try {
         await axios.post(
-            `/auth/reset-password/${payload.id}/${payload.token}`,
+            `${baseUrl}/auth/reset-password/${payload.id}/${payload.token}`,
             payload
         )
     } catch (e) {
@@ -153,7 +155,7 @@ export const postNewPassword = async (payload) => {
 
 export const fetchAllUsers = () => async (dispatch) => {
     try {
-        const result = await axios.get(`/user`)
+        const result = await axios.get(`${baseUrl}/user`)
         const users = result?.data
         dispatch({ type: FETCH_USERS, payload: users })
     } catch (e) {
@@ -163,7 +165,7 @@ export const fetchAllUsers = () => async (dispatch) => {
 
 export const changePermissions = (id, rol) => async (dispatch) => {
     try {
-        const result = await axios.patch(`/user/${id}`, { rol })
+        const result = await axios.patch(`${baseUrl}/user/${id}`, { rol })
         //result me devuelve el archivo a editar ANTES del cambio
         const data = result.data
         dispatch({ type: ROL_CHANGE, payload: { id: id, rol: rol } })
@@ -176,9 +178,7 @@ export const changePermissions = (id, rol) => async (dispatch) => {
 
 export const getFavorites = (productID) => async (dispatch) => {
     try {
-        const response = await axios.get(
-            `${process.env.REACT_APP_BACK_URL}/api/v1/products/${productID}`
-        )
+        const response = await axios.get(`${baseUrl}/products/${productID}`)
         dispatch({ type: GET_FAVORITES, payload: response.data })
     } catch (e) {
         const defaultReponse = {
@@ -192,42 +192,34 @@ export const getFavorites = (productID) => async (dispatch) => {
 // REVIEWS
 
 export const postReview = (review) =>
-    axios.post(`/reviews`, review).then((res) => res.data)
+    axios.post(`${baseUrl}/reviews`, review).then((res) => res.data)
 
 export const getProductReviews = (id) =>
-    axios.get(`/reviews/product/${id}`).then((res) => res.data)
+    axios.get(`${baseUrl}/reviews/product/${id}`).then((res) => res.data)
 
 export const getUserReviews = (id) =>
-    axios.get(`/reviews/user/${id}`).then((res) => res.data)
+    axios.get(`${baseUrl}/reviews/user/${id}`).then((res) => res.data)
 
 export const deleteReview = (id) =>
-    axios.delete(`/reviews/${id}`).then((res) => res.data)
+    axios.delete(`${baseUrl}/reviews/${id}`).then((res) => res.data)
 
 // ORDERS
 export const getAllOrder = () => async (dispatch) => {
-    const response = await axios.get(
-        "${process.env.REACT_APP_BACK_URL}/api/v1/orders"
-    )
+    const response = await axios.get(`${baseUrl}/orders`)
     dispatch({ type: GET_ALL_ORDERS, payload: response.data })
 }
 export const getUserOrders = (userID) => async (dispatch) => {
-    const response = await axios.get(
-        `${process.env.REACT_APP_BACK_URL}/api/v1/orders/user/${userID}`
-    )
+    const response = await axios.get(`${baseUrl}/orders/user/${userID}`)
     dispatch({ type: GET_USER_ORDERS, payload: response.data })
 }
 
 export const getUserOrderbyID =
     (orderID, getUserInformation) => async (dispatch) => {
-        const response = await axios.get(
-            `${process.env.REACT_APP_BACK_URL}/api/v1/orders/${orderID}`
-        )
+        const response = await axios.get(`${baseUrl}/orders/${orderID}`)
         let response2 = {}
         if (getUserInformation) {
             const userID = response.data.user
-            response2 = await axios.get(
-                `${process.env.REACT_APP_BACK_URL}/api/v1/user/${userID}`
-            )
+            response2 = await axios.get(`${baseUrl}/user/${userID}`)
         }
         dispatch({
             type: GET_ORDER_BY_ID,
@@ -236,21 +228,17 @@ export const getUserOrderbyID =
     }
 
 export const getUserInformation = (userID) => async (dispatch) => {
-    const response = await axios.get(
-        `${process.env.REACT_APP_BACK_URL}/api/v1/user/${userID}`
-    )
+    const response = await axios.get(`${baseUrl}/user/${userID}`)
     dispatch({ type: GET_USER_INFORMATION, payload: response.data })
 }
 // Get items shopcart user
 export const getShopCartUser = (userID, products) => async (dispatch) => {
     const savePrev = await axios.post(
-        `${process.env.REACT_APP_BACK_URL}/api/v1/user/shopCart/addPrevItem/${userID}`,
+        `${baseUrl}/user/shopCart/addPrevItem/${userID}`,
         {
             products: products
         }
     )
-    const response = await axios.get(
-        `${process.env.REACT_APP_BACK_URL}/api/v1/user/${userID}`
-    )
+    const response = await axios.get(`${baseUrl}/user/${userID}`)
     dispatch({ type: ADD_USER_ITEMS, payload: response.data.shopCart })
 }
