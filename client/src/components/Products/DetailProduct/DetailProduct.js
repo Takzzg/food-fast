@@ -56,7 +56,7 @@ const DetailProduct = () => {
 
     const addItem = async (e) => {
         e.preventDefault()
-        const item = { ...product, img: {} }
+        const item = { ...product }
         if (userId) {
             await axios.post(
                 `${process.env.REACT_APP_BACK_URL}/api/v1/user/shopCart/add/${userId}`,
@@ -68,7 +68,7 @@ const DetailProduct = () => {
     }
     const removeItem = async (e) => {
         e.preventDefault()
-        const item = { ...product, img: {} }
+        const item = { ...product }
         if (userId) {
             await axios.post(
                 `${process.env.REACT_APP_BACK_URL}/api/v1/user/shopCart/removeSame/${userId}`,
@@ -144,7 +144,7 @@ const DetailProduct = () => {
             <MainContainer>
                 <ImageContainer>
                     <img
-                        src={`${baseUrl}/products/img/${idProduct}`}
+                        src={product.image && product.image.secure_url}
                         alt="Foto del producto"
                     />
                 </ImageContainer>
@@ -175,7 +175,7 @@ const DetailProduct = () => {
                         </div>
                         <ListItem>
                             <Etiqueta>Categories:</Etiqueta>
-                            <Data>{product.categories.join(", ")}</Data>
+                            <Data>{product.categories}</Data>
                         </ListItem>
                     </DescriptionContainer>
 

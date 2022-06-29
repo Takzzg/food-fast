@@ -10,10 +10,10 @@ const categorySchema= new mongoose.Schema({
   description:{
       type:String,
    },
-  img:{
-      data: Buffer, 
-      contentType: String
-  },
+   image: {
+    public_id: String,
+    secure_url: String,
+},
 });
 
 const Categories = mongoose.model("Category",categorySchema)

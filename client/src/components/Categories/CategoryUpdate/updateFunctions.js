@@ -1,24 +1,16 @@
 import swal from "sweetalert"
 
 export const PatchCategory = (form, file) => {
-    if (!file) {
-        fetch(
-            `${process.env.REACT_APP_BACK_URL}/api/v1/categories/${form._id}?name=${form.name}&description=${form.description}`,
-            {
-                method: "PATCH"
-            }
-        )
-    } else {
-        const formdata = new FormData()
-        formdata.append("imageCategory", file)
-        fetch(
-            `${process.env.REACT_APP_BACK_URL}/api/v1/categories/${form._id}?name=${form.name}&description=${form.description}`,
-            {
-                method: "PATCH",
-                body: formdata
-            }
-        ).then((res) => res.json())
-    }
+    const formdata = new FormData()
+    formdata.append("image", file)
+    formdata.append("name", form.name)
+    formdata.append("description", form.description)
+    formdata.append("prevImg", JSON.stringify(form.image))
+    fetch(`${process.env.REACT_APP_BACK_URL}/api/v1/categories/${form._id}`, {
+        method: "PATCH",
+        body: formdata
+    }).then((res) => res.json())
+
     swal({
         title: "The category is updated correctly",
         text: "Continuos!",

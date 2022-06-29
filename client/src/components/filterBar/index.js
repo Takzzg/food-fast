@@ -15,24 +15,17 @@ import {
 import { FaUserAlt, FaShoppingCart } from "react-icons/fa"
 import Select from "react-select"
 import { useDispatch, useSelector } from "react-redux"
-import { filterbyCategories } from "../../redux/actions/sync"
+import { nestedFiltering } from "../../redux/actions/sync"
 import { fetchAllProducts } from "../../redux/actions/async"
 import { Link } from "react-router-dom"
-const OptionsTest = [
-    { value: "test1", label: "test1" },
-    { value: "test2", label: "test2" },
-    { value: "test3", label: "test3" }
-]
+
 export default function FilterBar() {
     const [isOpen, setIsOpen] = useState(false)
     let categories = useSelector((state) => state.main.categories.filtered)
     const dispatch = useDispatch()
     const theme = useSelector((state) => state.theme.selectedTheme)
-    const [categoriesfilter, setCategoriesfilter] = useState([])
-    const [price, setPrice] = useState("1")
-
     const [filter, setFilter] = useState({
-        categories: [], price: "1", rating: null, stock:"-1"})
+        categories: [], price: null, rating: null, stock: null})
 
     const user = useSelector((state)=> state.user.authData && state.user.authData.user)
 
@@ -57,6 +50,10 @@ export default function FilterBar() {
     ]
     const RatingValues = [ 
         {
+            value: 0,
+            label: "Rating: 0"
+        },
+        {
             value: 1,
             label: "Rating: 1"
         },
@@ -79,7 +76,6 @@ export default function FilterBar() {
     ]; 
 
     const handleCleanFilter = () => {
-        setCategoriesfilter([])
         dispatch(fetchAllProducts())
         setIsOpen(false)
     }
@@ -88,7 +84,7 @@ export default function FilterBar() {
             setFilter({...filter, price: e.value})
         }
         const handleChangeCategories = (e) => {
-            setFilter({...filter, categories: e})
+            setFilter({...filter, categories: e.map(el=> el.value)})
 
         }
 
@@ -103,9 +99,8 @@ export default function FilterBar() {
     // ==============================================
 
     const handleApplyFilter = () => {
-        dispatch(filterbyCategories(filter))
+        dispatch(nestedFiltering(filter))
         setIsOpen(false)
-        setCategoriesfilter([])
     }
     const handleOpen = () => {
         setIsOpen(true)
@@ -125,7 +120,6 @@ export default function FilterBar() {
                     Filtrar Resultados
                 </div>
                 <Modal isOpen={isOpen}>
-                    {console.log(filter)}
                     <IconClose>
                         <AiFillCloseCircle onClick={handleClose} />
                     </IconClose>

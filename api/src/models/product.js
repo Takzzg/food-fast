@@ -8,9 +8,9 @@ const productSchema = new mongoose.Schema({
     description: {
         type: String
     },
-    img: {
-        data: Buffer,
-        contentType: String
+    image: {
+        public_id: String,
+        secure_url: String,
     },
     price: {
         type: Number,

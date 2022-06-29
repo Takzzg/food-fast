@@ -13,7 +13,7 @@ const ProductCard = ({ product }) => {
             theme={theme}
             key={_id}
             to={`/products/${_id}`}
-            img={`${baseUrl}/products/img/${_id}`}
+            img={product.image && product.image.secure_url}
         >
             <div className="img" />
             <div className="header">

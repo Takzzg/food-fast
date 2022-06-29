@@ -93,12 +93,9 @@ function App() {
                             }
                         />
 
-                        <Route path="orders" element={<OrdersAdmin />} />
-                        <Route
-                            path="orders/:orderID"
-                            element={<OrderAdminDetail />}
-                        />
-                        {/* <Route path="createProduct" element={<ProductForm />} /> */}
+                        {/* <Route path="orders" element={<OrdersAdmin />}/> */}
+                        {/* <Route path="orders/:orderID" element={<OrderAdminDetail params='id'/>} /> */}
+
                         <Route
                             path="createProduct"
                             element={
@@ -109,10 +106,6 @@ function App() {
                             }
                         />
 
-                        {/* <Route
-                            path="createCategory"
-                            element={<CategoryForm />}
-                        /> */}
                         <Route
                             path="createCategory"
                             element={

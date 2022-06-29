@@ -39,7 +39,7 @@ export default function UpdateProduct() {
         price: 0,
         stock: 0,
         categories: [],
-        img: null
+        image: null
     })
 
     const [errors, setErrors] = useState({})
@@ -69,10 +69,7 @@ export default function UpdateProduct() {
         setFile(newFile)
         if (newFile) setImgCharge(true)
         else setImgCharge(false)
-        if (e.target.name === "stock") {
-            if (e.target.value > 0) setIsAvailable(true)
-            else setIsAvailable(false)
-        }
+
     }
 
     const handleChange = (e) => {
@@ -80,13 +77,16 @@ export default function UpdateProduct() {
         setForm({ ...form, [name]: value })
         let currentErrors = validateForm({ ...form, [name]: value }, "product")
         setErrors(currentErrors)
+        if (name === "stock") {
+            if (e.target.value > 0) setIsAvailable(true)
+            else setIsAvailable(false)
+        }
     }
 
     useEffect(() => {
-        console.log("Soy el useEffect en bucle :v")
-        !product && dispatch(findProductById(id))
+        dispatch(findProductById(id))
         setForm(product)
-    }, [dispatch, id, product])
+    }, [dispatch, id, product.name])
 
     return (
         <GlobalContainer>
@@ -253,7 +253,7 @@ export default function UpdateProduct() {
                             <PrevImgContainer>
                                 {/* <img src={IMAGE_PRODUCT +id} alt="preview"/> */}
                                 <img
-                                    src={`${baseUrl}/products/img/${id}`}
+                                    src={form.image && form.image.secure_url}
                                     alt="preview"
                                 />
                             </PrevImgContainer>

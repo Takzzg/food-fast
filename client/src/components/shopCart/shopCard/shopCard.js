@@ -19,20 +19,26 @@ export default function ShopProductCard({ product, setCharge, charge, user }) {
 
     const dispatch = useDispatch()
     const addItem = async () => {
-        dispatch(add_item_car(product))
-        if (user) {
-            await axios.post(
-                `${process.env.REACT_APP_BACK_URL}/api/v1/user/shopCart/add/${user.user._id}`,
-                {
-                    product: product
-                }
+        if (quantity <= product.stock) {
+            dispatch(add_item_car(product))
+            if (user) {
+                await axios.post(
+                    `${process.env.REACT_APP_BACK_URL}/api/v1/user/shopCart/add/${user.user._id}`,
+                    {
+                        product: product
+                    }
+                )
+            }
+            setQuantity(Number(quantity) + 1)
+            setCharge(!charge)
+        } else {
+            alert(
+                `EL producto solo tiene ${product.stock} unidades de stock, por lo que no puedes comprar más.`
             )
         }
-        setQuantity(Number(quantity) + 1)
-        setCharge(!charge)
     }
     const removeItem = async (all = false) => {
-        if (!all) {
+        if (quantity <= product.stock && !all) {
             if (user) {
                 await axios.post(
                     `${process.env.REACT_APP_BACK_URL}/api/v1/user/shopCart/remove/${user.user._id}`,
@@ -66,7 +72,7 @@ export default function ShopProductCard({ product, setCharge, charge, user }) {
         <MainContainer>
             <FirstColumn>
                 <img
-                    src={`${baseUrl}/products/img/${product._id}`}
+                    src={product.image && product.image.secure_url}
                     alt="product"
                 />
             </FirstColumn>
