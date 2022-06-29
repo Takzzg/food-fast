@@ -1,19 +1,26 @@
-//import styles from "";
-import { DisplayDiv, LateralDiv, StyledContainer, StyledCard, UserDiv } from './Dashboard2.styled'
+import { DisplayDiv, LateralDiv, StyledContainer, StyledCard, UserDiv, InfoDiv } from './Dashboard2.styled'
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import swal from "sweetalert"
+import toast, {Toaster} from "react-hot-toast"
+
+/* Componentes Importados */
 import CategoryBar from '../../Landing/UbicationBar/UbicationBar';
 import CategoryCard from '../../Categories/CategoryCard/CategoryCard';
 import ProductCard from '../../Products/ProductCard/ProductCard';
 import SearchBar from '../../searchBar';
+import OrdersAdmin from '../orders';
 
-import { FaTrashAlt, FaEdit, FaUserCircle } from "react-icons/fa"
+/* Íconos */
+import { FaTrashAlt, FaEdit, FaUserCircle, FaUsers } from "react-icons/fa"
+import { IoIosRestaurant } from "react-icons/io"
+import { GiMoneyStack } from "react-icons/gi"
+
+/* Custom hooks & actions */
 import useDelete from '../../CustomHooks/useDelete';
-import { fetchAllUsers, changePermissions } from '../../../redux/actions/async';
+import { fetchAllUsers, changePermissions, getAllOrder } from '../../../redux/actions/async';
 
-import swal from "sweetalert"
-import toast, {Toaster} from "react-hot-toast"
 
 const Dashboard2 = function(){
     const filterCategories = useSelector(
@@ -22,8 +29,9 @@ const Dashboard2 = function(){
     const filterProducts = useSelector(state=>state.main.products.filtered)
     const usersData = useSelector(state=>state.user.usersData)
     const currentUser = useSelector(state=>state.user.authData.user)
-    const dispatch = useDispatch();
     const theme = useSelector(state => state.theme.selectedTheme)
+    const allOrders = useSelector(state=>state.orders.allOrders)
+    const dispatch = useDispatch();
 
     //este menu es el que maneja los render de los componentes. Inicializa buscando un menu en el LS,
     //si no existe, setea un objeto "menu" con sus valores en false menos "dashboard", q se muestra primero
@@ -34,17 +42,29 @@ const Dashboard2 = function(){
           dashboard: true,
           categories: false,
           products: false,
-          users: false
+          users: false,
+          orders: false
         }
     );
     const [reRender, setreRender] = useState(0);
+    const [ventasTotales, setVentasTotales] = useState(0);
+    
+    function totalVentas(){
+        let total=0;
+        allOrders.forEach(o=>{
+            total+=o.total;
+        })
+        setVentasTotales(total);
+    }
 
     
     useEffect(() => {
-        //cada q cambia el menu, guarda en el LS el menu actual. Terminar de implementar*
+        //cada q cambia el menu, guarda en el LS el menu actual.
         window.localStorage.setItem("menu", JSON.stringify(menu));
         if(!usersData.length) dispatch(fetchAllUsers());
-    }, [menu]);
+        if(!allOrders.length) dispatch(getAllOrder())
+        if(ventasTotales===0) totalVentas();
+    }, [menu, allOrders]);
     
     function handleMenu(element) { //"value" ERA un boolean :v (segundo parámetro)
         setMenu(() => {
@@ -126,7 +146,7 @@ const Dashboard2 = function(){
             <span>{u.rol}</span>
             <button className='roleBtn'
                 onClick={()=> handlePermissions(u._id, u.rol)}>
-                {u.rol === "ADMIN" ? "Remove permissions" : "Give permissions"}
+                {u.rol === "ADMIN" ? "Remover permiso" : "Dar permisos"}
             </button>
             <button className="deleteBtn"
                 onClick={() => handleDelete("user", u._id, u.img)}>
@@ -146,7 +166,7 @@ const Dashboard2 = function(){
                     referrerPolicy='no-referrer' className='google_photo'/>
                     : <FaUserCircle className='userCircle'/>}
                     <p>{currentUser.name}</p>
-                    "Administrator"
+                    "Administrador"
                 </section>
                 <div className='ButtonsContainer'>
                     <button onClick={() => handleMenu("dashboard")}
@@ -155,36 +175,50 @@ const Dashboard2 = function(){
                     </button>
                     <button onClick={() => handleMenu("categories")}
                     className="menuBtn">
-                        C a t e g o r i e s
+                        C a t e g o r í a s
                     </button>
                     <button onClick={() => handleMenu("products")}
                     className="menuBtn">
-                        P r o d u c t s
+                        P r o d u c t o s
                     </button>
                     <button onClick={() => handleMenu("users")}
                     className="menuBtn">
-                        U s e r s
+                        U s u a r i o s
                     </button>
-                    <Link to="/dashboard/orders">
-                    <button>
-                        Orders
+                    <button onClick={() => handleMenu("orders")}
+                    className="menuBtn">
+                        Ó r d e n e s
                     </button>
-                    </Link>
+                    
                     
                 </div>
             </LateralDiv>
 
             <DisplayDiv theme={theme}>
             {menu.dashboard ? (
-                <>
-                Dashboard (tarjetitas con info)
-                </>
+                <InfoDiv>
+                    <article className='infoCard'>
+                        <FaUsers/>
+                        <h3 className='infoTitle'>Usuarios registrados</h3>
+                        <div className='info'>{usersData.length}</div>
+                    </article>
+                    <article className='infoCard'>
+                        <IoIosRestaurant/>
+                        <h3 className='infoTitle'>Ventas realizadas</h3>
+                        <div className='info'>{allOrders.length}</div>
+                    </article>
+                    <article className='infoCard'>
+                        <GiMoneyStack/>
+                        <h3 className='infoTitle'>Total Ventas</h3>
+                        <div className='info'>${ventasTotales}</div>
+                    </article>
+                </InfoDiv>
             ) : menu.users ? (
                 <UserDiv theme={theme}>
-                    <section className='cabezal'><h2>Users</h2></section>
+                    <section className='cabezal'><p>Usuarios</p></section>
                     <div className='allUsers'>
                         {!usersData.length ? (
-                            <div>No users found...</div>
+                            <div>Sin resultados aún... :(</div>
                         ):(
                             usersData.map(u=>
                                 <User key={u._id} u={u} />
@@ -210,7 +244,7 @@ const Dashboard2 = function(){
                         )}
                     </div>
                 </div>
-            ) : menu.products && 
+            ) : menu.products ? (
             <div className="products">
                 <SearchBar />
 
@@ -220,15 +254,18 @@ const Dashboard2 = function(){
 
                 <div className="allProducts">
                     {filterProducts.length === 0 ? (
-                        <div>Not results found</div>
+                        <div>No se encontraron resultados aún...</div>
                     ) : (
                         filterProducts.map((p) => (
                             <Product p={p} key={p._id} />
                         ))
                     )}
                 </div>
+            </div>
+            ): menu.orders && 
+            <div className='orders'>
+                <OrdersAdmin/>
             </div>}
-
 
             </DisplayDiv>
         </StyledContainer>
