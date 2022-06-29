@@ -5,7 +5,7 @@ console.log("wlecome bot-telegram")
 // @foodfastapp_bot
 
 const api = "http://localhost:3001/api/v1"
-const client = "https://food-fast-client-8h45out5u-takzzg.vercel.app"
+const client = "https://food-fast-client.vercel.app"
 
 const fetchProducts = async () => {
     //el sort debe hacer match con los productos de mayor rating
@@ -41,7 +41,7 @@ function sendStartMessage(ctx) {
                 [
                     {
                         text: "Nuestra website",
-                        url: "https://food-fast-client-8h45out5u-takzzg.vercel.app/"
+                        url: "https://food-fast-client.vercel.app/"
                     }
                 ]
             ]
@@ -77,7 +77,7 @@ bot.action("0", async (ctx) => {
                 [
                     {
                         text: "Pagar",
-                        url: "https://food-fast-client-8h45out5u-takzzg.vercel.app/"
+                        url: "https://food-fast-client.vercel.app/"
                     }
                 ],
                 [{ text: "Salir", callback_data: "Salir" }]
@@ -102,7 +102,7 @@ bot.action("1", async (ctx) => {
                 [
                     {
                         text: "Pagar",
-                        url: "https://food-fast-client-8h45out5u-takzzg.vercel.app/"
+                        url: "https://food-fast-client.vercel.app/"
                     }
                 ],
                 [{ text: "Salir", callback_data: "Salir" }]
@@ -127,7 +127,7 @@ bot.action("1", async (ctx) => {
                 [
                     {
                         text: "Pagar",
-                        url: "https://food-fast-client-8h45out5u-takzzg.vercel.app/"
+                        url: "https://food-fast-client.vercel.app/"
                     }
                 ],
                 [{ text: "Salir", callback_data: "Salir" }]
@@ -152,7 +152,7 @@ bot.action("2", async (ctx) => {
                 [
                     {
                         text: "Pagar",
-                        url: "https://food-fast-client-8h45out5u-takzzg.vercel.app/"
+                        url: "https://food-fast-client.vercel.app/"
                     }
                 ],
                 [{ text: "Salir", callback_data: "Salir" }]
