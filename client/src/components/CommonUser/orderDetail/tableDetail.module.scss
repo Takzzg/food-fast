@@ -1,20 +1,22 @@
 .ContainerOrder{
     padding: 0 15px 0 15px;
-    height: 100%;
-    width: 870px;
+    height: 80%;
+    width: 70%;
     display: flex;
     flex-direction: column;
     justify-content:center;
     align-items: center;
     overflow:auto;
+    margin: auto;
+    margin-top: 2rem;
 }
-
 select{
     width: 130px; 
     padding: 4px 4px 2px 4px;
     background: #333; color: #eee;
     border-radius: 5px;
-    font-family: monospace; font-size: 16px;
+    font-family: monospace; 
+    font-size: 16px;
 }
 
 #title {
@@ -27,6 +29,7 @@ select{
     margin: 2rem;
     width: 85%;
     margin-bottom: 0rem;
+    position: relative;
 }
 .table {
     width: 100%;
@@ -48,12 +51,11 @@ select{
 
 .rowDetail {
     background: transparent;
-    display: flex;
     justify-content:space-between;
-    width: 100%; color: #222;
-    
+    display: flex;
+    width: 100%; 
+    color: #222;
     font-size: 16px;
-    //display: table-row;
     cursor: pointer;
     text-decoration: none;
     transition: .3s;
@@ -105,7 +107,6 @@ select{
         text-transform: uppercase;
         color: #969696;
         display: block;
-
     }
 
 }

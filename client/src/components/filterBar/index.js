@@ -16,7 +16,7 @@ import { FaUserAlt, FaShoppingCart } from "react-icons/fa"
 import Select from "react-select"
 import { useDispatch, useSelector } from "react-redux"
 import { nestedFiltering } from "../../redux/actions/sync"
-import { fetchAllProducts } from "../../redux/actions/async"
+import { fetchAllCategories, fetchAllProducts } from "../../redux/actions/async"
 import { Link } from "react-router-dom"
 
 export default function FilterBar() {
@@ -78,6 +78,7 @@ export default function FilterBar() {
     const handleCleanFilter = () => {
         dispatch(fetchAllProducts())
         setIsOpen(false)
+        setFilter({categories: [], price: null, rating: null, stock: null})
     }
     // ==============================================
         const handleChangePrice = (e) => {
@@ -101,6 +102,7 @@ export default function FilterBar() {
     const handleApplyFilter = () => {
         dispatch(nestedFiltering(filter))
         setIsOpen(false)
+        setFilter({categories: [], price: null, rating: null, stock: null})
     }
     const handleOpen = () => {
         setIsOpen(true)
@@ -110,6 +112,7 @@ export default function FilterBar() {
     }
     useEffect(() => {
         Modal.setAppElement("body")
+        dispatch(fetchAllCategories())
     }, [])
 
     return (

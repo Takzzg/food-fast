@@ -30,7 +30,7 @@ export const getProduct = async (req, res) => {
 
             const product = await Product.find(objFilter).sort(objOrder)
             return res.json(
-                product.length === 0 ? "not found product" : newProducts
+                product.length === 0 ? "not found product" : product
             )
         } else {
             const allProducts = await Product.find()

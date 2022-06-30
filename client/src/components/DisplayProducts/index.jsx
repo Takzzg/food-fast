@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { GlobalContainer } from "./displayElements"
+import { GlobalContainer, NotResults } from "./displayElements"
 import SingleProductCard from "./singleCard"
 import FilterBar from "../filterBar"
 import { CardsContainer } from "./displayElements"
@@ -46,13 +46,16 @@ export default function DisplayProducts() {
         <GlobalContainer theme={theme}>
             <FilterBar />
             <CardsContainer theme={theme}>
-                {filterProducts.length === 0 ? (
+                {allProducts.length === 0 ? (
                     <Loading text="Buscando productos" />
                 ) : (
                     filterProducts.map((p, i) => (
                         <SingleProductCard key={i} product={p} list={list} />
                     ))
                 )}
+                {
+                    filterProducts.length === 0 && allProducts.length > 0 && <NotResults>No se encontraron resultados</NotResults>
+                }
             </CardsContainer>
         </GlobalContainer>
     )

@@ -17,7 +17,8 @@ import {
     MessageContainer,
     PrevContainer,
     PrevImgContainer,
-    Title
+    Title,
+    ButtonCreate2
 } from "../ProductForm/formElements"
 import SelectedList from "../ProductForm/selectedList"
 import { CgUnavailable } from "react-icons/cg"
@@ -143,7 +144,7 @@ export default function UpdateProduct() {
                         }
                     </InputContainer>
 
-                    <InputContainer className="row" color={"green"}>
+                    <InputContainer className="rowForm" color={"green"}>
                         <Label>Price:</Label>
                         <div
                             style={{
@@ -178,7 +179,7 @@ export default function UpdateProduct() {
                         </div>
                     </InputContainer>
 
-                    <InputContainer className="row" color={"green"}>
+                    <InputContainer className="rowForm" color={"green"}>
                         <Label>Stock:</Label>
                         <InputSimple
                             type={"number"}
@@ -263,7 +264,7 @@ export default function UpdateProduct() {
                 </SecondColumnContainer>
             </MainContainer>
             {/* LE paso la condicion de que no debe existir error para que se muestre el boton de crear */}
-            <ButtonCreate
+            <ButtonCreate2
                 color="green"
                 isAvailable={Object.keys(errors).length === 0}
                 onClick={() =>
@@ -281,7 +282,7 @@ export default function UpdateProduct() {
                 }
             >
                 Update Product
-            </ButtonCreate>
+            </ButtonCreate2>
         </GlobalContainer>
     )
 }

@@ -30,6 +30,7 @@ export const ImageCategory = styled.div`
 export const NameCategory = styled.div`
     font-size: 30px;
     color: white;
+    text-transform: uppercase;
 
 `
 

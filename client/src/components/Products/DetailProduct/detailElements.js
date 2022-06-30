@@ -1,5 +1,5 @@
 import styled from "styled-components"
-
+import { Link } from "react-router-dom"
 export const GlobalContainer = styled.div`
     height: 100vh;
     display: flex;
@@ -186,8 +186,28 @@ export const ButtonsContainer = styled.div`
 export const CarShop = styled.div`
     background-color: ${({ theme }) => theme.colors.background};
 `
-export const BuyButton = styled.div`
+export const BuyButton = styled(Link)`
     background-color: ${({ theme }) => theme.colors.background};
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 1rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    color: ${({ theme }) => theme.colors.main};
+    svg {
+        height: 100%;
+        width: auto;
+        color: ${({ theme }) => theme.colors.main};
+    }
+    &:hover {
+            background-color: ${({ theme }) => theme.colors.main};
+            svg {
+                color: white;
+            }
+        }
+
 `
 /* font-family: 'Fredoka One', cursive; */
 /* font-family: 'Righteous', cursive; */

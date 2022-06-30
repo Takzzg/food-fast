@@ -19,7 +19,7 @@ import { GiMoneyStack } from "react-icons/gi"
 
 /* Custom hooks & actions */
 import useDelete from '../../CustomHooks/useDelete';
-import { fetchAllUsers, changePermissions, getAllOrder } from '../../../redux/actions/async';
+import { fetchAllUsers, changePermissions, getAllOrder, fetchAllProducts, fetchAllCategories } from '../../../redux/actions/async';
 
 
 const Dashboard2 = function(){
@@ -56,7 +56,10 @@ const Dashboard2 = function(){
         })
         setVentasTotales(total);
     }
-
+    useEffect(()=> {
+        dispatch(fetchAllProducts())
+        dispatch(fetchAllCategories())
+    }, [])
     
     useEffect(() => {
         //cada q cambia el menu, guarda en el LS el menu actual.
@@ -263,7 +266,7 @@ const Dashboard2 = function(){
                 </div>
             </div>
             ): menu.orders && 
-            <div className='orders'>
+            <div id='orders'>
                 <OrdersAdmin/>
             </div>}
 
