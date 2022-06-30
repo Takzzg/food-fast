@@ -13,7 +13,8 @@ GoPayContainer
 import { useSelector } from "react-redux";
 
 export default function OrdenSumary({items, subTotal}) {
-  const user = useSelector(state=> state.user.authData); 
+  const user = useSelector(state=> state.user.authData);
+  const theme = useSelector(state=>state.theme.selectedTheme) 
   const [err, setErr] = useState(false); 
 
   const handlePay = async (mount) => {
@@ -34,22 +35,22 @@ export default function OrdenSumary({items, subTotal}) {
 
   }
   return (
-    <MainContainer>
-        <TitleContainer>Order Sumary</TitleContainer>
+    <MainContainer theme={theme}>
+        <TitleContainer>Resumen de pedido</TitleContainer>
         <ItemsContainer>
             <div className="label">Items: </div>
             <div className="number">{items}</div>
         </ItemsContainer>
 
+        <AditionalContainer>
+            <div className="label">Envío: </div>
+            <div className="number">$/ 12</div>
+        </AditionalContainer>
+
         <SubTotalContainer>
             <div className="label">Subtotal: </div>
             <div className="number">$/ {subTotal}</div>
         </SubTotalContainer>
-
-        <AditionalContainer>
-            <div className="label">Shipping: </div>
-            <div className="number">$/ 12</div>
-        </AditionalContainer>
 
         <TotalContainer>
             <div className="label">Total: </div>
@@ -57,7 +58,7 @@ export default function OrdenSumary({items, subTotal}) {
         </TotalContainer>
 
         <GoPayContainer>
-            <button onClick={()=> handlePay(subTotal)}>Go pay</button>
+            <button style={{fontSize: "20px", fontWeight: "bold"}} onClick={()=> handlePay(subTotal)}>Pagar</button>
         </GoPayContainer>
     </MainContainer>
   );

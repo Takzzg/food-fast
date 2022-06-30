@@ -77,11 +77,12 @@ export const FilterButton = styled.button`
 //========================================================
 
 export const UserContainer = styled.section`
-    display: flex;
-    justify-content: space-evenly;
+    display: flex; width: 100px;
+    justify-content: space-between;
     align-items: center;
     gap: 1rem;
     cursor: pointer;
+    
     a{
         text-decoration: none;
         color: black;
@@ -89,8 +90,15 @@ export const UserContainer = styled.section`
         align-items: center;
     }
     svg {
+        width: 35px; height: 35px;
+        color: ${({ theme }) => theme.text.highContrast};
+        transition: .3s; 
+        padding: 8px;
         &:hover {
             color: ${({ theme }) => theme.colors.main};
+            box-shadow: 0 0 12px ${({theme})=>theme.colors.main};
+            border-radius: 25px; 
+            padding: 8px;
         }
     }
 `

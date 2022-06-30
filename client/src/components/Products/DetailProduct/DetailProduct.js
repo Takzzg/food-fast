@@ -148,7 +148,7 @@ const DetailProduct = () => {
                 <SecondMainContainer>
                     <DescriptionContainer theme={theme}>
                         <ListItem>
-                            <Etiqueta>DESCRIPTION:</Etiqueta>
+                            <Etiqueta>DESCRIPCIÓN:</Etiqueta>
                             <Data>{product.description}</Data>
                         </ListItem>
 
@@ -165,12 +165,12 @@ const DetailProduct = () => {
                             </ListItem>
 
                             <ListItem>
-                                <Etiqueta>Price</Etiqueta>
+                                <Etiqueta>Precio</Etiqueta>
                                 <Data>{`$/ ${product.price}`}</Data>
                             </ListItem>
                         </div>
                         <ListItem>
-                            <Etiqueta>Categories:</Etiqueta>
+                            <Etiqueta>Categorias:</Etiqueta>
                             <Data>{product.categories}</Data>
                         </ListItem>
                     </DescriptionContainer>
@@ -194,9 +194,11 @@ const DetailProduct = () => {
                     </ButtonsContainer>
                 </SecondMainContainer>
             </MainContainer>
+            <hr/>
+                <span className="reviewsTitle">Reseñas y Puntaje</span>
             <ReviewsContainer theme={theme}>
-                <span className="reviewsTitle">Reviews</span>
-                <form onSubmit={handleSubmit}>
+                {userId ?
+                    <form onSubmit={handleSubmit}>
                     <span className="formTitle">Deja tu comentario</span>
                     <label htmlFor="title">Titulo</label>
                     <input
@@ -232,16 +234,25 @@ const DetailProduct = () => {
                         ))}
                     </div>
                     <input className="submit" type="submit" value="Enviar" />
-                </form>
+                </form> : (
+                        <div id="noForm">
+                            <p>Loguéate para puntuar y comentar! ♥</p>
+                        </div>
+                        )}
                 <div className="reviews">
-                    {reviews.length &&
+                    {reviews.length ? (
                         reviews.map((r) => (
                             <ReviewCard
                                 key={r._id}
                                 review={r}
                                 handleDelete={handleDeleteReview}
                             />
-                        ))}
+                        ))
+                    ) : (
+                        <div id="noForm">
+                            <p>Este producto aún no tiene reviews... Sé el primero! 🥇</p>
+                        </div>
+                    )}
                 </div>
             </ReviewsContainer>
         </GlobalContainer>

@@ -1,5 +1,7 @@
 
-import nodemailer from "nodemailer";
+// **************** DEPRECADO *******************
+
+/* import nodemailer from "nodemailer";
 
 export const sendEmail = async (email, name , id, token) => {
     try {
@@ -26,4 +28,4 @@ export const sendEmail = async (email, name , id, token) => {
     } catch (error) {
         console.log("Error en el sendEmail. ",error);
     }
-};
+}; */

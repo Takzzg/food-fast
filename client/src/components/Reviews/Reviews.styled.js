@@ -34,6 +34,7 @@ export const StyledReviewCard = styled.div`
     }
 
     .card {
+        border-radius: 12px;
         display: flex;
         flex-direction: column;
         color: ${({ theme }) => theme.text.highContrast};
@@ -66,12 +67,15 @@ export const StyledReviewCard = styled.div`
             }
         }
 
-        .title,
+        .title{
+            background: transparent;
+        }
         .comment {
             word-break: break-all;
         }
 
         .info {
+            border-radius: 8px;
             background-color: ${({ theme }) => theme.colors.main};
             color: ${({ theme }) => theme.text.dark};
             display: flex;
