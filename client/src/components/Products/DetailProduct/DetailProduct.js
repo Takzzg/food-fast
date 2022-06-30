@@ -13,9 +13,10 @@ import {
     ButtonsContainer,
     SecondMainContainer,
     ProductHeader,
-    ReviewsContainer
+    ReviewsContainer,
+    NotAvailable
 } from "./detailElements"
-
+import { Link } from "react-router-dom"
 import { AiOutlineShoppingCart } from "react-icons/ai"
 import { AiOutlineCreditCard } from "react-icons/ai"
 import { useParams } from "react-router-dom"
@@ -35,6 +36,7 @@ import {
 import ReviewCard from "../../Reviews/ReviewCard"
 import { BsStar, BsStarFill } from "react-icons/bs"
 import axios from "axios"
+import Loading from "../../Loading/Loading"
 
 const initialState = {
     title: "",
@@ -53,12 +55,14 @@ const DetailProduct = () => {
     const [isAdded, setIsAdded] = useState(false)
     const products = useSelector((state) => state.shopCart.shopCart)
     const userId = useSelector((state) => state.user.authData?.user._id)
+    const user = useSelector((state) => state.user.authData)
 
     const addItem = async (e) => {
         e.preventDefault()
         const item = { ...product }
-        if(userId) {
-            await axios.post(`http://localhost:3001/api/v1/user/shopCart/add/${userId}`,
+        if (userId) {
+            await axios.post(
+                `${process.env.REACT_APP_BACK_URL}/api/v1/user/shopCart/add/${userId}`,
                 { product: item }
             )
         }
@@ -68,10 +72,13 @@ const DetailProduct = () => {
     const removeItem = async (e) => {
         e.preventDefault()
         const item = { ...product }
-        if(userId) {
-            await axios.post(`http://localhost:3001/api/v1/user/shopCart/removeSame/${userId}`, {
-                product: item 
-           })
+        if (userId) {
+            await axios.post(
+                `${process.env.REACT_APP_BACK_URL}/api/v1/user/shopCart/removeSame/${userId}`,
+                {
+                    product: item
+                }
+            )
         }
         dispatch(remove_item_car(item, true))
         setIsAdded(false)
@@ -100,7 +107,11 @@ const DetailProduct = () => {
     }, [dispatch])
 
     const fetchReviews = () => {
-        getProductReviews(idProduct).then((reviews) => setReviews(reviews))
+        // getProductReviews(idProduct).then((reviews) => setReviews(reviews))
+        getProductReviews(idProduct).then((reviews) => {
+            console.log(reviews)
+            return setReviews(reviews)
+        })
     }
 
     const handleDeleteReview = (id) => {
@@ -127,7 +138,9 @@ const DetailProduct = () => {
         setReviewForm({ ...reviewForm, score: v })
     }
 
-    if (!product || !product.name) return <h1>Loading...</h1>
+    if (!product || !product.name) return <Loading>Loading...</Loading>
+
+    console.log(reviews)
 
     return (
         <GlobalContainer theme={theme}>
@@ -146,6 +159,10 @@ const DetailProduct = () => {
                 </ImageContainer>
 
                 <SecondMainContainer>
+                    {product.stock === 0 && (
+                        <NotAvailable>Producto No disponible</NotAvailable>
+                    )}
+
                     <DescriptionContainer theme={theme}>
                         <ListItem>
                             <Etiqueta>DESCRIPCIÓN:</Etiqueta>
@@ -170,28 +187,34 @@ const DetailProduct = () => {
                             </ListItem>
                         </div>
                         <ListItem>
-                            <Etiqueta>Categorias:</Etiqueta>
-                            <Data>{product.categories}</Data>
+                            <Etiqueta>Categories:</Etiqueta>
+                            <Data>{product.categories.join(", ")}</Data>
                         </ListItem>
                     </DescriptionContainer>
+                    {product.stock !== 0 && (
+                        <ButtonsContainer theme={theme}>
+                            {!isAdded ? (
+                                <CarShop theme={theme} onClick={addItem}>
+                                    <AiOutlineShoppingCart id="car" />
+                                </CarShop>
+                            ) : (
+                                <CarShop
+                                    theme={theme}
+                                    onClick={removeItem}
+                                    disabled={product.stock === 0}
+                                >
+                                    <AiOutlineShoppingCart
+                                        id="car"
+                                        style={{ color: "red" }}
+                                    />
+                                </CarShop>
+                            )}
 
-                    <ButtonsContainer theme={theme}>
-                        {!isAdded ? (
-                            <CarShop theme={theme} onClick={addItem}>
-                                <AiOutlineShoppingCart id="car" />
-                            </CarShop>
-                        ) : (
-                            <CarShop theme={theme} onClick={removeItem}>
-                                <AiOutlineShoppingCart
-                                    id="car"
-                                    style={{ color: "red" }}
-                                />
-                            </CarShop>
-                        )}
-                        <BuyButton theme={theme}>
-                            <AiOutlineCreditCard />
-                        </BuyButton>
-                    </ButtonsContainer>
+                            <BuyButton theme={theme} to="/user/shoppingCart">
+                                <AiOutlineCreditCard />
+                            </BuyButton>
+                        </ButtonsContainer>
+                    )}
                 </SecondMainContainer>
             </MainContainer>
             <hr/>

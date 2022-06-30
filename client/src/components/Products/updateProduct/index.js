@@ -17,7 +17,8 @@ import {
     MessageContainer,
     PrevContainer,
     PrevImgContainer,
-    Title
+    Title,
+    ButtonCreate2
 } from "../ProductForm/formElements"
 import SelectedList from "../ProductForm/selectedList"
 import { CgUnavailable } from "react-icons/cg"
@@ -27,19 +28,20 @@ import { Message } from "rsuite"
 import { baseUrl, findProductById } from "../../../redux/actions/async"
 import { useDispatch, useSelector } from "react-redux"
 import { validateForm } from "../../CustomHooks/validateForm"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { PatchProduct } from "./updateFunctions"
 import FormBG from "../../FormBG/FormBG"
 
 export default function UpdateProduct() {
     const { id } = useParams()
+    const Navigate = useNavigate(); 
     const [form, setForm] = useState({
         name: "",
         description: "",
         price: 0,
         stock: 0,
         categories: [],
-        img: null
+        image: null
     })
 
     const [errors, setErrors] = useState({})
@@ -69,10 +71,7 @@ export default function UpdateProduct() {
         setFile(newFile)
         if (newFile) setImgCharge(true)
         else setImgCharge(false)
-        if (e.target.name === "stock") {
-            if (e.target.value > 0) setIsAvailable(true)
-            else setIsAvailable(false)
-        }
+
     }
 
     const handleChange = (e) => {
@@ -80,6 +79,10 @@ export default function UpdateProduct() {
         setForm({ ...form, [name]: value })
         let currentErrors = validateForm({ ...form, [name]: value }, "product")
         setErrors(currentErrors)
+        if (name === "stock") {
+            if (e.target.value > 0) setIsAvailable(true)
+            else setIsAvailable(false)
+        }
     }
 
     useEffect(() => {
@@ -141,7 +144,7 @@ export default function UpdateProduct() {
                         }
                     </InputContainer>
 
-                    <InputContainer className="row" color={"green"}>
+                    <InputContainer className="rowForm" color={"green"}>
                         <Label>Price:</Label>
                         <div
                             style={{
@@ -176,7 +179,7 @@ export default function UpdateProduct() {
                         </div>
                     </InputContainer>
 
-                    <InputContainer className="row" color={"green"}>
+                    <InputContainer className="rowForm" color={"green"}>
                         <Label>Stock:</Label>
                         <InputSimple
                             type={"number"}
@@ -261,7 +264,7 @@ export default function UpdateProduct() {
                 </SecondColumnContainer>
             </MainContainer>
             {/* LE paso la condicion de que no debe existir error para que se muestre el boton de crear */}
-            <ButtonCreate
+            <ButtonCreate2
                 color="green"
                 isAvailable={Object.keys(errors).length === 0}
                 onClick={() =>
@@ -273,12 +276,13 @@ export default function UpdateProduct() {
                         setIsSend,
                         setForm,
                         setIsAvailable,
-                        setImgCharge
+                        setImgCharge,
+                        Navigate
                     )
                 }
             >
                 Update Product
-            </ButtonCreate>
+            </ButtonCreate2>
         </GlobalContainer>
     )
 }

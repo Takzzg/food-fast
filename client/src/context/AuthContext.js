@@ -13,13 +13,16 @@ import axios from "axios"
 
 const AuthContext = createContext()
 
-const registerGoogleAccount = (currentUser)=> async (dispatch)=>{
-    try{
-        const resp = await axios.get(`http://localhost:3001/api/v1/user/verify/exists?email=${currentUser.email}`)
-        const gUser = resp.data;
-        if(!gUser.exists){
+const registerGoogleAccount = (currentUser) => async (dispatch) => {
+    try {
+        const resp = await axios.get(
+            `${process.env.REACT_APP_BACK_URL}/api/v1/user/verify/exists?email=${currentUser.email}`
+        )
+        const gUser = resp.data
+        if (!gUser.exists) {
             //lo registramos...
-                dispatch(logup({
+            dispatch(
+                logup({
                     name: currentUser.displayName,
                     email: currentUser.email,
                     password: currentUser.uid,
@@ -28,12 +31,13 @@ const registerGoogleAccount = (currentUser)=> async (dispatch)=>{
                     photo: currentUser.photoURL,
                     isGoogleAccount: true,
                     verifyAccount: true
-                }))
-        }else{
+                })
+            )
+        } else {
             console.log("YA TIENES ESTA GOOGLE ACCOUNT GUARDADA")
         }
-    }catch(e){
-        console.log("Error en registerGoogleAccount. ",e)
+    } catch (e) {
+        console.log("Error en registerGoogleAccount. ", e)
     }
 }
 
@@ -56,7 +60,7 @@ export const AuthContextProvider = ({ children }) => {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            if(currentUser){
+            if (currentUser) {
                 dispatch(registerGoogleAccount(currentUser))
             }
             setUser(currentUser)

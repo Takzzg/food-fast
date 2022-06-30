@@ -26,6 +26,11 @@ export const CardsContainer = styled.section`
     background-color: ${({ theme }) => theme.colors.main};
     overflow-y: auto;
 `
+export const NotResults = styled.div`
+    height: 3rem;
+    font-size: 3rem;
+    margin-top: 3rem;
+`
 
 export const CardContainer = styled.section`
     display: flex;
@@ -42,7 +47,11 @@ export const CardContainer = styled.section`
 
     &:hover {
         transform: scale(1.05);
+        #notAvaible {
+            bottom: 11rem;
+        }
     }
+
 `
 
 export const TitleDiv = styled.div`
@@ -63,6 +72,14 @@ export const ImageContainer = styled(Link)`
 
     min-height: 10rem;
     border-radius: 1rem;
+`
+
+export const NotAvaible = styled.div`
+    height: 2rem;
+    font-size: 2rem;
+    text-align: center;
+    color: red; 
+    font-family: 'Lobster';
 `
 
 export const FooterContainer = styled.div`

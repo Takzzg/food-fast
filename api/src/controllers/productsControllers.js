@@ -30,7 +30,7 @@ export const getProduct = async (req, res) => {
 
             const product = await Product.find(objFilter).sort(objOrder)
             return res.json(
-                product.length === 0 ? "not found product" : newProducts
+                product.length === 0 ? "not found product" : product
             )
         } else {
             const allProducts = await Product.find()
@@ -64,7 +64,7 @@ export const postProduct= async(req,res)=>{
             description,
             price,
             available,
-            category,
+            categories, // <-- Aquí
             stock} = req.body
    try {
     const data = {
@@ -72,7 +72,7 @@ export const postProduct= async(req,res)=>{
         description,
         price,
         available,
-        category,
+        categories: JSON.parse(categories), // <--- Y aqui
         stock
     }
     const product = new Product(data)
@@ -127,7 +127,7 @@ export const upDate = async (req, res) => {
             description,
             stock,
             price,
-            categories,
+            categories: JSON.parse(categories),
             image: prevImage
         }
         if (req.files?.image) {

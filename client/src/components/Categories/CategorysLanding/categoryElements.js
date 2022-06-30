@@ -32,6 +32,7 @@ export const ImageCategory = styled.div`
 export const NameCategory = styled.span`
     font-size: 30px;
     color: white;
+    text-transform: uppercase;
 
 `
 

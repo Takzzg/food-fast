@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { GlobalContainer } from "./displayElements"
+import { GlobalContainer, NotResults } from "./displayElements"
 import SingleProductCard from "./singleCard"
 import FilterBar from "../filterBar"
 import { CardsContainer } from "./displayElements"
@@ -8,6 +8,7 @@ import { useEffect } from "react"
 import { fetchAllProducts, getShopCartUser } from "../../redux/actions/async"
 import axios from "axios"
 import Loading from "../Loading/Loading"
+import FilterFunction from "../../redux/reducers/FilterFunction"
 
 export default function DisplayProducts() {
     const [list, setList] = useState([])
@@ -16,7 +17,8 @@ export default function DisplayProducts() {
     const theme = useSelector((state) => state.theme.selectedTheme)
     const allProducts = useSelector((state) => state.main.products.all)
     const filterProducts = useSelector((state) => state.main.products.filtered)
-    const products = useSelector((state) => state.shopCart.shopCart);
+    const products = useSelector((state) => state.shopCart.shopCart)
+
     const userSelector = useSelector(
         (state) => state.user.authData && state.user.authData.user
     )
@@ -27,7 +29,7 @@ export default function DisplayProducts() {
 
     const getData = async (id) => {
         const response = await axios.get(
-            `http://localhost:3001/api/v1/favorites/${id}`
+            `${process.env.REACT_APP_BACK_URL}/api/v1/favorites/${id}`
         )
         dispatch(getShopCartUser(id, products))
         setList(response.data.products)
@@ -42,13 +44,16 @@ export default function DisplayProducts() {
         <GlobalContainer theme={theme}>
             <FilterBar />
             <CardsContainer theme={theme}>
-                {filterProducts.length === 0 ? (
+                {allProducts.length === 0 ? (
                     <Loading text="Buscando productos" />
                 ) : (
                     filterProducts.map((p, i) => (
                         <SingleProductCard key={i} product={p} list={list} />
                     ))
                 )}
+                {
+                    filterProducts.length === 0 && allProducts.length > 0 && <NotResults>No se encontraron resultados</NotResults>
+                }
             </CardsContainer>
         </GlobalContainer>
     )

@@ -94,7 +94,7 @@ const NavBar = () => {
 
                 <MainIconContainer theme={theme}>
                     <IoFastFoodSharp />
-                    <Title theme={theme}>Food Fast</Title>
+                    <Title theme={theme}>Food's Universe</Title>
                 </MainIconContainer>
 
                 {user?.displayName ? (

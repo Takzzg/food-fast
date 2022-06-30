@@ -14,7 +14,7 @@ const apiBaseUrl = `${
 }/api/v1`
 const cliBaseUrl = `${
     process.env.NODE_ENV === "production"
-        ? "https://food-fast-client-8h45out5u-takzzg.vercel.app"
+        ? "https://food-fast-client.vercel.app"
         : "http://localhost:3000"
 }`
 
@@ -38,18 +38,18 @@ export const login = async (req, res) => {
       error: null,
       data: {token, expiresIn} } )*/
     } catch (error) {
-        console.log("Error en login controller. ",error)
+        console.log("Error en login controller. ", error)
         return res.json({ error: "Error server" })
     }
 }
 
 export const forgotPass = async (req, res) => {
-    try{
+    try {
         const { email } = req.body.email
-        
+
         const user = await User.findOne({ email })
         if (!user) {
-            return res.status(404).send({error: "user not registered"})
+            return res.status(404).send({ error: "user not registered" })
         }
         const secret = process.env.SECRETOPRIVATEKEY + user.password
         const payload = {
@@ -58,7 +58,7 @@ export const forgotPass = async (req, res) => {
         }
         const token = jwt.sign(payload, secret, { expiresIn: "1h" })
 
-    const link=`${apiBaseUrl}/auth/reset-password/${user.id}/${token}`
+        const link = `${apiBaseUrl}/auth/reset-password/${user.id}/${token}`
 
     const emailOptions = {
         from: "🍕🍔 Food's Universe inc. 🍕🍔<fastfoodhenry365@gmail.com>",
@@ -97,7 +97,7 @@ export const forgotPass = async (req, res) => {
         res.json({
             msg: "Password reset link has been sent to your email"
         })
-    }catch(e){
+    } catch (e) {
         console.log("error en el forgotPass. ", e)
     }
 }
@@ -116,9 +116,11 @@ export const resetGetPass = async (req, res) => {
     try {
         const payload = jwt.verify(token, secret)
         //si pasa a la línea del return, es porque el jwt.verify fue exitoso
-        return res.redirect(`${cliBaseUrl}/newPassword?email=${userId.email}&id=${id}&token=${token}`)
+        return res.redirect(
+            `${cliBaseUrl}/newPassword?email=${userId.email}&id=${id}&token=${token}`
+        )
     } catch (e) {
-        console.log("Error en el resetGetPass. ",e)
+        console.log("Error en el resetGetPass. ", e)
     }
 }
 
@@ -133,9 +135,9 @@ export const resetPostPass = async (req, res) => {
         })
         return
     }
-    const secret=process.env.SECRETOPRIVATEKEY + userId.password
+    const secret = process.env.SECRETOPRIVATEKEY + userId.password
     try {
-        const payload=jwt.verify(token,secret)
+        const payload = jwt.verify(token, secret)
 
         userId.password = password
 
@@ -146,7 +148,7 @@ export const resetPostPass = async (req, res) => {
         await saved.save()
         res.json(userId)
     } catch (e) {
-        console.log("Error en resetPostPass. ",e)
+        console.log("Error en resetPostPass. ", e)
     }
 }
 
@@ -161,7 +163,7 @@ export const confirmToken = async (req, res) => {
         ;(user.verifyAccount = true), await user.save()
         return res.send("account user verify")
     } catch (error) {
-        console.log("Error en confirmToken. ",error)
+        console.log("Error en confirmToken. ", error)
         return res.json({ err: error })
     }
 }
