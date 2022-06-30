@@ -72,7 +72,7 @@ export const postProduct= async(req,res)=>{
         description,
         price,
         available,
-        categories: JSON.parse(categories), // <--- Y aqui
+        categories: JSON.parse( categories), // <--- Y aqui
         stock
     }
     const product = new Product(data)

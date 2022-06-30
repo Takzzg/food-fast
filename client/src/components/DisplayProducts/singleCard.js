@@ -91,7 +91,7 @@ export default function SingleProductCard({ product, list}) {
                     </div>}
               
                 <Link to={`/products/${product._id}`} id="details">
-                    <MdReadMore />
+                <MdReadMore />
                 </Link>
                 {user && 
                     !isFavorite ? <AiOutlineHeart onClick={handleAddFavorite}/>:<AiFillHeart onClick={()=> handleRemoveFavorite(product._id)}/>

@@ -19,7 +19,7 @@ const ProductCard = ({ product }) => {
             <div className="header">
                 <span className="name">{name}</span>
                 <span className="price">
-                    <FaDollarSign />
+                <FaDollarSign />
                     {price}
                 </span>
             </div>
