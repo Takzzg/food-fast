@@ -24,40 +24,44 @@ import {
     GET_USER_INFORMATION
 } from "./types"
 
-export const baseUrl = `${
-    process.env.NODE_ENV === "production"
-        ? "https://food-fast-api.herokuapp.com"
-        : "http://localhost:3001"
-}/api/v1`
+// export const baseUrl = `${
+//     process.env.NODE_ENV === "production"
+//         ? "https://food-fast-api.herokuapp.com"
+//         : "http://localhost:3001"
+// }/api/v1`
 
-const fetch = (url, type) => (dispatch) =>
+export const baseUrl = `${process.env.REACT_APP_BACK_URL}/api/v1`
+
+const fetch = (url, type) => (dispatch) => {
     axios
-        .get(url)
+        .get(baseUrl + url)
         .then((res) => dispatch({ type: type, payload: res.data }))
         .catch((err) => {
-            console.log(`error en ${type} \n url = ${url} \n mensaje = ${err}`)
+            console.log(
+                `error en ${type} \n url = ${baseUrl + url} \n mensaje = ${err}`
+            )
             dispatch({ type: ERROR, payload: err })
         })
+}
 
 // PRODUCTS
 
-export const fetchAllProducts = () =>
-    fetch(`${baseUrl}/products`, FETCH_PRODUCTS)
+export const fetchAllProducts = () => fetch(`/products`, FETCH_PRODUCTS)
 
 export const fetchProductsByCat = (cat) =>
-    fetch(`${baseUrl}/categories/category?name=${cat}`, FILTER_PRODUCTS)
+    fetch(`/categories/category?name=${cat}`, FILTER_PRODUCTS)
 
 export const searchProductAsync = (name) =>
     name
-        ? fetch(`${baseUrl}/products?name=${name}`, "SEARCH_PRODUCT_ASYNC")
+        ? fetch(`/products?name=${name}`, "SEARCH_PRODUCT_ASYNC")
         : clean_products()
 
 export const findProductById = (id) =>
-    fetch(`http://localhost:3001/api/v1/products/${id}`, FIND_PRODUCT_BY_ID)
+    fetch(`/products/${id}`, FIND_PRODUCT_BY_ID)
 
 export const newFilterProduct = (filterOrder, sortOrder) =>
     fetch(
-        `${baseUrl}/products?filterOrder=${filterOrder}&sortOrder=${sortOrder}`,
+        `/products?filterOrder=${filterOrder}&sortOrder=${sortOrder}`,
         NEWFILTER_PRODUCTS
     )
 
@@ -69,15 +73,13 @@ export const postProduct = (product) => (dispatch) =>
 
 // CATEGORIES
 
-export const findCatById = (id) =>
-    fetch(`${baseUrl}/categories/${id}`, FIND_CAT_BY_ID)
+export const findCatById = (id) => fetch(`/categories/${id}`, FIND_CAT_BY_ID)
 
-export const fetchAllCategories = () =>
-    fetch(`${baseUrl}/categories`, FETCH_CATEGORIES)
+export const fetchAllCategories = () => fetch(`/categories`, FETCH_CATEGORIES)
 
 export const searchCategory = (name) =>
     name
-        ? fetch(`${baseUrl}/categories/category?name=${name}`, SEARCH_CATEGORY)
+        ? fetch(`/categories/category?name=${name}`, SEARCH_CATEGORY)
         : clean_categories()
 
 export const postCategory = (category) => (dispatch) =>
@@ -152,38 +154,42 @@ export const postNewPassword = async (payload) => {
     }
 }
 
-export const fetchAllUsers =() => async (dispatch) =>{
-    try{
+export const fetchAllUsers = () => async (dispatch) => {
+    try {
         const result = await axios.get(`${baseUrl}/user`)
         const users = result?.data
-        dispatch({type: FETCH_USERS, payload: users})
-    }catch(e){
+        dispatch({ type: FETCH_USERS, payload: users })
+    } catch (e) {
         console.log("Error en fetchAllUsers. ", e)
     }
 }
 
-export const changePermissions = (id, rol)=> async (dispatch)=> {
-    try{
-        const result = await axios.patch(`${baseUrl}/user/${id}`, {rol})
+export const changePermissions = (id, rol) => async (dispatch) => {
+    try {
+        const result = await axios.patch(`${baseUrl}/user/${id}`, { rol })
         //result me devuelve el archivo a editar ANTES del cambio
-        const data=result.data
-        dispatch({type: ROL_CHANGE, payload: {id: id, rol: rol}})
-    }catch(e){
+        const data = result.data
+        dispatch({ type: ROL_CHANGE, payload: { id: id, rol: rol } })
+    } catch (e) {
         console.log("Error en changePermissions. ", e)
     }
 }
 
-// Favorites 
+// Favorites
 
 export const getFavorites = (productID) => async (dispatch) => {
     try {
-        const response = await axios.get(`http://localhost:3001/api/v1/products/${productID}`)
+        const response = await axios.get(`${baseUrl}/products/${productID}`)
         dispatch({ type: GET_FAVORITES, payload: response.data })
-    }catch(e){
-        const defaultReponse = {id: "12123123", name: "Product not found", description: "deleted product"}
+    } catch (e) {
+        const defaultReponse = {
+            id: "12123123",
+            name: "Product not found",
+            description: "deleted product"
+        }
         dispatch({ type: GET_FAVORITES, payload: defaultReponse })
     }
-    }
+}
 // REVIEWS
 
 export const postReview = (review) =>
@@ -200,34 +206,40 @@ export const deleteReview = (id) =>
 
 // ORDERS
 export const getAllOrder = () => async (dispatch) => {
-    const response = await axios.get("http://localhost:3001/api/v1/orders")
-    dispatch({type: GET_ALL_ORDERS, payload: response.data})
+    const response = await axios.get(`${baseUrl}/orders`)
+    dispatch({ type: GET_ALL_ORDERS, payload: response.data })
 }
 export const getUserOrders = (userID) => async (dispatch) => {
-    const response = await axios.get(`http://localhost:3001/api/v1/orders/user/${userID}`)
+    const response = await axios.get(`${baseUrl}/orders/user/${userID}`)
     dispatch({ type: GET_USER_ORDERS, payload: response.data })
-    }
-
-export const getUserOrderbyID = (orderID, getUserInformation) => async (dispatch) => {
-    const response = await axios.get(`http://localhost:3001/api/v1/orders/${orderID}`);
-    let response2 = {}; 
-    if(getUserInformation) {
-        const userID = response.data.user; 
-        response2 = await axios.get(`http://localhost:3001/api/v1/user/${userID}`)
-    } 
-    dispatch({type: GET_ORDER_BY_ID, payload: [response.data, response2.data]}); 
 }
 
+export const getUserOrderbyID =
+    (orderID, getUserInformation) => async (dispatch) => {
+        const response = await axios.get(`${baseUrl}/orders/${orderID}`)
+        let response2 = {}
+        if (getUserInformation) {
+            const userID = response.data.user
+            response2 = await axios.get(`${baseUrl}/user/${userID}`)
+        }
+        dispatch({
+            type: GET_ORDER_BY_ID,
+            payload: [response.data, response2.data]
+        })
+    }
+
 export const getUserInformation = (userID) => async (dispatch) => {
-    const response = await axios.get(`http://localhost:3001/api/v1/user/${userID}`)
-    dispatch({type: GET_USER_INFORMATION, payload: response.data})
+    const response = await axios.get(`${baseUrl}/user/${userID}`)
+    dispatch({ type: GET_USER_INFORMATION, payload: response.data })
 }
 // Get items shopcart user
 export const getShopCartUser = (userID, products) => async (dispatch) => {
-    const savePrev = await axios.post(`http://localhost:3001/api/v1/user/shopCart/addPrevItem/${userID}`, {
-        products: products
-    })
-    const response = await axios.get(`http://localhost:3001/api/v1/user/${userID}`)
-    dispatch({type: ADD_USER_ITEMS, payload: response.data.shopCart})
+    const savePrev = await axios.post(
+        `${baseUrl}/user/shopCart/addPrevItem/${userID}`,
+        {
+            products: products
+        }
+    )
+    const response = await axios.get(`${baseUrl}/user/${userID}`)
+    dispatch({ type: ADD_USER_ITEMS, payload: response.data.shopCart })
 }
-

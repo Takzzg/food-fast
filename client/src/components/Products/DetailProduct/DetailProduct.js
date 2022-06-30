@@ -16,7 +16,7 @@ import {
     ReviewsContainer,
     NotAvailable
 } from "./detailElements"
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom"
 import { AiOutlineShoppingCart } from "react-icons/ai"
 import { AiOutlineCreditCard } from "react-icons/ai"
 import { useParams } from "react-router-dom"
@@ -55,13 +55,14 @@ const DetailProduct = () => {
     const [isAdded, setIsAdded] = useState(false)
     const products = useSelector((state) => state.shopCart.shopCart)
     const userId = useSelector((state) => state.user.authData?.user._id)
-    const user = useSelector((state)=> state.user.authData)
+    const user = useSelector((state) => state.user.authData)
 
     const addItem = async (e) => {
         e.preventDefault()
         const item = { ...product }
-        if(userId) {
-            await axios.post(`http://localhost:3001/api/v1/user/shopCart/add/${userId}`,
+        if (userId) {
+            await axios.post(
+                `${process.env.REACT_APP_BACK_URL}/api/v1/user/shopCart/add/${userId}`,
                 { product: item }
             )
         }
@@ -71,10 +72,13 @@ const DetailProduct = () => {
     const removeItem = async (e) => {
         e.preventDefault()
         const item = { ...product }
-        if(userId) {
-            await axios.post(`http://localhost:3001/api/v1/user/shopCart/removeSame/${userId}`, {
-                product: item 
-           })
+        if (userId) {
+            await axios.post(
+                `${process.env.REACT_APP_BACK_URL}/api/v1/user/shopCart/removeSame/${userId}`,
+                {
+                    product: item
+                }
+            )
         }
         dispatch(remove_item_car(item, true))
         setIsAdded(false)
@@ -103,7 +107,11 @@ const DetailProduct = () => {
     }, [dispatch])
 
     const fetchReviews = () => {
-        getProductReviews(idProduct).then((reviews) => setReviews(reviews))
+        // getProductReviews(idProduct).then((reviews) => setReviews(reviews))
+        getProductReviews(idProduct).then((reviews) => {
+            console.log(reviews)
+            return setReviews(reviews)
+        })
     }
 
     const handleDeleteReview = (id) => {
@@ -130,7 +138,9 @@ const DetailProduct = () => {
         setReviewForm({ ...reviewForm, score: v })
     }
 
-    if (!product || !product.name) return <Loading >Loading...</Loading>
+    if (!product || !product.name) return <Loading>Loading...</Loading>
+
+    console.log(reviews)
 
     return (
         <GlobalContainer theme={theme}>
@@ -149,8 +159,10 @@ const DetailProduct = () => {
                 </ImageContainer>
 
                 <SecondMainContainer>
-                    {product.stock ===0 && <NotAvailable>Producto No disponible</NotAvailable>}
-                    
+                    {product.stock === 0 && (
+                        <NotAvailable>Producto No disponible</NotAvailable>
+                    )}
+
                     <DescriptionContainer theme={theme}>
                         <ListItem>
                             <Etiqueta>DESCRIPTION:</Etiqueta>
@@ -161,7 +173,7 @@ const DetailProduct = () => {
                             style={{
                                 display: "flex",
                                 alignItems: "flex-end",
-                                justifyContent: "center",
+                                justifyContent: "center"
                             }}
                         >
                             <ListItem>
@@ -179,72 +191,82 @@ const DetailProduct = () => {
                             <Data>{product.categories.join(", ")}</Data>
                         </ListItem>
                     </DescriptionContainer>
-                    {product.stock !== 0 && <ButtonsContainer theme={theme}>
-                        {!isAdded ? (
-                            <CarShop theme={theme} onClick={addItem}>
-                                <AiOutlineShoppingCart id="car" />
-                            </CarShop>
-                        ) : (
-                            <CarShop theme={theme} onClick={removeItem} disabled={product.stock === 0}>
-                                <AiOutlineShoppingCart
-                                    id="car"
-                                    style={{ color: "red" }} 
-                                />
-                            </CarShop>
-                        )}
+                    {product.stock !== 0 && (
+                        <ButtonsContainer theme={theme}>
+                            {!isAdded ? (
+                                <CarShop theme={theme} onClick={addItem}>
+                                    <AiOutlineShoppingCart id="car" />
+                                </CarShop>
+                            ) : (
+                                <CarShop
+                                    theme={theme}
+                                    onClick={removeItem}
+                                    disabled={product.stock === 0}
+                                >
+                                    <AiOutlineShoppingCart
+                                        id="car"
+                                        style={{ color: "red" }}
+                                    />
+                                </CarShop>
+                            )}
 
                             <BuyButton theme={theme} to="/user/shoppingCart">
-                                    <AiOutlineCreditCard />
+                                <AiOutlineCreditCard />
                             </BuyButton>
-
-
-                    </ButtonsContainer>}
-                    
+                        </ButtonsContainer>
+                    )}
                 </SecondMainContainer>
             </MainContainer>
-            
+
             <ReviewsContainer theme={theme}>
                 <span className="reviewsTitle">Reviews</span>
-                {user &&  <form onSubmit={handleSubmit}>
-                    <span className="formTitle">Deja tu comentario</span>
-                    <label htmlFor="title">Titulo</label>
-                    <input
-                        type="text"
-                        name="title"
-                        id="title"
-                        value={reviewForm.title}
-                        onChange={handleFormChange}
-                    />
-                    <label htmlFor="comment">Comentario</label>
-                    <textarea
-                        name="comment"
-                        id="comment"
-                        value={reviewForm.comment}
-                        onChange={handleFormChange}
-                    />
+                {user && (
+                    <form onSubmit={handleSubmit}>
+                        <span className="formTitle">Deja tu comentario</span>
+                        <label htmlFor="title">Titulo</label>
+                        <input
+                            type="text"
+                            name="title"
+                            id="title"
+                            value={reviewForm.title}
+                            onChange={handleFormChange}
+                        />
+                        <label htmlFor="comment">Comentario</label>
+                        <textarea
+                            name="comment"
+                            id="comment"
+                            value={reviewForm.comment}
+                            onChange={handleFormChange}
+                        />
 
-                    <label htmlFor="score">Puntaje</label>
-                    <div className="radioCont">
-                        {[1, 2, 3, 4, 5].map((v) => (
-                            <div
-                                className="scoreBtn"
-                                id={v}
-                                key={v}
-                                onClick={() => setFormScore(v)}
-                            >
-                                {reviewForm.score >= v ? (
-                                    <BsStarFill />
-                                ) : (
-                                    <BsStar />
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                    <input className="submit" type="submit" value="Enviar" />
-                </form>}
-               
+                        <label htmlFor="score">Puntaje</label>
+                        <div className="radioCont">
+                            {[1, 2, 3, 4, 5].map((v) => (
+                                <div
+                                    className="scoreBtn"
+                                    id={v}
+                                    key={v}
+                                    onClick={() => setFormScore(v)}
+                                >
+                                    {reviewForm.score >= v ? (
+                                        <BsStarFill />
+                                    ) : (
+                                        <BsStar />
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                        <input
+                            className="submit"
+                            type="submit"
+                            value="Enviar"
+                        />
+                    </form>
+                )}
+
                 <div className="reviews">
                     {reviews.length &&
+                        console.log(reviews) &&
                         reviews.map((r) => (
                             <ReviewCard
                                 key={r._id}

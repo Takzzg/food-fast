@@ -1,5 +1,9 @@
-import { GET_ALL_ORDERS, GET_ORDER_BY_ID, GET_USER_INFORMATION, GET_USER_ORDERS } from "../actions/types"
-
+import {
+    GET_ALL_ORDERS,
+    GET_ORDER_BY_ID,
+    GET_USER_INFORMATION,
+    GET_USER_ORDERS
+} from "../actions/types"
 
 const initialState = {
     ordersUser: [],
@@ -13,21 +17,20 @@ const orders = (state = initialState, action) => {
 
     switch (action.type) {
         case GET_ALL_ORDERS:
-            newState.allOrders = action.payload; 
+            newState.allOrders = action.payload
             break
         case GET_USER_ORDERS:
-            newState.ordersUser = action.payload; 
+            newState.ordersUser = action.payload
             break
-        case GET_ORDER_BY_ID: 
+        case GET_ORDER_BY_ID:
             if (action.payload[1]) {
                 newState.userSelected = action.payload[1]
             }
-            console.log(action.payload[0])
-            newState.selected = action.payload[0]; 
-        break
+            newState.selected = action.payload[0]
+            break
         case GET_USER_INFORMATION:
-            newState.userSelected = action.payload; 
-        break
+            newState.userSelected = action.payload
+            break
 
         default:
             break
