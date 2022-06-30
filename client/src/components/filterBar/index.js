@@ -122,13 +122,23 @@ export default function FilterBar() {
                     <AiOutlineFilter />
                     Filtrar Resultados
                 </div>
-                <Modal isOpen={isOpen}>
+                <Modal isOpen={isOpen}
+                style={{
+                    overlay:{ backgroundColor: theme.text.highContrast},
+                    content:{
+                        backgroundColor: theme.colors.background,
+                        color: theme.text.highContrast
+                    }
+                }
+                    
+                }>
                     <IconClose>
                         <AiFillCloseCircle onClick={handleClose} />
                     </IconClose>
-                    <ListContainer>
-                        <MyH4>By category:</MyH4>
+                    <ListContainer >
+                        <MyH4 theme={theme}>By category:</MyH4>
                         <Select
+                            className="miSelect"
                             options={getCategories()}
                             isMulti
                             name="categories"
@@ -136,23 +146,28 @@ export default function FilterBar() {
                         />
                     </ListContainer>
 
-                    <ListContainer>
-                        <MyH4>By price:</MyH4>
+                    <ListContainer >
+                        <MyH4 theme={theme}>By price:</MyH4>
                         <Select
+                            className="miSelect"
                             name="price"
                             options={PricesValues}
                             onChange={handleChangePrice}
                         />
                     </ListContainer>
 
-                    <ListContainer>
-                        <MyH4>By rating:</MyH4>
-                        <Select options={RatingValues} onChange={handleChangeRating} name="rating"/>
+                    <ListContainer >
+                        <MyH4 theme={theme}>By rating:</MyH4>
+                        <Select 
+                        className="miSelect"
+                        options={RatingValues} onChange={handleChangeRating} name="rating"/>
                     </ListContainer>
 
-                    <ListContainer>
-                        <MyH4>By stock:</MyH4>
-                        <Select options={PricesValues} onChange={handleChangeStock} name="stock"/>
+                    <ListContainer >
+                        <MyH4 theme={theme}>By stock:</MyH4>
+                        <Select 
+                        className="miSelect"
+                        options={PricesValues} onChange={handleChangeStock} name="stock"/>
                     </ListContainer>
 
                     <ButtonContainer>

@@ -35,7 +35,7 @@ export const CloseButton = styled.div`
     position: absolute;
     top: 0;
     right: 0;
-    padding: 1rem;
+    padding: .5rem;
     height: 2rem;
     width: 2rem;
     z-index: 2;
@@ -45,8 +45,10 @@ export const CloseButton = styled.div`
         width: 100%;
         width: auto;
         cursor: pointer;
+        transition .3s;
         &:hover {
             transform: scale(1.2);
+            box-shadow: 0 0 12px grey; border-radius: 20px;
         }
     }
 `
@@ -93,6 +95,7 @@ export const MainIconContainer = styled.div`
     justify-content: flex-start;
     height: 10rem;
     z-index: 1;
+    padding-top: 30px;
 
     svg {
         
