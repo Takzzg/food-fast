@@ -14,12 +14,13 @@ import {
     CloseButton
     // Divider
 } from "./NavBar.styled"
+import { UserContainer } from "../filterBar/filterElements"
 import { IoFastFoodSharp } from "react-icons/io5"
 import { GiHamburgerMenu } from "react-icons/gi"
 import { AiFillCloseCircle, AiOutlineLogout } from "react-icons/ai"
 import { FiLogOut, FiLogIn } from "react-icons/fi"
 import { MdDarkMode, MdLightMode } from "react-icons/md"
-import { FaUserAlt } from "react-icons/fa"
+import { FaUserAlt, FaShoppingCart } from "react-icons/fa"
 import { useDispatch, useSelector } from "react-redux"
 import { switchTheme } from "../../redux/actions/sync"
 import { LOG_OUT } from "../../redux/actions/types"
@@ -32,6 +33,7 @@ const NavBar = () => {
         JSON.parse(localStorage.getItem("profile"))
     )
     const { user, logOut } = UserAuth()
+    const logedUser = useSelector((state)=> state.user.authData && state.user.authData.user)
     const reduxUser = useSelector((state) => state.user.authData?.user)
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -63,7 +65,7 @@ const NavBar = () => {
         setShowNavbar(false)
         dispatch({ type: LOG_OUT })
         toast.success("Good Bye!", { icon: "👋" })
-        navigate("/")
+        navigate("/login")
     }
 
     const NavLink = ({ url, children }) => (
@@ -137,7 +139,24 @@ const NavBar = () => {
                         )}
                     </ButtonsContainer>
                 )}
-                {/* <ListRoutes> */}
+                
+                <hr />
+                <div id={style.navButtons}>
+                    <button id={style.switchTheme}
+                    onClick={() => dispatch(switchTheme())}>
+                        {theme.name === "light" ? <MdDarkMode/> : <MdLightMode/>}
+                    </button>
+                    <button id={style.cartBtn}>
+                        <Link to="/user/shoppingCart" >
+                            <FaShoppingCart />
+                        </Link>
+                    </button>
+                    <button id={style.profileBtn} theme={theme}>
+                        <Link to={!logedUser ? "/login":"/commonUser/profile"}>  
+                            <FaUserAlt />
+                        </Link>
+                    </button>
+                </div>
                 <hr />
 
                 <h3>CONSUMIDOR</h3>
@@ -164,10 +183,10 @@ const NavBar = () => {
                     </>
                 )}
 
-                <button id={style.switchTheme}
-                onClick={() => dispatch(switchTheme())}>
-                    {theme.name === "light" ? <MdDarkMode/> : <MdLightMode/>}
-                </button>
+            
+                {/* <div> */}
+
+
             </NavBarContainer>
         </GlobalContainer>
     )

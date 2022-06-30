@@ -165,7 +165,7 @@ const DetailProduct = () => {
 
                     <DescriptionContainer theme={theme}>
                         <ListItem>
-                            <Etiqueta>DESCRIPTION:</Etiqueta>
+                            <Etiqueta>DESCRIPCIÓN:</Etiqueta>
                             <Data>{product.description}</Data>
                         </ListItem>
 
@@ -182,7 +182,7 @@ const DetailProduct = () => {
                             </ListItem>
 
                             <ListItem>
-                                <Etiqueta>Price</Etiqueta>
+                                <Etiqueta>Precio</Etiqueta>
                                 <Data>{`$/ ${product.price}`}</Data>
                             </ListItem>
                         </div>
@@ -217,63 +217,65 @@ const DetailProduct = () => {
                     )}
                 </SecondMainContainer>
             </MainContainer>
-
+            <hr/>
+                <span className="reviewsTitle">Reseñas y Puntaje</span>
             <ReviewsContainer theme={theme}>
-                <span className="reviewsTitle">Reviews</span>
-                {user && (
+                {userId ?
                     <form onSubmit={handleSubmit}>
-                        <span className="formTitle">Deja tu comentario</span>
-                        <label htmlFor="title">Titulo</label>
-                        <input
-                            type="text"
-                            name="title"
-                            id="title"
-                            value={reviewForm.title}
-                            onChange={handleFormChange}
-                        />
-                        <label htmlFor="comment">Comentario</label>
-                        <textarea
-                            name="comment"
-                            id="comment"
-                            value={reviewForm.comment}
-                            onChange={handleFormChange}
-                        />
+                    <span className="formTitle">Deja tu comentario</span>
+                    <label htmlFor="title">Titulo</label>
+                    <input
+                        type="text"
+                        name="title"
+                        id="title"
+                        value={reviewForm.title}
+                        onChange={handleFormChange}
+                    />
+                    <label htmlFor="comment">Comentario</label>
+                    <textarea
+                        name="comment"
+                        id="comment"
+                        value={reviewForm.comment}
+                        onChange={handleFormChange}
+                    />
 
-                        <label htmlFor="score">Puntaje</label>
-                        <div className="radioCont">
-                            {[1, 2, 3, 4, 5].map((v) => (
-                                <div
-                                    className="scoreBtn"
-                                    id={v}
-                                    key={v}
-                                    onClick={() => setFormScore(v)}
-                                >
-                                    {reviewForm.score >= v ? (
-                                        <BsStarFill />
-                                    ) : (
-                                        <BsStar />
-                                    )}
-                                </div>
-                            ))}
+                    <label htmlFor="score">Puntaje</label>
+                    <div className="radioCont">
+                        {[1, 2, 3, 4, 5].map((v) => (
+                            <div
+                                className="scoreBtn"
+                                id={v}
+                                key={v}
+                                onClick={() => setFormScore(v)}
+                            >
+                                {reviewForm.score >= v ? (
+                                    <BsStarFill />
+                                ) : (
+                                    <BsStar />
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                    <input className="submit" type="submit" value="Enviar" />
+                </form> : (
+                        <div id="noForm">
+                            <p>Loguéate para puntuar y comentar! ♥</p>
                         </div>
-                        <input
-                            className="submit"
-                            type="submit"
-                            value="Enviar"
-                        />
-                    </form>
-                )}
-
+                        )}
                 <div className="reviews">
-                    {reviews.length &&
-                        console.log(reviews) &&
+                    {reviews.length ? (
                         reviews.map((r) => (
                             <ReviewCard
                                 key={r._id}
                                 review={r}
                                 handleDelete={handleDeleteReview}
                             />
-                        ))}
+                        ))
+                    ) : (
+                        <div id="noForm">
+                            <p>Este producto aún no tiene reviews... Sé el primero! 🥇</p>
+                        </div>
+                    )}
                 </div>
             </ReviewsContainer>
         </GlobalContainer>

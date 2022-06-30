@@ -6,11 +6,14 @@ export const GlobalContainer = styled.section`
 `
 
 export const TitleMainContainer = styled.section`
+    color: ${({theme}) => theme.text.highContrast};
+    font-family: 'Lobster';
     font-size: 3rem;
     height: 10%;
     width: 100%;
     display: flex;
     justify-content: center;
+    margin-top: 50px; border-bottom: 2px solid grey;
 `
 
 export const TablesContainer = styled.section`
@@ -26,8 +29,7 @@ export const ShopContainer = styled.div`
         margin: auto;
         margin-right: 0;
         width: 90%;
-        background-color: white;
-        border-radius: 1rem;
+        background-color: #aaa;
         div {
             width: 100%;
         }
@@ -37,9 +39,12 @@ export const ShopContainer = styled.div`
 export const Header = styled.div`
     display: flex;
     width: 100%;
+    font-size: 20px; 
 
     div {
+        background-color: ${({theme}) => theme.colors.bgPage};
         text-align: center;
+        color: ${({theme})=>theme.text.highContrast};
     }
     #product {
         width: 40%;
@@ -62,6 +67,7 @@ export const OrderContainer = styled.div`
 `
 
 export const OrderRealContainer = styled.div`
+    border: 4px solid ${({theme})=>theme.colors.main};
     width: 60%;
     height: 80%;
     margin: auto;

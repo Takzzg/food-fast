@@ -112,10 +112,3 @@ export const cancelOrder = async (req, res, next) => {
 }
 
 // https://www.sandbox.paypal.com/myaccount/summary
-
-//USUARIO DE PRUEBA
-//user: dsfsdklxjv@xogf.com
-//password:  >3M>m62%
-//USUARIO VENDEDOR DE PRUEBA
-// user  jhonprueba@business.example.com
-//password cL}b2V7@

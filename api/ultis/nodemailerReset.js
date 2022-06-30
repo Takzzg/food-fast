@@ -1,6 +1,9 @@
-import nodemailer from "nodemailer"
 
-export const sendEmail = async (email, name, id, token) => {
+// **************** DEPRECADO *******************
+
+/* import nodemailer from "nodemailer";
+
+export const sendEmail = async (email, name , id, token) => {
     try {
         const transporter = nodemailer.createTransport({
             host: "smtp.mailtrap.io",
@@ -26,4 +29,4 @@ export const sendEmail = async (email, name, id, token) => {
     } catch (error) {
         console.log("Error en el sendEmail. ", error)
     }
-}
+}; */

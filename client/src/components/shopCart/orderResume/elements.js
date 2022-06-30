@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-export const MainContainer = styled.section`
+export const MainContainer = styled.section` 
     margin: auto;
     width: 80%;
     height: 90%;

@@ -12,9 +12,10 @@ import {
 } from "./elements"
 import { useSelector } from "react-redux"
 
-export default function OrdenSumary({ items, subTotal }) {
-    const user = useSelector((state) => state.user.authData)
-    const [err, setErr] = useState(false)
+export default function OrdenSumary({items, subTotal}) {
+  const user = useSelector(state=> state.user.authData);
+  const theme = useSelector(state=>state.theme.selectedTheme) 
+  const [err, setErr] = useState(false); 
 
     const handlePay = async (mount) => {
         try {
@@ -34,32 +35,33 @@ export default function OrdenSumary({ items, subTotal }) {
             setErr(true)
         }
     }
-    return (
-        <MainContainer>
-            <TitleContainer>Order Sumary</TitleContainer>
-            <ItemsContainer>
-                <div className="label">Items: </div>
-                <div className="number">{items}</div>
-            </ItemsContainer>
+    
+  return (
+    <MainContainer theme={theme}>
+        <TitleContainer>Resumen de pedido</TitleContainer>
+        <ItemsContainer>
+            <div className="label">Items: </div>
+            <div className="number">{items}</div>
+        </ItemsContainer>
 
-            <SubTotalContainer>
-                <div className="label">Subtotal: </div>
-                <div className="number">$/ {subTotal}</div>
-            </SubTotalContainer>
+        <AditionalContainer>
+            <div className="label">Envío: </div>
+            <div className="number">$/ 12</div>
+        </AditionalContainer>
 
-            <AditionalContainer>
-                <div className="label">Shipping: </div>
-                <div className="number">$/ 12</div>
-            </AditionalContainer>
+        <SubTotalContainer>
+            <div className="label">Subtotal: </div>
+            <div className="number">$/ {subTotal}</div>
+        </SubTotalContainer>
 
-            <TotalContainer>
-                <div className="label">Total: </div>
-                <div className="number">$/ {subTotal}</div>
-            </TotalContainer>
+        <TotalContainer>
+            <div className="label">Total: </div>
+            <div className="number">$/ {subTotal}</div>
+        </TotalContainer>
 
-            <GoPayContainer>
-                <button onClick={() => handlePay(subTotal)}>Go pay</button>
-            </GoPayContainer>
-        </MainContainer>
-    )
+        <GoPayContainer>
+            <button style={{fontSize: "20px", fontWeight: "bold"}} onClick={()=> handlePay(subTotal)}>Pagar</button>
+        </GoPayContainer>
+    </MainContainer>
+  );
 }

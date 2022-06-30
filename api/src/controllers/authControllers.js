@@ -60,36 +60,39 @@ export const forgotPass = async (req, res) => {
 
         const link = `${apiBaseUrl}/auth/reset-password/${user.id}/${token}`
 
-        /*     const emailOptions = {
-        from: 'FoodFAST',
+    const emailOptions = {
+        from: "🍕🍔 Food's Universe inc. 🍕🍔<fastfoodhenry365@gmail.com>",
         to: email,
         subject: "Password reset link",
         html: `
         <div style='background-color: #333;
-            display: flex; 
-            justify-content: center; 
-            align-items: center;
-            flex-direction: column;
-            height: 250px; 
+            height: 250px;
+            width: 100%; padding-bottom: 3px;
             font-family: sans-serif'>
+            
+            <h1 style='color: #ddd;
+            margin-left: 35%;'>Food's Universe inc.</h1> 
 
-            <h1 style='color: #ddd; 
-            padding-bottom: 3px;
-            border-bottom: 2px solid #eee'>Fast Food inc.</h1>
+            <div style='border-bottom: 2px solid #eee'></div>
+            <br/>
 
-            <h3 style='color: #ccc'>Dear ${user.name}, click below to reset your password! :D</h3>
+            <h3 style='color: #ccc; margin-left: 25%;'>
+                Dear ${user.name}, click below to reset your password! :D
+            </h3>
+            <br/>
 
             <a style='text-decoration: none; 
             color: lightgreen;
             padding: 8px; 
             border: 3px solid darkgreen;
-            border-radius: 7px' href=${link}> Click here </a>
+            border-radius: 7px;
+            margin-left: 45%;' href=${link}> Click here </a>
         </div>
         ` } 
-    await emailer.sendMail(emailOptions);
-    console.log("Correo enviado!!!") */
+    const enviado = await emailer.sendMail(emailOptions);
+    console.log("Correo enviado!!!", enviado.envelope);
 
-        console.log("\t♥******* ♦ LINK DEBAJO ♦ ********♥\n", link)
+    //console.log("\t♥******* ♦ LINK DEBAJO ♦ ********♥\n", link)
 
         res.json({
             msg: "Password reset link has been sent to your email"
