@@ -3,7 +3,7 @@ import { DetailsOrder, DetailsProducts, FirstRow, GlobalContainer,
     OrderCell, SecondRow, UserCell, HandleDelete } from "./detailElements";
 import styles from "../../../CommonUser/orderDetail/tableDetail.module.scss"
 import {Link, useParams} from "react-router-dom"; 
-import { getUserOrderbyID } from "../../../../redux/actions/async";
+import { baseUrl, getUserOrderbyID } from "../../../../redux/actions/async";
 import { useDispatch, useSelector } from "react-redux";
 import {AiFillEdit, AiFillDelete, AiFillCheckSquare} from "react-icons/ai"; 
 import {MdOutlineCancelPresentation} from "react-icons/md"; 
@@ -29,7 +29,7 @@ export default function OrderAdminDetail (params) { //no tenia nada los parentes
     }
     const handleUpdate = async () => {
         try {// id=${params.orderID}
-            await axios.patch(`http://localhost:3001/api/v1/orders?id=${params.id}&status=${newStatus}`)
+            await axios.patch(`${baseUrl}/api/v1/orders?id=${params.id}&status=${newStatus}`)
             swal({
                 title: "The order is updated correctly",
                 text: "Continuos!",

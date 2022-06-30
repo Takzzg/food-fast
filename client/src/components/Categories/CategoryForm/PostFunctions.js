@@ -1,6 +1,6 @@
-
+import { baseUrl } from "../../../redux/actions/async"
 export const PostCategory = (input, formdata) => {
-    const url = `http://localhost:3001/api/v1/categories?name=${input.name}&description=${input.description}`
+    const url = `${baseUrl}/api/v1/categories?name=${input.name}&description=${input.description}`
     fetch(url, {
         method: "POST", 
         body: formdata

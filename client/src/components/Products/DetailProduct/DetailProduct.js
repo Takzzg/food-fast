@@ -61,7 +61,7 @@ const DetailProduct = () => {
         e.preventDefault()
         const item = { ...product }
         if(userId) {
-            await axios.post(`http://localhost:3001/api/v1/user/shopCart/add/${userId}`,
+            await axios.post(`${baseUrl}/api/v1/user/shopCart/add/${userId}`,
                 { product: item }
             )
         }
@@ -72,10 +72,11 @@ const DetailProduct = () => {
         e.preventDefault()
         const item = { ...product }
         if(userId) {
-            await axios.post(`http://localhost:3001/api/v1/user/shopCart/removeSame/${userId}`, {
+            await axios.post(`${baseUrl}/api/v1/user/shopCart/removeSame/${userId}`, {
                 product: item 
            })
         }
+        
         dispatch(remove_item_car(item, true))
         setIsAdded(false)
     }

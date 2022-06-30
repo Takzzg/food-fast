@@ -3,7 +3,7 @@ import { AiOutlineSearch } from "react-icons/ai"
 import { GlobalContainer, SearchIcon } from "./searchElements"
 import { useDispatch, useSelector } from "react-redux"
 import { searchProductSync } from "../../redux/actions/sync"
-import { searchProductAsync } from "../../redux/actions/async"
+import { baseUrl, searchProductAsync } from "../../redux/actions/async"
 import Autosuggest from "react-autosuggest"
 import { BsFillMicFill } from "react-icons/bs"
 import { BsFillMicMuteFill } from "react-icons/bs"
@@ -103,7 +103,7 @@ export default function SearchBar() {
     }
 
     const getData = () => {
-        axios.get("http://localhost:3001/api/v1/products").then((response) => {
+        axios.get(`${baseUrl}/api/v1/products`).then((response) => {
             setProducts(response.data)
         })
     }

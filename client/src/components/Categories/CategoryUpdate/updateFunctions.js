@@ -1,5 +1,5 @@
 import swal from 'sweetalert'
-
+import {baseUrl} from "../../../redux/actions/async"
 
 export const PatchCategory = (form, file, Navigate) =>{
     const formdata = new FormData(); 
@@ -7,7 +7,7 @@ export const PatchCategory = (form, file, Navigate) =>{
         formdata.append('name', form.name)
         formdata.append('description', form.description)
         formdata.append('prevImg', JSON.stringify(form.image))
-        fetch(`http://localhost:3001/api/v1/categories/${form._id}`, {
+        fetch(`${baseUrl}/api/v1/categories/${form._id}`, {
             method: "PATCH",
             body: formdata  
     }).then(res=> res.json())  

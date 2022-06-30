@@ -14,6 +14,7 @@ import {IoMdArrowRoundBack} from "react-icons/io";
 import {GrDocumentText} from "react-icons/gr"
 import axios from "axios"; 
 import { getTotal } from "./functions";
+import { baseUrl } from "../../redux/actions/async";
 
 export default function PaymentPass() {
   const [order, setOrder] = useState({}); 
@@ -25,13 +26,14 @@ export default function PaymentPass() {
   useEffect(()=> {
     const after = async ()=> {
       if (params.isAcepted){
-        const response = await axios.post('http://localhost:3001/api/v1/paypal/stock', {
+        const response = await axios.post(`${baseUrl}/api/v1/paypal/stock`, {
           userID: user._id,
           total: getTotal(shopcart),
           resumeOrder: shopcart.map(el=> ({id: el._id, name: el.name, price: el.price, quantity: el.quantity, subTotal: el.price*el.quantity, newStock: el.stock - el.quantity}))
         })
+      
         setOrder(response.data)
-        await axios.delete(`http://localhost:3001/api/v1/user/shopCart/${user._id}`)
+        await axios.delete(`${baseUrl}/api/v1/user/shopCart/${user._id}`)
         dispatch(clean_car())       
       }
     }

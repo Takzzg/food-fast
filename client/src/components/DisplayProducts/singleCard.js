@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { add_item_car, remove_favorite, remove_item_car } from "../../redux/actions/sync"
 import {AiFillHeart, AiOutlineHeart} from "react-icons/ai"
 import axios from "axios"
+import { baseUrl } from "../../redux/actions/async"
 
 export default function SingleProductCard({ product, list}) {
     const [isAdded, setIsAdded] = useState(false);
@@ -29,7 +30,7 @@ export default function SingleProductCard({ product, list}) {
         e.preventDefault()
         const item = { ...product, img: {} }
         if(user) {
-            await axios.post(`http://localhost:3001/api/v1/user/shopCart/add/${user.user._id}`,
+            await axios.post(`${baseUrl}/api/v1/user/shopCart/add/${user.user._id}`,
                 { product: item }
             )
         }
@@ -40,7 +41,7 @@ export default function SingleProductCard({ product, list}) {
         e.preventDefault()
         const item = { ...product, img: {} }
         if(user) {
-            await axios.post(`http://localhost:3001/api/v1/user/shopCart/removeSame/${user.user._id}`, {
+            await axios.post(`${baseUrl}/api/v1/user/shopCart/removeSame/${user.user._id}`, {
                  product: item 
             })
         }
@@ -50,14 +51,14 @@ export default function SingleProductCard({ product, list}) {
 
     const handleAddFavorite = async (e) => {
         e.preventDefault(); 
-        await axios.post(`http://localhost:3001/api/v1/favorites/${user.user._id}`, {
+        await axios.post(`${baseUrl}/api/v1/favorites/${user.user._id}`, {
             idProduct: product._id
         })
         setIsFavorite(true)
     }
 
     const handleRemoveFavorite = async (id) => {
-        await axios.post(`http://localhost:3001/api/v1/favorites/${user.user._id}`, {
+        await axios.post(`${baseUrl}/api/v1/favorites/${user.user._id}`, {
             idProduct: product._id
         })
         dispatch(remove_favorite(id))

@@ -1,10 +1,10 @@
 import swal from "sweetalert"; 
 import axios from "axios"; 
 import { LOG_OUT } from "../../../redux/actions/types";
-
+import { baseUrl } from "../../../redux/actions/async";
 export const patchUser = async (id, name, address, dispatch)=> {
     try {
-        const response = await axios.patch(`http://localhost:3001/api/v1/user/${id}`, {
+        const response = await axios.patch(`${baseUrl}/api/v1/user/${id}`, {
             name, 
             address
         })

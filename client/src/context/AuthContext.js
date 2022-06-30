@@ -7,7 +7,7 @@ import {
     onAuthStateChanged
 } from "firebase/auth"
 import { auth } from "../firebase/config.js"
-import { logup } from "../redux/actions/async.js"
+import { baseUrl, logup } from "../redux/actions/async.js"
 import { useDispatch } from "react-redux"
 import axios from "axios"
 
@@ -15,7 +15,7 @@ const AuthContext = createContext()
 
 const registerGoogleAccount = (currentUser)=> async (dispatch)=>{
     try{
-        const resp = await axios.get(`http://localhost:3001/api/v1/user/verify/exists?email=${currentUser.email}`)
+        const resp = await axios.get(`${baseUrl}/api/v1/user/verify/exists?email=${currentUser.email}`)
         const gUser = resp.data;
         if(!gUser.exists){
             //lo registramos...

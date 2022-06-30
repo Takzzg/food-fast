@@ -3,7 +3,7 @@ import SingleCard from "./singleCard";
 import { CardsContainer, GlobalContainer,TitleContainer } from "./favoritesElements";
 import axios from "axios";
 import {useDispatch, useSelector} from "react-redux"; 
-import { getFavorites } from "../../../redux/actions/async";
+import { baseUrl, getFavorites } from "../../../redux/actions/async";
 
 export default function WishList () {
     const [list, setList] = useState([]);
@@ -12,7 +12,7 @@ export default function WishList () {
     const usuario = useSelector(state=> state.user.authData.user);
     const favorites = useSelector(state=> state.main.products.favorites)
     const getData = async (id) => {
-        const response = await axios.get(`http://localhost:3001/api/v1/favorites/${id}`)
+        const response = await axios.get(`${baseUrl}/api/v1/favorites/${id}`)
         if (response.data.products) {
             await response.data.products.map(p=> dispatch(getFavorites(p)))
             setList(response.data.products)

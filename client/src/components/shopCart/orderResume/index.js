@@ -11,6 +11,7 @@ TotalContainer,
 GoPayContainer
 } from "./elements";
 import { useSelector } from "react-redux";
+import { baseUrl } from "../../../redux/actions/async";
 
 export default function OrdenSumary({items, subTotal}) {
   const user = useSelector(state=> state.user.authData); 
@@ -19,7 +20,7 @@ export default function OrdenSumary({items, subTotal}) {
   const handlePay = async (mount) => {
     try {
       if(user) {
-        const response = await axios.post("http://localhost:3001/api/v1/paypal/createOrden", {
+        const response = await axios.post(`${baseUrl}/api/v1/paypal/createOrden`, {
           mount: mount,
           description: `Estas comprando ${items} items de FoodFast`
         } )

@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { add_item_car, remove_item_car } from "../../../redux/actions/sync";
 import {TbShoppingCartOff} from "react-icons/tb"
 import axios from "axios";
+import { baseUrl } from "../../../redux/actions/async";
 
 export default function ShopProductCard({product, setCharge, charge, user}) {
 
@@ -15,7 +16,7 @@ export default function ShopProductCard({product, setCharge, charge, user}) {
         if(quantity < product.stock) {
             dispatch(add_item_car(product))
             if(user) { 
-                await axios.post(`http://localhost:3001/api/v1/user/shopCart/add/${user.user._id}`, {
+                await axios.post(`${baseUrl}/api/v1/user/shopCart/add/${user.user._id}`, {
                      product: product   
                 })
             }
@@ -29,7 +30,7 @@ export default function ShopProductCard({product, setCharge, charge, user}) {
         if(quantity > 0 && !all) {
 
                 if(user) { 
-                    await axios.post(`http://localhost:3001/api/v1/user/shopCart/remove/${user.user._id}`, {
+                    await axios.post(`${baseUrl}/api/v1/user/shopCart/remove/${user.user._id}`, {
                          product: product   
                     })
                 }
@@ -37,7 +38,7 @@ export default function ShopProductCard({product, setCharge, charge, user}) {
                 setQuantity(Number(quantity) - 1)      
         } else {
             if(user) { 
-                await axios.post(`http://localhost:3001/api/v1/user/shopCart/removeSame/${user.user._id}`, {
+                await axios.post(`${baseUrl}/api/v1/user/shopCart/removeSame/${user.user._id}`, {
                      product: product   
                 })
             }

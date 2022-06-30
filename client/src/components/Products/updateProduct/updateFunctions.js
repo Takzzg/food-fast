@@ -1,4 +1,5 @@
 import swal from "sweetalert"
+import { baseUrl } from "../../../redux/actions/async"
 
 export const PatchProduct = (
     id,
@@ -11,7 +12,7 @@ export const PatchProduct = (
     setImgCharge, 
     Navigate
 ) => {
-    const url = `http://localhost:3001/api/v1/products/${id}`
+    const url = `${baseUrl}/api/v1/products/${id}`
     const formdata = new FormData()
         formdata.append("name", form.name)
         formdata.append("description", form.description)

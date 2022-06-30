@@ -53,7 +53,7 @@ export const searchProductAsync = (name) =>
         : clean_products()
 
 export const findProductById = (id) =>
-    fetch(`http://localhost:3001/api/v1/products/${id}`, FIND_PRODUCT_BY_ID)
+    fetch(`${baseUrl}/api/v1/products/${id}`, FIND_PRODUCT_BY_ID)
 
 export const newFilterProduct = (filterOrder, sortOrder) =>
     fetch(
@@ -177,7 +177,7 @@ export const changePermissions = (id, rol)=> async (dispatch)=> {
 
 export const getFavorites = (productID) => async (dispatch) => {
     try {
-        const response = await axios.get(`http://localhost:3001/api/v1/products/${productID}`)
+        const response = await axios.get(`${baseUrl}/api/v1/products/${productID}`)
         dispatch({ type: GET_FAVORITES, payload: response.data })
     }catch(e){
         const defaultReponse = {id: "12123123", name: "Product not found", description: "deleted product"}
@@ -200,34 +200,34 @@ export const deleteReview = (id) =>
 
 // ORDERS
 export const getAllOrder = () => async (dispatch) => {
-    const response = await axios.get("http://localhost:3001/api/v1/orders")
+    const response = await axios.get(`${baseUrl}/api/v1/orders`)
     dispatch({type: GET_ALL_ORDERS, payload: response.data})
 }
 export const getUserOrders = (userID) => async (dispatch) => {
-    const response = await axios.get(`http://localhost:3001/api/v1/orders/user/${userID}`)
+    const response = await axios.get(`${baseUrl}/api/v1/orders/user/${userID}`)
     dispatch({ type: GET_USER_ORDERS, payload: response.data })
     }
 
 export const getUserOrderbyID = (orderID, getUserInformation) => async (dispatch) => {
-    const response = await axios.get(`http://localhost:3001/api/v1/orders/${orderID}`);
+    const response = await axios.get(`${baseUrl}/api/v1/orders/${orderID}`);
     let response2 = {}; 
     if(getUserInformation) {
         const userID = response.data.user; 
-        response2 = await axios.get(`http://localhost:3001/api/v1/user/${userID}`)
+        response2 = await axios.get(`${baseUrl}/api/v1/user/${userID}`)
     } 
     dispatch({type: GET_ORDER_BY_ID, payload: [response.data, response2.data]}); 
 }
 
 export const getUserInformation = (userID) => async (dispatch) => {
-    const response = await axios.get(`http://localhost:3001/api/v1/user/${userID}`)
+    const response = await axios.get(`${baseUrl}/api/v1/user/${userID}`)
     dispatch({type: GET_USER_INFORMATION, payload: response.data})
 }
 // Get items shopcart user
 export const getShopCartUser = (userID, products) => async (dispatch) => {
-    const savePrev = await axios.post(`http://localhost:3001/api/v1/user/shopCart/addPrevItem/${userID}`, {
+    const savePrev = await axios.post(`${baseUrl}/api/v1/user/shopCart/addPrevItem/${userID}`, {
         products: products
     })
-    const response = await axios.get(`http://localhost:3001/api/v1/user/${userID}`)
+    const response = await axios.get(`${baseUrl}/api/v1/user/${userID}`)
     dispatch({type: ADD_USER_ITEMS, payload: response.data.shopCart})
 }
 

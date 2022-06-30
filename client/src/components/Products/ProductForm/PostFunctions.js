@@ -1,7 +1,8 @@
+import { baseUrl } from "../../../redux/actions/async"
 
 
 export const PostProduct = (form, formdata) => {
-    const url = `http://localhost:3001/api/v1/products`
+    const url = `${baseUrl}/api/v1/products`
     fetch(url, {
         method: "POST", 
         body: formdata

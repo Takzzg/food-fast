@@ -1,8 +1,9 @@
 import axios from "axios"
 import { delete_category, delete_product, delete_user } from "../../redux/actions/sync"
 import swal from "sweetalert";
+import { baseUrl } from "../../redux/actions/async";
 
-const baseUrl = "http://localhost:3001/api/v1"
+const baseUrl2 = `${baseUrl}/api/v1`
 
 
 
@@ -35,7 +36,7 @@ export default function useDelete(dispatch) {
               })
               .then((willDelete) => {
                 if(willDelete) {
-                axios.delete(`${baseUrl}/${type}/${id}`);
+                axios.delete(`${baseUrl2}/${type}/${id}`);
                 return true
             } else return false
               }
@@ -69,7 +70,7 @@ export default function useDelete(dispatch) {
         })
             .then((willDelete) => {
                 if (willDelete) {
-                    axios.delete(`${baseUrl}/${type}/${id}`);
+                    axios.delete(`${baseUrl2}/${type}/${id}`);
                     return true
                 } else return false
             }
