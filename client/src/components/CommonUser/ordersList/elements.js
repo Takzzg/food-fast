@@ -11,3 +11,11 @@ export const GlobalContainer = styled.section`
     }
 `; 
 export const OrdersContainer = styled.section``; 
+
+export const NotOrders = styled.div`
+    font-size: 2rem;
+    text-align: center;
+    margin-top: 10%;
+    padding-bottom: 10%;
+    font-family: monospace;
+`

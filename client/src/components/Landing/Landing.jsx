@@ -66,7 +66,15 @@ const Landing = () => {
 
             <CategoryBar className="LocationBar" />
             <CategoriesContainer>
-                {filterCategories.length ? (
+                {allCategories.length === 0 && <Loading
+                        text={"Buscando categorias"}
+                        // color={theme.colors.main}
+                        bg={theme.colors.main}
+                    />}
+
+                {filterCategories.length === 0 && allCategories.length > 0 ? (
+                        <div>No se encontraron resultados</div>      
+                ) : (
                     filterCategories.map((c, i) => (
                         <CategoryCard
                             key={c._id}
@@ -75,12 +83,6 @@ const Landing = () => {
                             url={`/categories/${c._id}`}
                         />
                     ))
-                ) : (
-                    <Loading
-                        text={"Buscando categorias"}
-                        // color={theme.colors.main}
-                        bg={theme.colors.main}
-                    />
                 )}
             </CategoriesContainer>
             <footer className={style.footer_contact}>

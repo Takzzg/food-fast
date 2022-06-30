@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import {useDispatch, useSelector} from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import { getUserOrders } from "../../../redux/actions/async";
-import { GlobalContainer, OrdersContainer } from "./elements";
+import { GlobalContainer, NotOrders, OrdersContainer } from "./elements";
 import "./table.scss"
 export default function UserOrders (){
     const params = useParams(); 
@@ -19,7 +19,14 @@ export default function UserOrders (){
             <div className="title">
                 <h1>Mis órdenes de compra</h1>
             </div>
-            <div className="header">
+            {orders.length === 0 ? <NotOrders>
+                Aún no tienes órdenes realizadas
+                <div>
+                    <Link to="/products">Ir a ver productos</Link>
+                </div>
+            </NotOrders>:
+            <div>
+                <div className="header">
                 <div className="row">
                     <div>ID</div>
                     <div>Monto</div>
@@ -27,6 +34,7 @@ export default function UserOrders (){
                     <div>Estado</div>
                 </div>
             </div>
+
 
             <div className="body">
                 {orders.map(el=> (
@@ -41,9 +49,11 @@ export default function UserOrders (){
                     </Link>
                 ))}
                
-               
+            </div>   
             </div>
-                </div>
+            }
+            
+            </div>
         </OrdersContainer>
     </GlobalContainer>)
 }

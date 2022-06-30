@@ -26,6 +26,11 @@ export const CardsContainer = styled.section`
     background-color: ${({ theme }) => theme.colors.main};
     overflow-y: auto;
 `
+export const NotResults = styled.div`
+    height: 3rem;
+    font-size: 3rem;
+    margin-top: 3rem;
+`
 
 export const CardContainer = styled.section`
     display: flex;
@@ -69,20 +74,12 @@ export const ImageContainer = styled(Link)`
     border-radius: 1rem;
 `
 
-export const NotAvaible = styled(Link)`
-    position: absolute;
-    height: 10rem;
-    display: flex;
-    width: 15rem;
-    cursor: pointer;
-    bottom: 12rem;
-    svg {
-        height: 100%;
-        width: auto;
-        margin: auto;
-        color: red;
-    }
-
+export const NotAvaible = styled.div`
+    height: 2rem;
+    font-size: 2rem;
+    text-align: center;
+    color: red; 
+    font-family: 'Lobster';
 `
 
 export const FooterContainer = styled.div`

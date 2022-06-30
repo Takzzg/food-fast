@@ -86,12 +86,11 @@ export default function SingleProductCard({ product, list }) {
     return (
         <CardContainer theme={theme}>
             <TitleDiv>{product.name}</TitleDiv>
-            {/* {product.stock === 0 && <NotAvaible id="notAvaible" to={`/products/${product._id}`}><MdOutlineDoNotDisturb /></NotAvaible>} */}
             <ImageContainer
                 to={`/products/${product._id}`}
                 img={product.image && product.image.secure_url}
             />
-
+            {product.stock === 0 && <NotAvaible>No disponible</NotAvaible>}
             <FooterContainer theme={theme}>
                 ${product.price}
                 {product.stock !== 0 && (
@@ -106,12 +105,18 @@ export default function SingleProductCard({ product, list }) {
                 <Link to={`/products/${product._id}`} id="details">
                     <MdReadMore />
                 </Link>
-                {user && !isFavorite ? (
-                    <AiOutlineHeart onClick={handleAddFavorite} />
-                ) : (
-                    <AiFillHeart
-                        onClick={() => handleRemoveFavorite(product._id)}
-                    />
+                {user && (
+                    <div>
+                        {!isFavorite ? (
+                            <AiOutlineHeart onClick={handleAddFavorite} />
+                        ) : (
+                            <AiFillHeart
+                                onClick={() =>
+                                    handleRemoveFavorite(product._id)
+                                }
+                            />
+                        )}
+                    </div>
                 )}
             </FooterContainer>
         </CardContainer>

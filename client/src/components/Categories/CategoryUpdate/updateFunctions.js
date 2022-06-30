@@ -15,7 +15,7 @@ export const PatchCategory = (form, file, Navigate) => {
         title: "The category is updated correctly",
         text: "Continuos!",
         icon: "success"
-    }).then(() => Navigate('/dashboard"'))
+    }).then(() => Navigate("/dashboard"))
 }
 export const CleanCategoryImputs = (
     setIsSend,
