@@ -116,7 +116,7 @@ export const FirstColumnContainer = styled.div`
     height: 100%;
     display: flex;
     flex-direction: column;
-    .row {
+    .rowForm {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -366,6 +366,24 @@ export const OrnamentContainer = styled.div`
     }
 `
 export const ButtonCreate = styled.button`
+    background-color: ${({ color }) => color};
+    width: 50%;
+    z-index: 3;
+    height: ${(props) => (props.isAvailable ? "2rem" : "0px")};
+    color: ${(props) => (props.isAvailable ? "black" : "transparent")};
+    transition: height 1s;
+    position: absolute;
+    top: 100%;
+    left: 25%;
+    cursor: ${(props) => (props.isAvailable ? "pointer" : "normal")};
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    &:hover {
+        color: ${(props) => (props.isAvailable ? "orange" : "transparent")};
+        background-color: black;
+    }
+`
+export const ButtonCreate2 = styled.button`
     background-color: ${({ color }) => color};
     width: 50%;
     z-index: 3;
