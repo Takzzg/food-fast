@@ -1,8 +1,7 @@
-
 export const PostCategory = (input, formdata) => {
-    const url = `http://localhost:3001/api/v1/categories?name=${input.name}&description=${input.description}`
+    const url = `${process.env.REACT_APP_BACK_URL}/api/v1/categories?name=${input.name}&description=${input.description}`
     fetch(url, {
-        method: "POST", 
+        method: "POST",
         body: formdata
     })
 }

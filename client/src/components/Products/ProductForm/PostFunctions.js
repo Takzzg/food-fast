@@ -1,9 +1,7 @@
-
-
 export const PostProduct = (form, formdata) => {
-    const url = `http://localhost:3001/api/v1/products`
+    const url = `${process.env.REACT_APP_BACK_URL}/api/v1/products`
     fetch(url, {
-        method: "POST", 
+        method: "POST",
         body: formdata
     })
 }

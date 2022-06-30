@@ -15,6 +15,7 @@ import ShopProductCard from "./shopCard/shopCard";
 export default function ShoppingCart() {
   const products = useSelector((state) => state.shopCart.shopCart);
   const user = useSelector((state)=> state.user.authData); 
+  const theme = useSelector(state=>state.theme.selectedTheme)
   const [items, setItems] = useState(1);
   const [subTotal, setSubTotal] = useState(1); 
   const [charge, setCharge] = useState(false); 
@@ -32,15 +33,15 @@ export default function ShoppingCart() {
 
   return (
     <GlobalContainer>
-      <TitleMainContainer>SHOPPING CART</TitleMainContainer>
+      <TitleMainContainer theme={theme}>TU CARRITO</TitleMainContainer>
 
-      <TablesContainer>
-        <ShopContainer>
+      <TablesContainer theme={theme}>
+        <ShopContainer theme={theme}>
           <div id="containerMain">
-            <Header>
-              <div id="product">PRODUCT DETAILS</div>
-              <div id="quantity">AMOUNT</div>
-              <div id="price">PRICE</div>
+            <Header theme={theme}>
+              <div id="product">Tu Pedido</div>
+              <div id="quantity">CANTIDAD</div>
+              <div id="price">PRECIO/U</div>
               <div id="total">TOTAL</div>
             </Header>
 
@@ -48,8 +49,8 @@ export default function ShoppingCart() {
           </div> 
         </ShopContainer>
 
-        <OrderContainer>
-          <OrderRealContainer>
+        <OrderContainer theme={theme}>
+          <OrderRealContainer theme={theme}>
              <OrdenSumary products={products} items={items} subTotal={subTotal}/>
           </OrderRealContainer>
         </OrderContainer>

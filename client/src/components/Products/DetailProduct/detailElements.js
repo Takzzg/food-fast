@@ -6,6 +6,12 @@ export const GlobalContainer = styled.div`
     gap: 1rem;
     flex-direction: column;
     background-color: ${({ theme }) => theme.colors.bgPage};
+    .reviewsTitle {
+        font-family: 'Lobster';
+        text-align: center;
+        font-size: 3rem;
+        color: ${({ theme }) => theme.text.highContrast};
+    }
 `
 
 export const ProductHeader = styled.div`
@@ -23,12 +29,9 @@ export const ProductHeader = styled.div`
 `
 
 export const ReviewsContainer = styled.div`
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-template-areas:
-        "title title"
-        "form reviews";
+    display: flex;
     align-items: flex-start;
+    justify-content: space-around;
     gap: 1rem;
     padding: 2rem;
 
@@ -38,6 +41,25 @@ export const ReviewsContainer = styled.div`
         font-size: 2rem;
         color: ${({ theme }) => theme.text.highContrast};
     }
+
+    #noForm{
+        background-color: ${({theme})=>theme.colors.background};
+        width: 450px; height: 200px;
+        display: flex;
+        justify-content: center; align-items: center;
+        margin-top: 20px;
+        border-radius: 12px; 
+        border: 2px solid grey;
+        padding: 6px;
+        box-shadow: 5px 5px 10px ${({theme})=>theme.text.highContrast};
+        p{
+            color: ${({theme})=>theme.text.highContrast};
+            font-family: 'Lobster';
+            font-size: 25px;
+            border-bottom: 2px dashed grey;
+        }
+    }
+    
 
     form {
         grid-area: form;
@@ -61,6 +83,8 @@ export const ReviewsContainer = styled.div`
     }
 
     .reviews {
+        
+        padding: 10px;
         grid-area: reviews;
         display: flex;
         flex-direction: column;
@@ -121,8 +145,8 @@ export const NotAvailable = styled.div`
 export const ImageContainer = styled.section`
     display: flex;
     align-items: center;
-    height: 31.5rem;
-    width: 31.5rem;
+    height: 25rem;
+    width: 25rem;
     max-width: 32rem;
     img {
         border-radius: 30px;
