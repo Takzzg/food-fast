@@ -26,9 +26,10 @@ export const FilterContainer = styled.section`
         padding: 1rem;
         border-radius: 1rem;
         background-color: ${({ theme }) => theme.colors.background};
-
+        transition: .3s;
         &:hover {
             background-color: ${({ theme }) => theme.colors.main};
+            box-shadow: 0 0 10px ${({ theme }) => theme.text.highContrast};
         }
     }
 `
@@ -47,13 +48,16 @@ export const IconClose = styled.div`
 
 export const ListContainer = styled.div`
     margin-bottom: 2rem;
-    
+    color: white;
+    .miSelect{
+        color: black;
+    }
 `
 
 
 export const MyH4 = styled.h4`
     color: black;
-    
+    color: ${({ theme }) => theme.text.highContrast};
     font-family: "Roboto Mono", monospace;
 `
 export const ButtonContainer = styled.div`

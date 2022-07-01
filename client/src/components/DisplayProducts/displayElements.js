@@ -88,7 +88,7 @@ export const FooterContainer = styled.div`
     justify-content: space-evenly;
     font-size: 1.5rem;
     font-family: "Bangers", cursive;
-    color: black;
+    color: ${({ theme }) => theme.text.highContrast};
     svg {
         cursor: pointer;
         &:hover {
@@ -102,7 +102,8 @@ export const FooterContainer = styled.div`
         }
     }
     #details {
-        color: black;
+        color: ${({ theme }) => theme.text.highContrast};
+        cursor: pointer;
         &:hover {
             transform: scale(1.2);
         }
@@ -111,7 +112,7 @@ export const FooterContainer = styled.div`
         color: ${({ theme }) => theme.text.highContrast};
         &:hover {
             transform: scale(1.2);
-            color: ${({ theme }) => theme.colors.main};
+            color: ${({ theme }) => theme.text.main};
         }
     }
 

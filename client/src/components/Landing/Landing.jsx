@@ -105,7 +105,7 @@ const Landing = () => {
                     <button className={style.telegram_button}>
                         <img className={style.footer_img} src={logo} alt="" />
                         <a
-                            href="https://msng.link/o/?@foodfast_app_bot=tg"
+                            href="https://t.me/foodfast_app_bot"
                             target="_blank"
                             rel="noreferrer"
                         >
